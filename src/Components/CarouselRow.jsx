@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import MovieDetail from "./MovieDetail";
 import "../css/CarouselRow.css";
 
-export default function CarouselRow({ title, movies, onMovieClick }) { // Add onMovieClick prop here
+export default function CarouselRow({ title, movies, onMovieClick }) {
     // Always call hooks at the top of the component
     const containerRef = useRef(null);
     const isAdjustingRef = useRef(false);
@@ -59,7 +59,7 @@ export default function CarouselRow({ title, movies, onMovieClick }) { // Add on
         el.scrollBy({ left: (cardWidth + gap) * n, behavior: "smooth" });
     };
 
-    if (!movies || movies.length === 0) return null; // Conditional rendering of JSX (not hooks)
+    if (!movies || movies.length === 0) return null;
 
     return (
         <section className="movies-section">
@@ -85,7 +85,7 @@ export default function CarouselRow({ title, movies, onMovieClick }) { // Add on
                         <MovieDetail
                             movie={movie}
                             key={`${movie.id}-${i}`}
-                            onMovieClick={onMovieClick} // Pass the onMovieClick prop here
+                            onMovieClick={onMovieClick}
                         />
                     ))}
                 </div>

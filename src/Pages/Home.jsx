@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../css/Home.css';
 import { getPopularMovies, getTrendingMovies, searchMovies } from "../services/api";
 import CarouselRow from "../Components/CarouselRow";
-import MediaModal from "../Components/Modals/MediaModal"; // Fixed import name
+import MediaModal from "../Components/Modals/MediaModal";
 import FeaturedMovieSection from "../Components/FeaturedMovieSection";
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
@@ -82,14 +82,14 @@ function Home() {
 
     // Handle movie click (set selected movie)
     const handleMovieClick = (movie) => {
-        console.log("Selected Movie:", movie); // For debugging
-        setSelectedMovie(movie); // Set the clicked movie
+        console.log("Selected Movie:", movie);
+        setSelectedMovie(movie);
     };
 
     // Handle featured movie actions
     const handlePlayClick = (movie) => {
         console.log("Play clicked for:", movie.title);
-        setSelectedMovie(movie); // Open modal instead of just logging
+        setSelectedMovie(movie);
     };
 
     const handleInfoClick = (movie) => {
@@ -168,7 +168,7 @@ function Home() {
                         {featuredMovie && (
                             <FeaturedMovieSection
                                 movie={featuredMovie}
-                                onPlay={() => setSelectedMovie(featuredMovie)} // Fixed prop name
+                                onPlay={() => setSelectedMovie(featuredMovie)}
                                 onPlayClick={handlePlayClick}
                                 onInfoClick={handleInfoClick}
                             />
@@ -183,11 +183,11 @@ function Home() {
                 )}
             </div>
 
-            {/* Show Modal when movie is clicked - FIXED PROPS */}
+            {/* Show Modal when movie is clicked */}
             {selectedMovie && (
                 <MediaModal
-                    item={selectedMovie}       // Changed from 'movie' to 'item'
-                    mediaType="movie"          // Added mediaType prop
+                    item={selectedMovie}
+                    mediaType="movie"
                     onClose={closeModal}
                 />
             )}

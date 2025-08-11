@@ -1,39 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MovieDetail from '../Components/MovieDetail';
-import MediaModal from '../Components/Modals/MediaModal'; // Fixed import name
-import PlaylistModal from '../Components/Modals/PlaylistModal';
+import MediaModal from '../Components/Modals/MediaModal';
 import { useFavorites } from '../Context/FavoritesContext';
-import { usePlaylist } from '../Context/PlaylistContext';
 import '../css/Favorites.css';
 
 function Favorites() {
     const { favorites, clearFavorites, favoritesCount, isAuthenticated, user } = useFavorites();
-    const { getPlaylistStats } = usePlaylist();
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [showClearConfirm, setShowClearConfirm] = useState(false);
-    const [showPlaylistModal, setShowPlaylistModal] = useState(false);
-    const [playlistModalMovie, setPlaylistModalMovie] = useState(null);
 
     // Handle movie click to open modal
     const handleMovieClick = (movie) => {
         setSelectedMovie(movie);
     };
 
-    // Handle add to playlist
-    const handleAddToPlaylist = (movie) => {
-        setPlaylistModalMovie(movie);
-        setShowPlaylistModal(true);
-    };
-
-    // Close modals
+    // Close modal
     const closeModal = () => {
         setSelectedMovie(null);
-    };
-
-    const closePlaylistModal = () => {
-        setShowPlaylistModal(false);
-        setPlaylistModalMovie(null);
     };
 
     // Handle clear all favorites with confirmation
@@ -57,9 +41,6 @@ function Favorites() {
         .sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt))
         .slice(0, 3);
 
-    // Get playlist stats
-    const playlistStats = getPlaylistStats();
-
     // If not authenticated, show login prompt
     if (!isAuthenticated) {
         return (
@@ -77,7 +58,7 @@ function Favorites() {
                             <h1 className="auth-title">Your Personal Movie Collection Awaits</h1>
                             <p className="auth-subtitle">
                                 Sign in to unlock your favorites, build your personal movie library,
-                                create playlists, and rate your favorite films.
+                                and rate your favorite films.
                             </p>
 
                             <div className="auth-actions">
@@ -99,13 +80,6 @@ function Favorites() {
                                         <div className="feature-content">
                                             <h4>Save & Organize</h4>
                                             <p>Create your personal movie collection</p>
-                                        </div>
-                                    </div>
-                                    <div className="feature-card">
-                                        <div className="feature-icon">📋</div>
-                                        <div className="feature-content">
-                                            <h4>Create Playlists</h4>
-                                            <p>Organize movies into custom playlists</p>
                                         </div>
                                     </div>
                                     <div className="feature-card">
@@ -164,7 +138,7 @@ function Favorites() {
 
                             <div className="quick-tips">
                                 <h3>💡 Quick tip:</h3>
-                                <p>Click the heart icon on any movie to add it to your favorites, then create playlists and rate them!</p>
+                                <p>Click the heart icon on any movie to add it to your favorites!</p>
                             </div>
                         </div>
                     </div>
@@ -206,10 +180,6 @@ function Favorites() {
                             </div>
 
                             <div className="hero-actions">
-                                <Link to="/playlists" className="btn btn-secondary">
-                                    <span className="btn-icon">📋</span>
-                                    Manage Playlists
-                                </Link>
                                 <button
                                     onClick={handleClearAll}
                                     className={`btn btn-danger ${showClearConfirm ? 'confirm' : ''}`}
@@ -230,20 +200,6 @@ function Favorites() {
                                 <div className="stat-content">
                                     <div className="stat-number">{favoritesCount}</div>
                                     <div className="stat-label">Total Movies</div>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">📋</div>
-                                <div className="stat-content">
-                                    <div className="stat-number">{playlistStats.totalPlaylists}</div>
-                                    <div className="stat-label">Playlists</div>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">⭐</div>
-                                <div className="stat-content">
-                                    <div className="stat-number">{playlistStats.totalRatings}</div>
-                                    <div className="stat-label">Rated Movies</div>
                                 </div>
                             </div>
                             <div className="stat-card">
@@ -275,11 +231,6 @@ function Favorites() {
                         </h2>
                         <div className="view-options">
                             <span className="movies-count">{favoritesCount} movies</span>
-                            {playlistStats.averageRating > 0 && (
-                                <span className="avg-rating">
-                                    Average Rating: {playlistStats.averageRating}/10 ⭐
-                                </span>
-                            )}
                         </div>
                     </div>
 
@@ -294,9 +245,8 @@ function Favorites() {
                                     <MovieDetail
                                         movie={movie}
                                         showAddedDate={true}
-                                        showRating={true}  // Add this line to enable rating on favorites page
+                                        showRating={true}
                                         onMovieClick={handleMovieClick}
-                                        onAddToPlaylist={handleAddToPlaylist}
                                     />
                                 </div>
                             ))}
@@ -308,13 +258,6 @@ function Favorites() {
                         <div className="quick-actions-content">
                             <h3>Quick Actions</h3>
                             <div className="actions-grid">
-                                <Link to="/playlists" className="action-card">
-                                    <div className="action-icon">📋</div>
-                                    <div className="action-content">
-                                        <h4>Manage Playlists</h4>
-                                        <p>Organize your favorites into custom playlists</p>
-                                    </div>
-                                </Link>
                                 <div className="action-card" onClick={() => {
                                     // Scroll to top to see all movies
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -338,18 +281,9 @@ function Favorites() {
                 </div>
             </div>
 
-            {/* Movie Modal - Fixed prop name */}
+            {/* Movie Modal */}
             {selectedMovie && (
                 <MediaModal item={selectedMovie} onClose={closeModal} />
-            )}
-
-            {/* Playlist Modal */}
-            {showPlaylistModal && playlistModalMovie && (
-                <PlaylistModal
-                    movie={playlistModalMovie}
-                    onClose={closePlaylistModal}
-                    isOpen={showPlaylistModal}
-                />
             )}
         </>
     );

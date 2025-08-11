@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useFavorites } from '../Context/FavoritesContext';
-import { usePlaylist } from '../Context/PlaylistContext';
-import MovieRating from './MovieRating';
 import '../css/MovieDetail.css';
 
-function MovieDetail({ movie, onMovieClick, onAddToPlaylist, showAddedDate, showRating = false }) {
+function MovieDetail({ movie, onMovieClick, showAddedDate }) {
     const { isFavorite, toggleFavorite, isAuthenticated, favorites } = useFavorites();
-    const { getUserRating } = usePlaylist();
 
     // Local state to track favorite status for immediate visual feedback
     const [isLocalFavorite, setIsLocalFavorite] = useState(false);
@@ -90,22 +87,6 @@ function MovieDetail({ movie, onMovieClick, onAddToPlaylist, showAddedDate, show
         }
     };
 
-    const handleAddToPlaylist = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (!isAuthenticated) {
-            alert('Please log in to create playlists');
-            return;
-        }
-
-        if (onAddToPlaylist) {
-            onAddToPlaylist(movie);
-        }
-    };
-
-    const userRating = getUserRating ? getUserRating(movie.id) : null;
-
     return (
         <div className="movie-detail" onClick={handleClick}>
             <div className="movie-poster-container">
@@ -136,13 +117,6 @@ function MovieDetail({ movie, onMovieClick, onAddToPlaylist, showAddedDate, show
                 >
                     {isToggling ? '⏳' : (isLocalFavorite ? '❤️' : '🤍')}
                 </button>
-
-                {/* User Rating Display - Only show if showRating is true */}
-                {showRating && userRating && (
-                    <div className="user-rating-badge">
-                        <span>★ {userRating}</span>
-                    </div>
-                )}
             </div>
 
             <div className="movie-info">
@@ -161,28 +135,6 @@ function MovieDetail({ movie, onMovieClick, onAddToPlaylist, showAddedDate, show
                 {showAddedDate && movie.addedAt && (
                     <div className="added-date">
                         Added {new Date(movie.addedAt).toLocaleDateString()}
-                    </div>
-                )}
-
-                {/* Enhanced actions for authenticated users - Only show rating in favorites */}
-                {isAuthenticated && (
-                    <div className="movie-actions">
-                        {onAddToPlaylist && (
-                            <button
-                                className="add-to-playlist-btn"
-                                onClick={handleAddToPlaylist}
-                                title="Add to playlist"
-                            >
-                                <span className="btn-icon">📋</span>
-                                Add to Playlist
-                            </button>
-                        )}
-                        {/* Only show rating component if showRating is true (favorites page) */}
-                        {showRating && getUserRating && (
-                            <div className="rating-section">
-                                <MovieRating movie={movie} size="small" showLabel={false} />
-                            </div>
-                        )}
                     </div>
                 )}
             </div>
