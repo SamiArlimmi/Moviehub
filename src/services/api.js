@@ -301,3 +301,4 @@ export const getNowPlayingMovies = async () => {
         throw error
     }
 }
+
