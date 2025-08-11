@@ -46,9 +46,32 @@ function formatMovieRating(vote_average) {
     return parseFloat(vote_average);
 }
 
+// Helper functions to get correct properties for both movies and TV series
+function getTitle(item) {
+    return item.title || item.name || item.displayTitle || 'No Title';
+}
+
+function getReleaseDate(item) {
+    return item.release_date || item.first_air_date;
+}
+
+function getMediaType(item) {
+    // Check if it's a TV series
+    if (item.name || item.first_air_date || item.number_of_seasons) {
+        return 'tv';
+    }
+    // Default to movie
+    return 'movie';
+}
+
 function MovieDetail({ movie, onMovieClick }) {
     const { isFavorite, toggleFavorite, isAuthenticated } = useFavorites();
     const isLiked = isFavorite(movie.id);
+
+    // Get the correct title and release date for both movies and TV series
+    const title = getTitle(movie);
+    const releaseDate = getReleaseDate(movie);
+    const mediaType = getMediaType(movie);
 
     const handleClick = (e) => {
         // Prevent the heart button click from triggering movie details
@@ -67,7 +90,7 @@ function MovieDetail({ movie, onMovieClick }) {
 
         if (!isAuthenticated) {
             // You could show a toast notification here or redirect to login
-            alert('Please log in to add movies to favorites!');
+            alert('Please log in to add items to favorites!');
             return;
         }
 
@@ -85,7 +108,7 @@ function MovieDetail({ movie, onMovieClick }) {
                         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                         : '/placeholder-poster.jpg'
                     }
-                    alt={movie.title}
+                    alt={title}
                     className="movie-poster"
                     loading="lazy"
                 />
@@ -119,9 +142,9 @@ function MovieDetail({ movie, onMovieClick }) {
             </div>
 
             <div className="movie-info">
-                <h3 className="movie-title">{movie.title}</h3>
-                {/* Clean year format without parentheses */}
-                <p className="movie-year">{formatReleaseDate(movie.release_date)}</p>
+                <h3 className="movie-title">{title}</h3>
+                {/* Clean year format without parentheses - works for both movies and TV series */}
+                <p className="movie-year">{formatReleaseDate(releaseDate)}</p>
                 <p className="movie-genre">
                     {movie.genre_names && movie.genre_names.length > 0 ?
                         movie.genre_names[0] :

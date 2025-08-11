@@ -59,6 +59,29 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
         el.scrollBy({ left: (cardWidth + gap) * n, behavior: "smooth" });
     };
 
+    // Helper function to get the correct title (movies use 'title', TV shows use 'name')
+    const getTitle = (item) => item.title || item.name || 'No Title';
+
+    // Helper function to get the release year (movies use 'release_date', TV shows use 'first_air_date')
+    const getReleaseYear = (item) => {
+        const date = item.release_date || item.first_air_date;
+        return date ? new Date(date).getFullYear() : '';
+    };
+
+    // Enhanced movies with proper title and year for both movies and TV shows
+    const enhancedMovies = useMemo(() => {
+        return movies?.map(item => ({
+            ...item,
+            displayTitle: getTitle(item),
+            displayYear: getReleaseYear(item)
+        })) || [];
+    }, [movies]);
+
+    // Update tripled to use enhanced movies
+    const tripledEnhanced = useMemo(() => {
+        return enhancedMovies ? [...enhancedMovies, ...enhancedMovies, ...enhancedMovies] : [];
+    }, [enhancedMovies]);
+
     if (!movies || movies.length === 0) return null;
 
     return (
@@ -81,7 +104,7 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
                     ref={containerRef}
                     onScroll={handleScroll}
                 >
-                    {tripled.map((movie, i) => (
+                    {tripledEnhanced.map((movie, i) => (
                         <MovieDetail
                             movie={movie}
                             key={`${movie.id}-${i}`}

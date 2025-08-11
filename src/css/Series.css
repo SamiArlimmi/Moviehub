@@ -1,0 +1,95 @@
+/* Minimal Series Search Bar Fix - Matches existing theme */
+.search-bar {
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.search-bar input:focus {
+    border-color: #007bff;
+}
+
+/* Series Content */
+.series-content {
+    padding: 0 2rem;
+    min-height: 50vh;
+}
+
+.series-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.series-section {
+    margin-bottom: 1rem;
+}
+
+/* Loading and Error States */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    text-align: center;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 10px;
+    margin: 2rem;
+    padding: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .series-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .search-bar {
+        padding: 1.5rem 1rem;
+    }
+
+    .search-bar input {
+        font-size: 1rem;
+        padding: 0.9rem 1.2rem;
+    }
+
+    .series-content {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .series-hero h1 {
+        font-size: 2rem;
+    }
+
+    .series-hero .overlay {
+        padding: 1rem;
+    }
+
+    .search-bar input {
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+}

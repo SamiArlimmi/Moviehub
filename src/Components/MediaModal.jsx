@@ -30,14 +30,18 @@ function MediaModal({ item, onClose, mediaType }) {
     const isSeries = mediaType === 'tv' || mediaType === 'series' ||
         (!mediaType && (item?.name || item?.first_air_date) && !item?.title);
 
-    // Get the appropriate title
+    // Helper functions to get the correct properties for both movies and TV series
     const getTitle = () => {
         return item.title || item.name || item.original_title || item.original_name || 'Unknown Title';
     };
 
-    // Get the appropriate release/air date
     const getReleaseDate = () => {
         return item.release_date || item.first_air_date;
+    };
+
+    const getYear = () => {
+        const date = getReleaseDate();
+        return date ? new Date(date).getFullYear() : '';
     };
 
     // Close modal on Escape key press
@@ -141,6 +145,8 @@ function MediaModal({ item, onClose, mediaType }) {
     };
 
     const displayItem = itemDetails || item;
+    const displayTitle = displayItem.title || displayItem.name || displayItem.original_title || displayItem.original_name || 'Unknown Title';
+    const displayReleaseDate = displayItem.release_date || displayItem.first_air_date;
 
     return (
         <div className="modal-backdrop" onClick={handleOverlayClick}>
@@ -169,7 +175,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                 <img
                                     className="modal-poster"
                                     src={`https://image.tmdb.org/t/p/w500${displayItem.poster_path}`}
-                                    alt={getTitle()}
+                                    alt={displayTitle}
                                     loading="lazy"
                                 />
                             ) : (
@@ -184,7 +190,7 @@ function MediaModal({ item, onClose, mediaType }) {
                         <div className="modal-info-section">
                             {/* Header */}
                             <div className="modal-header">
-                                <h1 className="modal-title">{getTitle()}</h1>
+                                <h1 className="modal-title">{displayTitle}</h1>
                                 {displayItem?.tagline && (
                                     <p className="modal-tagline">{displayItem.tagline}</p>
                                 )}
@@ -217,11 +223,13 @@ function MediaModal({ item, onClose, mediaType }) {
 
                             {/* Meta Information */}
                             <div className="modal-meta">
-                                {getReleaseDate() && (
+                                {displayReleaseDate && (
                                     <div className="modal-meta-item">
-                                        <span className="meta-label">Release Date:</span>
+                                        <span className="meta-label">
+                                            {isSeries ? 'First Air Date:' : 'Release Date:'}
+                                        </span>
                                         <span className="meta-value">
-                                            {new Date(getReleaseDate()).toLocaleDateString()}
+                                            {new Date(displayReleaseDate).toLocaleDateString()}
                                         </span>
                                     </div>
                                 )}
@@ -241,6 +249,13 @@ function MediaModal({ item, onClose, mediaType }) {
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Seasons:</span>
                                         <span className="meta-value">{displayItem.number_of_seasons}</span>
+                                    </div>
+                                )}
+
+                                {isSeries && displayItem?.number_of_episodes && (
+                                    <div className="modal-meta-item">
+                                        <span className="meta-label">Episodes:</span>
+                                        <span className="meta-value">{displayItem.number_of_episodes}</span>
                                     </div>
                                 )}
 
@@ -328,7 +343,7 @@ function MediaModal({ item, onClose, mediaType }) {
                 {showTrailer && trailers?.[0]?.key && (
                     <div className="trailer-section">
                         <div className="trailer-header">
-                            <h3>Trailer - {getTitle()}</h3>
+                            <h3>Trailer - {displayTitle}</h3>
                             <button
                                 className="trailer-close"
                                 onClick={() => setShowTrailer(false)}
@@ -339,7 +354,7 @@ function MediaModal({ item, onClose, mediaType }) {
                         </div>
                         <div className="trailer-container">
                             <iframe
-                                title={`${getTitle()} Trailer`}
+                                title={`${displayTitle} Trailer`}
                                 src={`https://www.youtube.com/embed/${trailers[0].key}?autoplay=1`}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
