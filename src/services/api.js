@@ -1,6 +1,70 @@
 const API_KEY = "294893ac57e719030f84e82bdc7d692b"
 const BASE_URL = "https://api.themoviedb.org/3"
 
+// GENRE MAPPING - No separate file needed
+const MOVIE_GENRES = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western"
+};
+
+const TV_GENRES = {
+    10759: "Action & Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10763: "News",
+    10764: "Reality",
+    10765: "Sci-Fi & Fantasy",
+    10766: "Soap",
+    10767: "Talk",
+    10768: "War & Politics",
+    37: "Western"
+};
+
+// Helper function to add genre names to items
+const enhanceWithGenres = (items, mediaType = 'movie') => {
+    if (!Array.isArray(items)) return items;
+
+    return items.map(item => {
+        if (!item.genre_ids || !Array.isArray(item.genre_ids)) {
+            return { ...item, genre_names: [] };
+        }
+
+        const genreMap = mediaType === 'tv' ? TV_GENRES : MOVIE_GENRES;
+        const genre_names = item.genre_ids
+            .map(id => genreMap[id])
+            .filter(Boolean) // Remove any undefined genres
+            .slice(0, 1); // Show only first genre
+
+        return { ...item, genre_names };
+    });
+};
+
 // MOVIE FUNCTIONS
 export const getPopularMovies = async () => {
     try {
@@ -9,7 +73,7 @@ export const getPopularMovies = async () => {
             throw new Error('Failed to fetch popular movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error fetching popular movies:', error)
         throw error
@@ -27,7 +91,7 @@ export const searchMovies = async (query) => {
             throw new Error('Failed to search movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error searching movies:', error)
         throw error
@@ -41,7 +105,7 @@ export const getTrendingMovies = async () => {
             throw new Error('Failed to fetch trending movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error fetching trending movies:', error)
         throw error
@@ -117,7 +181,7 @@ export const getPopularSeries = async () => {
             throw new Error('Failed to fetch popular series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error fetching popular series:', error)
         throw error
@@ -131,7 +195,7 @@ export const getTrendingSeries = async () => {
             throw new Error('Failed to fetch trending series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error fetching trending series:', error)
         throw error
@@ -149,7 +213,7 @@ export const searchSeries = async (query) => {
             throw new Error('Failed to search series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error searching series:', error)
         throw error
@@ -163,7 +227,7 @@ export const getTopRatedSeries = async () => {
             throw new Error('Failed to fetch top rated series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error fetching top rated series:', error)
         throw error
@@ -177,7 +241,7 @@ export const getAiringTodaySeries = async () => {
             throw new Error('Failed to fetch airing today series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error fetching airing today series:', error)
         throw error
@@ -191,7 +255,7 @@ export const getOnTheAirSeries = async () => {
             throw new Error('Failed to fetch on the air series')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'tv')
     } catch (error) {
         console.error('Error fetching on the air series:', error)
         throw error
@@ -259,7 +323,7 @@ export const getSeriesTrailers = async (seriesId) => {
     }
 };
 
-// ADDITIONAL MOVIE FUNCTIONS (optional)
+// ADDITIONAL MOVIE FUNCTIONS
 export const getTopRatedMovies = async () => {
     try {
         const response = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}`)
@@ -267,7 +331,7 @@ export const getTopRatedMovies = async () => {
             throw new Error('Failed to fetch top rated movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error fetching top rated movies:', error)
         throw error
@@ -281,7 +345,7 @@ export const getUpcomingMovies = async () => {
             throw new Error('Failed to fetch upcoming movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error fetching upcoming movies:', error)
         throw error
@@ -295,10 +359,9 @@ export const getNowPlayingMovies = async () => {
             throw new Error('Failed to fetch now playing movies')
         }
         const data = await response.json()
-        return data.results
+        return enhanceWithGenres(data.results, 'movie')
     } catch (error) {
         console.error('Error fetching now playing movies:', error)
         throw error
     }
 }
-

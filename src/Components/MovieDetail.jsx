@@ -1,89 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useFavorites } from '../Context/FavoritesContext';
 import '../css/MovieDetail.css';
 
-function MovieDetail({ movie, onMovieClick, showAddedDate }) {
-    const { isFavorite, toggleFavorite, isAuthenticated, favorites } = useFavorites();
+// TMDB Rating Component (inline for simplicity)
+function TMDBRating({ rating, size = 48, className = "" }) {
+    // Convert rating to percentage (TMDB ratings are out of 10)
+    const percentage = rating ? Math.round(rating * 10) : 0;
 
-    // Local state to track favorite status for immediate visual feedback
-    const [isLocalFavorite, setIsLocalFavorite] = useState(false);
-    const [isToggling, setIsToggling] = useState(false);
+    // Don't render if no rating
+    if (!rating || rating === 0) {
+        return (
+            <div
+                className={`tmdb-score no-rating ${className}`}
+                style={{ '--size': `${size}px` }}
+            >
+                NR
+            </div>
+        );
+    }
 
-    if (!movie) return null;
+    return (
+        <div
+            className={`tmdb-score ${className}`}
+            data-score={percentage}
+            style={{
+                '--size': `${size}px`,
+                '--percentage': percentage
+            }}
+        >
+            <span className="tmdb-score__value">
+                {percentage}<sup>%</sup>
+            </span>
+        </div>
+    );
+}
 
-    // Update local favorite state when context changes
-    useEffect(() => {
-        if (isAuthenticated && isFavorite) {
-            const favStatus = isFavorite(movie.id);
-            setIsLocalFavorite(favStatus);
-        } else {
-            setIsLocalFavorite(false);
-        }
-    }, [movie.id, isAuthenticated, isFavorite, favorites]);
+// Utility functions
+function formatReleaseDate(dateString) {
+    if (!dateString) return '';
+    return new Date(dateString).getFullYear().toString();
+}
 
-    // Handle different media types (movie vs series)
-    const getTitle = () => {
-        return movie.title || movie.name || movie.original_title || movie.original_name || 'Unknown Title';
-    };
+function formatMovieRating(vote_average) {
+    if (!vote_average || vote_average === 0) return null;
+    return parseFloat(vote_average);
+}
 
-    const getReleaseYear = () => {
-        const date = movie.release_date || movie.first_air_date;
-        return date ? new Date(date).getFullYear() : '';
-    };
-
-    const getPosterUrl = () => {
-        if (!movie.poster_path) return '/placeholder-poster.jpg';
-        return `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
-    };
+function MovieDetail({ movie, onMovieClick }) {
+    const { isFavorite, toggleFavorite, isAuthenticated } = useFavorites();
+    const isLiked = isFavorite(movie.id);
 
     const handleClick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (onMovieClick && typeof onMovieClick === 'function') {
+        // Prevent the heart button click from triggering movie details
+        if (e.target.closest('.favorite-btn')) {
+            return;
+        }
+
+        if (onMovieClick) {
             onMovieClick(movie);
         }
     };
 
-    const handleFavoriteClick = async (e) => {
+    const handleFavoriteClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
         if (!isAuthenticated) {
-            alert('Please log in to add favorites');
+            // You could show a toast notification here or redirect to login
+            alert('Please log in to add movies to favorites!');
             return;
         }
 
-        if (isToggling) {
-            return;
-        }
-
-        setIsToggling(true);
-
-        try {
-            // Optimistic update - change visual immediately
-            setIsLocalFavorite(!isLocalFavorite);
-
-            // Call the actual toggle function
-            if (toggleFavorite && typeof toggleFavorite === 'function') {
-                const result = await toggleFavorite(movie);
-
-                // Verify the state after toggle with a small delay
-                setTimeout(() => {
-                    if (isFavorite) {
-                        const newStatus = isFavorite(movie.id);
-                        setIsLocalFavorite(newStatus);
-                    }
-                }, 100);
-            } else {
-                // Revert optimistic update if no toggle function
-                setIsLocalFavorite(isLocalFavorite);
-            }
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-            // Revert optimistic update on error
-            setIsLocalFavorite(isLocalFavorite);
-        } finally {
-            setIsToggling(false);
+        const success = toggleFavorite(movie);
+        if (!success) {
+            console.log('Failed to toggle favorite');
         }
     };
 
@@ -91,52 +81,55 @@ function MovieDetail({ movie, onMovieClick, showAddedDate }) {
         <div className="movie-detail" onClick={handleClick}>
             <div className="movie-poster-container">
                 <img
+                    src={movie.poster_path
+                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                        : '/placeholder-poster.jpg'
+                    }
+                    alt={movie.title}
                     className="movie-poster"
-                    src={getPosterUrl()}
-                    alt={getTitle()}
                     loading="lazy"
-                    onError={(e) => {
-                        e.target.src = '/placeholder-poster.jpg';
-                    }}
                 />
 
-                {/* Overlay with play button */}
-                <div className="movie-overlay">
-                    <div className="play-button">
-                        <span>▶</span>
-                    </div>
-                </div>
+                {/* Enhanced TMDB Rating - replaces old rating display */}
+                <TMDBRating
+                    rating={formatMovieRating(movie.vote_average)}
+                    size={48}
+                />
 
-                {/* Enhanced Favorite button with visual feedback */}
+                {/* Favorite Button */}
                 <button
-                    className={`favorite-btn ${isLocalFavorite ? 'favorited' : ''} ${!isAuthenticated ? 'disabled' : ''} ${isToggling ? 'toggling' : ''}`}
+                    className={`favorite-btn ${isLiked ? 'liked' : ''} ${!isAuthenticated ? 'disabled' : ''}`}
                     onClick={handleFavoriteClick}
-                    disabled={isToggling}
-                    aria-label={isLocalFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                    title={!isAuthenticated ? 'Login to add favorites' : (isLocalFavorite ? 'Remove from favorites' : 'Add to favorites')}
+                    aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
+                    title={isAuthenticated
+                        ? (isLiked ? 'Remove from favorites' : 'Add to favorites')
+                        : 'Login to add to favorites'
+                    }
                 >
-                    {isToggling ? '⏳' : (isLocalFavorite ? '❤️' : '🤍')}
+                    <span className="heart-icon">
+                        {isLiked ? '❤️' : '🤍'}
+                    </span>
                 </button>
+
+                <div className="movie-overlay">
+                    <button className="play-button" aria-label="View details">
+                        <span>▶</span>
+                    </button>
+                </div>
             </div>
 
             <div className="movie-info">
-                <h3 className="movie-title">{getTitle()}</h3>
-                {getReleaseYear() && (
-                    <span className="movie-year">({getReleaseYear()})</span>
-                )}
-                {movie.vote_average && (
-                    <div className="movie-rating">
-                        <span className="star">⭐</span>
-                        <span>{movie.vote_average.toFixed(1)}</span>
-                    </div>
-                )}
-
-                {/* Show added date if requested */}
-                {showAddedDate && movie.addedAt && (
-                    <div className="added-date">
-                        Added {new Date(movie.addedAt).toLocaleDateString()}
-                    </div>
-                )}
+                <h3 className="movie-title">{movie.title}</h3>
+                {/* Clean year format without parentheses */}
+                <p className="movie-year">{formatReleaseDate(movie.release_date)}</p>
+                <p className="movie-genre">
+                    {movie.genre_names && movie.genre_names.length > 0 ?
+                        movie.genre_names[0] :
+                        movie.genres && movie.genres.length > 0 ?
+                            movie.genres[0].name :
+                            'Genre not available'
+                    }
+                </p>
             </div>
         </div>
     );

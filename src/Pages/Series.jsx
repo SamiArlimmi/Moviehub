@@ -9,7 +9,7 @@ import {
     searchSeries
 } from "../services/api";
 import CarouselRow from "../Components/CarouselRow";
-import MediaModal from "../Components/Modals/MediaModal"; // renamed import for clarity
+import MediaModal from "../Components/MediaModal"; // renamed import for clarity
 import FeaturedMovieSection from "../Components/FeaturedMovieSection"; // consider renaming to a generic component later
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';

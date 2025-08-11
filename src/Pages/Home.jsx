@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../css/Home.css';
 import { getPopularMovies, getTrendingMovies, searchMovies } from "../services/api";
 import CarouselRow from "../Components/CarouselRow";
-import MediaModal from "../Components/Modals/MediaModal";
+import MediaModal from "../Components/MediaModal";
 import FeaturedMovieSection from "../Components/FeaturedMovieSection";
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';

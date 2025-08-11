@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import MovieDetail from "../Components/MovieDetail"
-import MovieModal from "../Components/Modals/MediaModal"
+import MovieModal from "../Components/MediaModal"
 import '../css/Search.css'
 import { searchMovies, getPopularMovies } from "../services/api"
 import { debounce } from 'lodash'

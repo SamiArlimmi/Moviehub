@@ -171,34 +171,6 @@
     font-size: 0.9rem;
 }
 
-/* Favorite button on poster */
-.modal-favorite-btn {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: rgba(0, 0, 0, 0.8);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(4px);
-    font-size: 1.2rem;
-}
-
-.modal-favorite-btn:hover {
-    transform: scale(1.1);
-    background: rgba(0, 0, 0, 0.9);
-}
-
-.modal-favorite-btn.active {
-    background: rgba(220, 20, 60, 0.9);
-}
-
 /* Info section */
 .modal-info-section {
     flex: 1;
@@ -223,7 +195,7 @@
     font-size: 1.1rem;
 }
 
-/* FIXED: Action buttons section with better styling */
+/* Action buttons section with better styling */
 .modal-actions {
     display: flex;
     gap: 1rem;
@@ -320,7 +292,7 @@
     font-size: 1rem;
 }
 
-/* FIXED: Trailer section with proper sizing */
+/* Trailer section with proper sizing */
 .trailer-section {
     position: absolute;
     top: 0;
@@ -661,12 +633,6 @@
         font-size: 1.3rem;
     }
 
-    .modal-favorite-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-
     .trailer-section {
         padding: 0.25rem;
     }
@@ -707,7 +673,6 @@
     .modal-backdrop,
     .modal-content,
     .modal-close,
-    .modal-favorite-btn,
     .modal-link {
         animation: none;
         transition: none;
@@ -716,7 +681,6 @@
 
 /* Focus styles for accessibility */
 .modal-close:focus,
-.modal-favorite-btn:focus,
 .modal-link:focus,
 .action-btn:focus,
 .trailer-close:focus {

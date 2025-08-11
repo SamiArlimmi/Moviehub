@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "../../css/MediaModal.css";
-import { useFavorites } from '../../Context/FavoritesContext';
+import "../css/MediaModal.css"; // Ensure you have this CSS file for styling    
 import {
     getMovieTrailers,
     getMovieDetails,
@@ -8,11 +7,9 @@ import {
     getSeriesTrailers,
     getSeriesDetails,
     getSeriesCredits
-} from '../../services/api';
-import LoginPromptModal from '../LoginPromptModal';
+} from '../services/api';
 
 function MediaModal({ item, onClose, mediaType }) {
-    const { isFavorite, toggleFavorite, isAuthenticated } = useFavorites();
 
     // Guard against missing item
     if (!item) {
@@ -25,7 +22,6 @@ function MediaModal({ item, onClose, mediaType }) {
     const [loadingTrailers, setLoadingTrailers] = useState(false);
     const [itemDetails, setItemDetails] = useState(item); // Initialize with item
     const [credits, setCredits] = useState({ cast: [], crew: [] });
-    const [showLoginPrompt, setShowLoginPrompt] = useState(false);
     const [error, setError] = useState(null);
 
     // Improved media type detection
@@ -131,23 +127,6 @@ function MediaModal({ item, onClose, mediaType }) {
         };
     }, [item?.id, isMovie, isSeries]);
 
-    const handleToggleFavorite = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (!isAuthenticated) {
-            setShowLoginPrompt(true);
-            return;
-        }
-
-        // Make sure we pass the complete item object
-        toggleFavorite(item);
-    };
-
-    const closeLoginPrompt = () => {
-        setShowLoginPrompt(false);
-    };
-
     const handleCloseModal = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -162,7 +141,6 @@ function MediaModal({ item, onClose, mediaType }) {
     };
 
     const displayItem = itemDetails || item;
-    const isItemFavorite = isFavorite ? isFavorite(item) : false;
 
     return (
         <div className="modal-backdrop" onClick={handleOverlayClick}>
@@ -200,15 +178,6 @@ function MediaModal({ item, onClose, mediaType }) {
                                     <div className="no-image-text">No Image</div>
                                 </div>
                             )}
-
-                            {/* Favorite Button */}
-                            <button
-                                className={`modal-favorite-btn ${isItemFavorite ? 'active' : ''}`}
-                                onClick={handleToggleFavorite}
-                                aria-label={isItemFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                            >
-                                {isItemFavorite ? '❤️' : '🤍'}
-                            </button>
                         </div>
 
                         {/* Info Section */}
@@ -380,11 +349,6 @@ function MediaModal({ item, onClose, mediaType }) {
                     </div>
                 )}
             </div>
-
-            {/* Login Prompt Modal */}
-            {showLoginPrompt && (
-                <LoginPromptModal onClose={closeLoginPrompt} movieTitle={getTitle()} />
-            )}
         </div>
     );
 }

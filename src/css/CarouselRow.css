@@ -33,34 +33,76 @@
     margin-bottom: 0.5rem;
 }
 
-/* Side buttons */
+/* Side buttons - completely static with !important overrides */
 .side-btn {
-    position: absolute;
-    top: 40%;
-    transform: translateY(-50%);
-    border: 0px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    margin: 25px;
-
+    position: absolute !important;
+    top: 40% !important;
+    transform: translateY(-50%) !important;
+    border: none !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    margin: 25px !important;
+    color: white !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+    transition: opacity 0.2s ease !important;
+    outline: none !important;
+    box-shadow: none !important;
+    /* Prevent any browser defaults */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    z-index: 10 !important;
 }
 
-.side-btn:hover {
-    background: rgba(0, 0, 0, 0.85);
-    transform: translateY(-50%) scale(1.1);
-    /* slightly enlarge on hover */
-}
-
+/* Left button positioning - always stays left */
 .side-left {
-    left: 0;
+    left: 0 !important;
+    right: auto !important;
 }
 
+/* Right button positioning - always stays right */
 .side-right {
-    right: 0;
+    right: 0 !important;
+    left: auto !important;
 }
 
+/* All interactive states - only opacity changes with !important */
+.side-btn:hover,
+.side-btn:focus,
+.side-btn:active,
+.side-btn:focus-visible {
+    opacity: 0.7 !important;
+    transform: translateY(-50%) !important;
+    /* Lock the transform */
+    outline: none !important;
+    box-shadow: none !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    /* Keep same background */
+    border: none !important;
+    top: 40% !important;
+    /* Remove the problematic left: 0 !important; line */
+}
+
+/* Ensure left button stays left even on hover/focus/active */
+.side-left:hover,
+.side-left:focus,
+.side-left:active,
+.side-left:focus-visible {
+    left: 0 !important;
+    right: auto !important;
+}
+
+/* Ensure right button stays right even on hover/focus/active */
+.side-right:hover,
+.side-right:focus,
+.side-right:active,
+.side-right:focus-visible {
+    right: 0 !important;
+    left: auto !important;
+}
 
 /* Optional: hide any scrollbar artifacts across browsers if they appear */
 .no-manual-scroll {
@@ -71,4 +113,16 @@
 .no-manual-scroll::-webkit-scrollbar {
     display: none;
     /* WebKit */
+}
+
+/* Prevent any browser-specific button styling */
+.side-btn::-moz-focus-inner {
+    border: 0;
+}
+
+.side-btn::-webkit-search-decoration,
+.side-btn::-webkit-search-cancel-button,
+.side-btn::-webkit-search-results-button,
+.side-btn::-webkit-search-results-decoration {
+    display: none;
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MovieDetail from '../Components/MovieDetail';
-import MediaModal from '../Components/Modals/MediaModal';
+import MediaModal from '../Components/MediaModal';
 import { useFavorites } from '../Context/FavoritesContext';
 import '../css/Favorites.css';
 
