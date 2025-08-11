@@ -1,0 +1,74 @@
+/* Wrapper to position side buttons */
+.loop-wrapper {
+    position: relative;
+    padding: 0 90px;
+    /* space for side buttons */
+}
+
+/* Row with hidden overflow: no manual scroll possible */
+.loop-row {
+    --gap: 16px;
+    display: flex;
+    gap: var(--gap);
+    overflow: hidden;
+    /* <— key: hide/disable manual scroll */
+    padding: 0.5rem 0 1rem;
+    scroll-snap-type: x proximity;
+}
+
+/* Keep for programmatic snapping feel on buttons */
+.loop-row>.movie-detail {
+    flex: 0 0 auto;
+    width: 200px;
+    scroll-snap-align: start;
+}
+
+/* Header */
+.row-header {
+    display: flex;
+    align-items: center;
+    margin-left: 85px;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Side buttons */
+.side-btn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    border: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    margin: 25px;
+
+}
+
+.side-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: translateY(-50%) scale(1.1);
+    /* slightly enlarge on hover */
+}
+
+.side-left {
+    left: 0;
+}
+
+.side-right {
+    right: 0;
+}
+
+
+/* Optional: hide any scrollbar artifacts across browsers if they appear */
+.no-manual-scroll {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.no-manual-scroll::-webkit-scrollbar {
+    display: none;
+    /* WebKit */
+}

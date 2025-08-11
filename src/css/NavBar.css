@@ -1,47 +1,290 @@
+/* NavBar - Beautiful Modern Design matching the theme */
+
 .navbar {
-    background-color: #000000;
-    padding: 1rem 2rem;
+    background: linear-gradient(135deg,
+            rgba(15, 15, 15, 0.95) 0%,
+            rgba(26, 26, 46, 0.95) 50%,
+            rgba(22, 33, 62, 0.95) 100%) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1100 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Add animated background overlay */
+.navbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(229, 9, 20, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(0, 123, 255, 0.1) 0%, transparent 50%);
+    animation: navBackgroundShift 15s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes navBackgroundShift {
+
+    0%,
+    100% {
+        transform: translateX(0);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(10px);
+        opacity: 0.8;
+    }
+}
+
+/* Toolbar styling */
+.navbar .MuiToolbar-root {
+    color: white !important;
+    position: relative;
+    z-index: 1;
+    padding: 0.75rem 2rem !important;
+    min-height: 70px !important;
+}
+
+/* Brand/Title styling */
+.navbar-title {
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+    color: white !important;
+    background: linear-gradient(135deg, #fff 0%, #e50914 50%, #007bff 100%);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-shadow: none !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer;
+    letter-spacing: -0.5px;
+}
+
+.navbar-title:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.5));
+}
+
+/* Navigation buttons */
+.navbar-button {
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px !important;
+    margin: 0 0.25rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: none !important;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.navbar-button:hover::before {
+    left: 100%;
+}
+
+.navbar-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-button:active {
+    transform: translateY(0) !important;
+}
+
+/* Active/Current page button */
+.navbar-button.active {
+    background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+}
+
+.navbar-button.active:hover {
+    background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
+}
+
+/* User section styling */
+.user-section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    gap: 0.75rem;
+    margin-left: 1rem;
 }
 
-.navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
+.user-name {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
 }
 
-.navbar-links {
-    display: flex;
-    gap: 2rem;
+/* Avatar styling */
+.user-avatar {
+    background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3) !important;
 }
 
-.nav-link {
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+.user-avatar:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4) !important;
 }
 
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+/* Menu styling */
+.user-menu {
+    background: rgba(26, 26, 46, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+    margin-top: 0.5rem !important;
 }
 
+.user-menu .MuiMenuItem-root {
+    color: white !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+.user-menu .MuiMenuItem-root:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #e50914 !important;
+}
+
+.user-menu .MuiMenuItem-root:last-child {
+    color: #ff6b6b !important;
+}
+
+.user-menu .MuiMenuItem-root:last-child:hover {
+    background: rgba(220, 53, 69, 0.1) !important;
+    color: #ff4757 !important;
+}
+
+/* Login button special styling */
+.login-button {
+    background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
+    color: white !important;
+    padding: 0.6rem 1.5rem !important;
+    border-radius: 25px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3) !important;
+    margin-left: 0.5rem !important;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4) !important;
+}
+
+/* Mobile responsiveness */
 @media (max-width: 768px) {
+    .navbar .MuiToolbar-root {
+        padding: 0.5rem 1rem !important;
+        min-height: 60px !important;
+    }
+
+    .navbar-title {
+        font-size: 1.3rem !important;
+    }
+
+    .navbar-button {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.8rem !important;
+        margin: 0 0.1rem !important;
+    }
+
+    .user-name {
+        display: none !important;
+    }
+
+    .user-section {
+        gap: 0.5rem;
+        margin-left: 0.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar .MuiToolbar-root {
+        padding: 0.5rem !important;
+    }
+
+    .navbar-title {
+        font-size: 1.2rem !important;
+    }
+
+    .navbar-button {
+        font-size: 0.8rem !important;
+        padding: 0.3rem 0.6rem !important;
+        margin: 0 !important;
+    }
+
+    /* Hide some nav items on very small screens */
+    .navbar-button:nth-child(n+6) {
+        display: none !important;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar,
+    .navbar::before,
+    .navbar-button,
+    .navbar-title,
+    .user-avatar {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Focus styles for accessibility */
+.navbar-button:focus,
+.user-avatar:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
     .navbar {
-        padding: 1rem;
+        background: #000 !important;
+        border-bottom: 2px solid #fff !important;
     }
 
-    .navbar-brand {
-        font-size: 1.2rem;
+    .navbar-title {
+        color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
     }
 
-    .navbar-links {
-        gap: 1rem;
-    }
-
-    .nav-link {
-        padding: 0.5rem;
+    .navbar-button {
+        color: #fff !important;
     }
 }

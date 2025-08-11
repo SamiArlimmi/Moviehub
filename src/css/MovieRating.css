@@ -1,0 +1,245 @@
+/* Movie Rating Component */
+.movie-rating-component {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: inherit;
+}
+
+.rating-label {
+    color: #ccc;
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.stars-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    padding: 0.25rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Star button base styles */
+.rating-star {
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.25rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: inherit;
+}
+
+.rating-star:hover {
+    color: #ffd700;
+    transform: scale(1.1);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.rating-star:active {
+    transform: scale(0.95);
+}
+
+.rating-star:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Filled stars */
+.rating-star.filled {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.rating-star.filled:hover {
+    color: #ffed4e;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+/* Hovered stars (when no rating exists) */
+.rating-star.hovered {
+    color: #ffd700;
+    transform: scale(1.1);
+    background: rgba(255, 215, 0, 0.15);
+}
+
+/* Preview stars (when hovering over different rating) */
+.rating-star.preview {
+    color: #ff6b6b;
+    transform: scale(1.1);
+    background: rgba(255, 107, 107, 0.15);
+}
+
+/* Size variants */
+.rating-small .rating-star {
+    font-size: 0.9rem;
+    padding: 0.125rem;
+}
+
+.rating-small .rating-label {
+    font-size: 0.8rem;
+}
+
+.rating-medium .rating-star {
+    font-size: 1.1rem;
+    padding: 0.25rem;
+}
+
+.rating-large .rating-star {
+    font-size: 1.3rem;
+    padding: 0.375rem;
+}
+
+.rating-large .rating-label {
+    font-size: 1rem;
+}
+
+/* Rating display */
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.25rem;
+}
+
+.rating-score {
+    color: #ffd700;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+}
+
+.clear-rating {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.clear-rating:hover {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    transform: scale(1.1);
+}
+
+/* Rating preview */
+.rating-preview {
+    margin-left: 0.25rem;
+}
+
+.preview-score {
+    color: #ffd700;
+    font-weight: 500;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Loading spinner */
+.rating-spinner {
+    position: absolute;
+    top: 50%;
+    right: -2rem;
+    transform: translateY(-50%);
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ffd700;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Focus styles for accessibility */
+.rating-star:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+.clear-rating:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .movie-rating-component {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .stars-container {
+        gap: 0.25rem;
+    }
+
+    .rating-star {
+        font-size: 1rem;
+        padding: 0.375rem;
+    }
+
+    .rating-display {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .rating-star {
+        font-size: 0.9rem;
+        padding: 0.25rem;
+    }
+
+    .stars-container {
+        gap: 0.125rem;
+        flex-wrap: wrap;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .rating-star {
+        border: 1px solid currentColor;
+    }
+
+    .rating-star.filled {
+        background: #ffd700;
+        color: #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .rating-star,
+    .clear-rating,
+    .spinner {
+        transition: none;
+        animation: none;
+    }
+
+    .rating-star:hover,
+    .rating-star.hovered,
+    .rating-star.preview {
+        transform: none;
+    }
+}
