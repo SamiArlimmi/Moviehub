@@ -41,7 +41,11 @@ export const AuthProvider = ({ children }) => {
                 id: 1,
                 email: email,
                 name: email.split('@')[0],
-                avatar: null
+                avatar: null,
+                bio: 'Movie enthusiast exploring the world of cinema.',
+                favoriteMovies: [],
+                watchedMovies: [],
+                reviews: []
             };
 
             setUser(userData);
@@ -54,6 +58,53 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUser = async (userData) => {
+        try {
+            setIsLoading(true);
+
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // Validate required fields
+            if (!userData.name?.trim()) {
+                throw new Error('Name is required');
+            }
+            if (!userData.email?.trim()) {
+                throw new Error('Email is required');
+            }
+
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(userData.email)) {
+                throw new Error('Please enter a valid email address');
+            }
+
+            // Update user state
+            const updatedUser = {
+                ...user,
+                ...userData,
+                // Ensure we keep existing data that wasn't updated
+                favoriteMovies: user?.favoriteMovies || [],
+                watchedMovies: user?.watchedMovies || [],
+                reviews: user?.reviews || []
+            };
+
+            setUser(updatedUser);
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            setIsLoading(false);
+            return { success: true, message: 'Profile updated successfully!' };
+
+        } catch (error) {
+            setIsLoading(false);
+            console.error('Error updating user:', error);
+            return {
+                success: false,
+                message: error.message || 'Failed to update profile. Please try again.'
+            };
+        }
+    };
+
     const logout = () => {
         setUser(null);
         localStorage.removeItem('user');
@@ -63,6 +114,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
+        updateUser,
         isLoading,
         isAuthenticated: !!user
     };

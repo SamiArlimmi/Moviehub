@@ -120,7 +120,7 @@ function NavBar() {
                                 }
                             }}
                         >
-                            <MenuItem onClick={handleMenuClose}>
+                            <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
                                 👤 Profile
                             </MenuItem>
                             <MenuItem onClick={handleMenuClose}>

@@ -1,0 +1,231 @@
+/* css/Profile.css */
+.profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: rgba(26, 26, 46, 0.95) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: white !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.profile-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.profile-actions .MuiIconButton-root {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.profile-actions .MuiIconButton-root:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.profile-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-name {
+    color: white !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem !important;
+    background: linear-gradient(135deg, #e50914 0%, #f40612 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.profile-email {
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 1rem !important;
+    font-size: 1.1rem !important;
+}
+
+.profile-bio {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-style: italic;
+    max-width: 500px;
+    margin: 0 auto !important;
+    line-height: 1.6;
+}
+
+.profile-stats {
+    margin: 2rem 0;
+}
+
+.stats-title {
+    color: white !important;
+    text-align: center;
+    margin-bottom: 1.5rem !important;
+    font-weight: 600 !important;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-number {
+    color: #e50914 !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.profile-buttons .MuiButton-root {
+    transition: all 0.3s ease !important;
+}
+
+/* Form Styling for Edit Mode */
+.profile-info .MuiTextField-root {
+    margin-bottom: 1rem;
+}
+
+.profile-info .MuiTextField-root .MuiOutlinedInput-root {
+    color: white;
+    border-radius: 10px;
+}
+
+.profile-info .MuiTextField-root .MuiOutlinedInput-root fieldset {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.profile-info .MuiTextField-root .MuiOutlinedInput-root:hover fieldset {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-info .MuiTextField-root .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #e50914;
+}
+
+.profile-info .MuiTextField-root .MuiInputLabel-root {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.profile-info .MuiTextField-root .MuiInputLabel-root.Mui-focused {
+    color: #e50914;
+}
+
+/* Divider Styling */
+.MuiDivider-root {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .profile-card {
+        margin: 0 0.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .profile-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .profile-buttons .MuiButton-root {
+        width: 100%;
+    }
+
+    .profile-name {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-avatar {
+        width: 80px !important;
+        height: 80px !important;
+        font-size: 2rem !important;
+    }
+
+    .profile-actions {
+        top: -10px;
+        right: -10px;
+    }
+
+    .stat-item {
+        padding: 1rem 0.5rem;
+    }
+
+    .stat-number {
+        font-size: 2rem !important;
+    }
+}
