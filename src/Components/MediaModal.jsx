@@ -1,5 +1,7 @@
+// MediaModal.jsx
+// Dette komponent viser en modal med detaljerede informationer om en film eller TV serie
 import React, { useEffect, useState } from 'react';
-import "../css/MediaModal.css"; // Ensure you have this CSS file for styling    
+import "../css/MediaModal.css";
 import {
     getMovieTrailers,
     getMovieDetails,
@@ -11,26 +13,27 @@ import {
 
 function MediaModal({ item, onClose, mediaType }) {
 
-    // Guard against missing item
+    // Tjek om der er et element at vise
     if (!item) {
         console.log('MediaModal: No item provided');
         return null;
     }
 
-    const [trailers, setTrailers] = useState([]);
-    const [showTrailer, setShowTrailer] = useState(false);
-    const [loadingTrailers, setLoadingTrailers] = useState(false);
-    const [itemDetails, setItemDetails] = useState(item); // Initialize with item
-    const [credits, setCredits] = useState({ cast: [], crew: [] });
-    const [error, setError] = useState(null);
+    // State variabler til at styre modal indhold
+    const [trailers, setTrailers] = useState([]); // Array af trailere
+    const [showTrailer, setShowTrailer] = useState(false); // Om trailer skal vises
+    const [loadingTrailers, setLoadingTrailers] = useState(false); // Loading state
+    const [itemDetails, setItemDetails] = useState(item); // Detaljerede informationer
+    const [credits, setCredits] = useState({ cast: [], crew: [] }); // Skuespillere og crew
+    const [error, setError] = useState(null); // Fejl beskeder
 
-    // Improved media type detection
+    // Forbedret media type detektion - find ud af om det er film eller TV serie
     const isMovie = mediaType === 'movie' ||
         (!mediaType && item?.title && !item?.name && !item?.first_air_date);
     const isSeries = mediaType === 'tv' || mediaType === 'series' ||
         (!mediaType && (item?.name || item?.first_air_date) && !item?.title);
 
-    // Helper functions to get the correct properties for both movies and TV series
+    // Hjælpe funktioner til at få korrekte egenskaber for både film og TV serier
     const getTitle = () => {
         return item.title || item.name || item.original_title || item.original_name || 'Unknown Title';
     };
@@ -44,7 +47,7 @@ function MediaModal({ item, onClose, mediaType }) {
         return date ? new Date(date).getFullYear() : '';
     };
 
-    // Close modal on Escape key press
+    // Luk modal når Escape taste trykkes
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
@@ -52,30 +55,34 @@ function MediaModal({ item, onClose, mediaType }) {
             }
         };
 
+        // Tilføj event listener og skjul body scroll
         document.addEventListener('keydown', handleKeyDown);
         document.body.style.overflow = 'hidden';
 
+        // Cleanup når komponenten unmounts
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = 'auto';
         };
     }, [onClose]);
 
-    // Fetch details, credits and trailers when item changes
+    // Hent detaljer, credits og trailere når element ændres
     useEffect(() => {
         if (!item?.id) return;
 
-        let isMounted = true;
+        let isMounted = true; // Flag til at forhindre state updates efter unmount
 
         async function fetchData() {
             try {
                 setError(null);
                 setLoadingTrailers(true);
 
+                // Variabler til at gemme hentet data
                 let detailsData = null;
                 let creditsData = { cast: [], crew: [] };
                 let trailersData = [];
 
+                // Hent data baseret på om det er en film
                 if (isMovie) {
                     try {
                         const [details, credits, trailers] = await Promise.allSettled([
@@ -84,6 +91,7 @@ function MediaModal({ item, onClose, mediaType }) {
                             getMovieTrailers(item.id)
                         ]);
 
+                        // Gem resultaterne hvis de lykkedes
                         detailsData = details.status === 'fulfilled' ? details.value : null;
                         creditsData = credits.status === 'fulfilled' ? credits.value : { cast: [], crew: [] };
                         trailersData = trailers.status === 'fulfilled' ? trailers.value : [];
@@ -91,6 +99,7 @@ function MediaModal({ item, onClose, mediaType }) {
                         console.error('Error fetching movie data:', err);
                     }
                 } else if (isSeries) {
+                    // Hent data for TV serier
                     try {
                         const [details, credits, trailers] = await Promise.allSettled([
                             getSeriesDetails(item.id),
@@ -106,9 +115,10 @@ function MediaModal({ item, onClose, mediaType }) {
                     }
                 }
 
+                // Opdater kun state hvis komponenten stadig er mounted
                 if (!isMounted) return;
 
-                // Update state with fetched data, fallback to original item
+                // Opdater state med hentet data, fallback til originalt element
                 setItemDetails(detailsData || item);
                 setCredits(creditsData || { cast: [], crew: [] });
                 setTrailers(trailersData || []);
@@ -131,19 +141,22 @@ function MediaModal({ item, onClose, mediaType }) {
         };
     }, [item?.id, isMovie, isSeries]);
 
+    // Håndter luk modal knap
     const handleCloseModal = (e) => {
         e.preventDefault();
         e.stopPropagation();
         onClose();
     };
 
+    // Håndter klik på baggrund (overlay)
     const handleOverlayClick = (e) => {
-        // Only close if clicking the backdrop itself
+        // Luk kun hvis der klikkes på selve baggrunden
         if (e.target === e.currentTarget) {
             onClose();
         }
     };
 
+    // Variabler til at vise i modal
     const displayItem = itemDetails || item;
     const displayTitle = displayItem.title || displayItem.name || displayItem.original_title || displayItem.original_name || 'Unknown Title';
     const displayReleaseDate = displayItem.release_date || displayItem.first_air_date;
@@ -151,11 +164,12 @@ function MediaModal({ item, onClose, mediaType }) {
     return (
         <div className="modal-backdrop" onClick={handleOverlayClick}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                {/* Luk knap */}
                 <button className="modal-close" onClick={handleCloseModal} aria-label="Close">
                     ×
                 </button>
 
-                {/* Backdrop Image */}
+                {/* Baggrundsbillede */}
                 {displayItem?.backdrop_path && (
                     <div
                         className="modal-backdrop-image"
@@ -167,9 +181,10 @@ function MediaModal({ item, onClose, mediaType }) {
                     </div>
                 )}
 
+                {/* Scrollbart indhold */}
                 <div className="modal-scrollable-content">
                     <div className="modal-body">
-                        {/* Poster Section */}
+                        {/* Poster sektion */}
                         <div className="modal-poster-section">
                             {displayItem?.poster_path ? (
                                 <img
@@ -186,9 +201,9 @@ function MediaModal({ item, onClose, mediaType }) {
                             )}
                         </div>
 
-                        {/* Info Section */}
+                        {/* Information sektion */}
                         <div className="modal-info-section">
-                            {/* Header */}
+                            {/* Header med titel */}
                             <div className="modal-header">
                                 <h1 className="modal-title">{displayTitle}</h1>
                                 {displayItem?.tagline && (
@@ -196,8 +211,9 @@ function MediaModal({ item, onClose, mediaType }) {
                                 )}
                             </div>
 
-                            {/* Actions */}
+                            {/* Handling knapper */}
                             <div className="modal-actions">
+                                {/* Se trailer knap */}
                                 {trailers?.length > 0 && (
                                     <button
                                         className="action-btn"
@@ -208,6 +224,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </button>
                                 )}
 
+                                {/* Besøg hjemmeside knap */}
                                 {displayItem?.homepage && (
                                     <a
                                         href={displayItem.homepage}
@@ -221,8 +238,9 @@ function MediaModal({ item, onClose, mediaType }) {
                                 )}
                             </div>
 
-                            {/* Meta Information */}
+                            {/* Meta information (dato, bedømmelse, osv.) */}
                             <div className="modal-meta">
+                                {/* Udgivelsesdato */}
                                 {displayReleaseDate && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">
@@ -234,6 +252,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Bedømmelse */}
                                 {displayItem?.vote_average && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Rating:</span>
@@ -245,6 +264,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Sæsoner (kun for TV serier) */}
                                 {isSeries && displayItem?.number_of_seasons && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Seasons:</span>
@@ -252,6 +272,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Episoder (kun for TV serier) */}
                                 {isSeries && displayItem?.number_of_episodes && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Episodes:</span>
@@ -259,6 +280,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Spilletid (kun for film) */}
                                 {isMovie && displayItem?.runtime && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Runtime:</span>
@@ -266,6 +288,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Genrer */}
                                 {displayItem?.genres && displayItem.genres.length > 0 && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Genres:</span>
@@ -279,6 +302,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                     </div>
                                 )}
 
+                                {/* Status */}
                                 {displayItem?.status && (
                                     <div className="modal-meta-item">
                                         <span className="meta-label">Status:</span>
@@ -287,7 +311,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                 )}
                             </div>
 
-                            {/* Overview */}
+                            {/* Oversigt/Beskrivelse */}
                             {displayItem?.overview && (
                                 <div className="modal-overview">
                                     <h3>Overview</h3>
@@ -295,7 +319,7 @@ function MediaModal({ item, onClose, mediaType }) {
                                 </div>
                             )}
 
-                            {/* Cast Section */}
+                            {/* Cast sektion */}
                             {credits?.cast?.length > 0 && (
                                 <div className="modal-cast-section">
                                     <h3>Top Cast</h3>
@@ -324,12 +348,12 @@ function MediaModal({ item, onClose, mediaType }) {
                                 </div>
                             )}
 
-                            {/* Loading State */}
+                            {/* Loading tilstand */}
                             {loadingTrailers && (
                                 <div className="loading-indicator">Loading details...</div>
                             )}
 
-                            {/* Error State */}
+                            {/* Fejl tilstand */}
                             {error && (
                                 <div className="media-error">
                                     <p>{error}</p>

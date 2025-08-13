@@ -1,49 +1,63 @@
-/* Global Styles - Beautiful Dark Theme */
-
 :root {
-  /* Enhanced font stack for better readability */
+  /* Font indstillinger */
   font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
-  /* Dark theme color scheme */
+  /* Mørkt tema farve skema */
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.9);
   background-color: #0f0f0f;
 
-  /* Enhanced font rendering */
+  /* Forbedret font rendering */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* CSS Custom Properties for theming */
+  /* Farve variabler */
   --primary-color: #e50914;
+  /* Rød farve (Netflix inspireret) */
   --primary-hover: #f40612;
+  /* Lysere rød til hover */
   --secondary-color: #007bff;
+  /* Blå farve */
   --secondary-hover: #0056b3;
+  /* Mørkere blå til hover */
   --accent-color: #8a2be2;
+  /* Lilla accent farve */
 
+  /* Tekst farver */
   --text-primary: rgba(255, 255, 255, 0.9);
+  /* Primær hvid tekst */
   --text-secondary: rgba(255, 255, 255, 0.7);
+  /* Sekundær hvid tekst */
   --text-muted: rgba(255, 255, 255, 0.5);
+  /* Dæmpet hvid tekst */
 
+  /* Baggrunds farver */
   --bg-primary: #0f0f0f;
+  /* Mørk sort */
   --bg-secondary: #1a1a2e;
+  /* Mørk blå */
   --bg-tertiary: #16213e;
+  /* Mørkere blå */
 
+  /* Kant farver */
   --border-color: rgba(255, 255, 255, 0.1);
   --border-hover: rgba(255, 255, 255, 0.2);
 
+  /* Skygge værdier */
   --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.2);
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
 
+  /* Glasmorphism effekt farver */
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Global resets and base styles */
+/* Global reset af margin og padding */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -55,7 +69,7 @@
   box-sizing: border-box;
 }
 
-/* Enhanced body styling */
+/* Body grundlæggende styling */
 body {
   margin: 0;
   min-width: 320px;
@@ -66,7 +80,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Add global animated background */
+/* Global animeret baggrund */
 body::before {
   content: '';
   position: fixed;
@@ -83,6 +97,7 @@ body::before {
   z-index: -1;
 }
 
+/* Animation for global baggrund */
 @keyframes globalBackgroundShift {
 
   0%,
@@ -107,7 +122,7 @@ body::before {
   }
 }
 
-/* Enhanced link styles */
+/* Link styling */
 a {
   color: var(--primary-color);
   text-decoration: none;
@@ -126,7 +141,7 @@ a:focus {
   border-radius: 4px;
 }
 
-/* Beautiful headings */
+/* Heading styling med responsive skrift størrelser */
 h1,
 h2,
 h3,
@@ -142,6 +157,7 @@ h6 {
 
 h1 {
   font-size: clamp(2rem, 5vw, 3.5rem);
+  /* Responsiv skrift størrelse */
   line-height: 1.1;
   font-weight: 800;
 }
@@ -167,14 +183,14 @@ h6 {
   font-size: clamp(0.9rem, 1.5vw, 1.1rem);
 }
 
-/* Enhanced paragraphs */
+/* Paragraph styling */
 p {
   color: var(--text-secondary);
   line-height: 1.6;
   margin: 0;
 }
 
-/* Beautiful button base styles */
+/* Knap grundlæggende styling */
 button {
   font-family: inherit;
   font-weight: 600;
@@ -192,6 +208,7 @@ button {
   box-shadow: var(--shadow-sm);
 }
 
+/* Skinner effekt på knapper */
 button::before {
   content: '';
   position: absolute;
@@ -207,6 +224,7 @@ button:hover::before {
   left: 100%;
 }
 
+/* Knap hover effekter */
 button:hover:not(:disabled) {
   background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
   transform: translateY(-2px);
@@ -217,6 +235,7 @@ button:active:not(:disabled) {
   transform: translateY(0);
 }
 
+/* Disabled knap styling */
 button:disabled {
   background: #666;
   cursor: not-allowed;
@@ -225,13 +244,14 @@ button:disabled {
   box-shadow: none;
 }
 
+/* Focus styling for accessibility */
 button:focus,
 button:focus-visible {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
 }
 
-/* Enhanced input styles */
+/* Input felt styling */
 input,
 textarea,
 select {
@@ -246,6 +266,7 @@ select {
   backdrop-filter: blur(10px);
 }
 
+/* Input focus styling */
 input:focus,
 textarea:focus,
 select:focus {
@@ -255,12 +276,13 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
 }
 
+/* Placeholder styling */
 input::placeholder,
 textarea::placeholder {
   color: var(--text-muted);
 }
 
-/* Enhanced scrollbar */
+/* Custom scrollbar styling for WebKit browsere */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -285,13 +307,13 @@ textarea::placeholder {
   background: transparent;
 }
 
-/* Firefox scrollbar */
+/* Firefox scrollbar styling */
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
 }
 
-/* Text selection */
+/* Tekst markering styling */
 ::selection {
   background: rgba(229, 9, 20, 0.3);
   color: white;
@@ -307,7 +329,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Remove default margins */
+/* Fjern standard margins fra elementer */
 body,
 h1,
 h2,
@@ -327,14 +349,14 @@ dd {
   margin: 0;
 }
 
-/* Remove default padding */
+/* Fjern standard padding fra lister */
 ul,
 ol {
   padding: 0;
   list-style: none;
 }
 
-/* Image defaults */
+/* Billede standarder */
 img,
 picture,
 video,
@@ -345,7 +367,7 @@ svg {
   height: auto;
 }
 
-/* Form elements inherit fonts */
+/* Form elementer arver fonte */
 input,
 button,
 textarea,
@@ -353,7 +375,7 @@ select {
   font: inherit;
 }
 
-/* Avoid text overflows */
+/* Undgå tekst overflow */
 p,
 h1,
 h2,
@@ -365,87 +387,8 @@ h6 {
   hyphens: auto;
 }
 
-/* Improved focus management */
+/* Forbedret focus håndtering */
 :focus-visible {
   outline: 2px solid var(--secondary-color);
   outline-offset: 2px;
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  body::before {
-    animation: none;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --primary-color: #ff0000;
-    --secondary-color: #0000ff;
-    --text-primary: #ffffff;
-    --text-secondary: #ffffff;
-    --bg-primary: #000000;
-    --border-color: #ffffff;
-  }
-}
-
-/* Print styles */
-@media print {
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
-  body::before {
-    display: none;
-  }
-
-  * {
-    color: black !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  body {
-    font-size: 14px;
-  }
-
-  button {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
-  }
-
-  input,
-  textarea,
-  select {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.9rem;
-  }
-}
-
-/* Remove focus outline for mouse users */
-@media (pointer: fine) {
-
-  button:focus:not(:focus-visible),
-  input:focus:not(:focus-visible),
-  select:focus:not(:focus-visible),
-  textarea:focus:not(:focus-visible),
-  a:focus:not(:focus-visible) {
-    outline: none;
-  }
 }

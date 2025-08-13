@@ -6,42 +6,50 @@ import { useFavorites } from '../Context/FavoritesContext';
 import '../css/Favorites.css';
 
 function Favorites() {
+    // Hent favorit data og funktioner fra context
     const { favorites, clearFavorites, favoritesCount, isAuthenticated, user } = useFavorites();
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    const [showClearConfirm, setShowClearConfirm] = useState(false);
 
-    // Handle movie click to open modal
+    // State til modal og konfirmation
+    const [selectedMovie, setSelectedMovie] = useState(null); // Film valgt til modal
+    const [showClearConfirm, setShowClearConfirm] = useState(false); // Bekræftelse for slet alle
+
+    // Håndter klik på film kort - åbn modal
     const handleMovieClick = (movie) => {
         setSelectedMovie(movie);
     };
 
-    // Close modal
+    // Luk modal funktion
     const closeModal = () => {
         setSelectedMovie(null);
     };
 
-    // Handle clear all favorites with confirmation
+    // Håndter "slet alle favoritter" med bekræftelse
     const handleClearAll = () => {
         if (showClearConfirm) {
+            // Hvis allerede bekræftet, slet alle favoritter
             clearFavorites();
             setShowClearConfirm(false);
         } else {
+            // Vis bekræftelse og skjul efter 3 sekunder
             setShowClearConfirm(true);
             setTimeout(() => setShowClearConfirm(false), 3000);
         }
     };
 
-    // Get some stats for display
+    // Beregn statistikker for visning
     const currentYear = new Date().getFullYear();
+
+    // Antal film tilføjet i år
     const addedThisYear = favorites.filter(movie =>
         new Date(movie.addedAt).getFullYear() === currentYear
     ).length;
 
+    // Senest tilføjede film (sorteret efter tilføjelses dato)
     const recentlyAdded = favorites
         .sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt))
         .slice(0, 3);
 
-    // If not authenticated, show login prompt
+    // Hvis ikke authenticated, vis login opfordring
     if (!isAuthenticated) {
         return (
             <div className="favorites">
@@ -49,18 +57,22 @@ function Favorites() {
                     <div className="hero-background"></div>
                     <div className="hero-content">
                         <div className="auth-prompt">
+                            {/* Låse ikon animation */}
                             <div className="auth-icon">
                                 <div className="lock-container">
                                     <div className="lock-body">🔒</div>
                                     <div className="lock-glow"></div>
                                 </div>
                             </div>
+
+                            {/* Hovedtekst */}
                             <h1 className="auth-title">Your Personal Movie Collection Awaits</h1>
                             <p className="auth-subtitle">
                                 Sign in to unlock your favorites, build your personal movie library,
                                 and rate your favorite films.
                             </p>
 
+                            {/* Handling knapper */}
                             <div className="auth-actions">
                                 <Link to="/login" className="btn btn-primary">
                                     <span className="btn-icon">🚀</span>
@@ -72,6 +84,7 @@ function Favorites() {
                                 </Link>
                             </div>
 
+                            {/* Feature showcase sektion */}
                             <div className="feature-showcase">
                                 <h3>What you'll get:</h3>
                                 <div className="features-grid">
@@ -105,7 +118,7 @@ function Favorites() {
         );
     }
 
-    // If authenticated but no favorites
+    // Hvis authenticated men ingen favoritter
     if (favoritesCount === 0) {
         return (
             <div className="favorites">
@@ -113,18 +126,22 @@ function Favorites() {
                     <div className="hero-background"></div>
                     <div className="hero-content">
                         <div className="empty-state">
+                            {/* Hjerte animation */}
                             <div className="empty-animation">
                                 <div className="heart-container">
                                     <div className="heart-main">❤️</div>
                                     <div className="heart-pulse"></div>
                                 </div>
                             </div>
+
+                            {/* Hovedtekst */}
                             <h1 className="empty-title">Start Your Movie Journey</h1>
                             <p className="empty-subtitle">
                                 Welcome {user?.name}! Your favorites collection is empty.
                                 Let's find some amazing movies to add to your personal library.
                             </p>
 
+                            {/* Handling knapper */}
                             <div className="empty-actions">
                                 <Link to="/" className="btn btn-primary">
                                     <span className="btn-icon">🎬</span>
@@ -136,6 +153,7 @@ function Favorites() {
                                 </Link>
                             </div>
 
+                            {/* Quick tip sektion */}
                             <div className="quick-tips">
                                 <h3>💡 Quick tip:</h3>
                                 <p>Click the heart icon on any movie to add it to your favorites!</p>
@@ -147,16 +165,18 @@ function Favorites() {
         );
     }
 
-    // Show favorites if authenticated and has favorites
+    // Vis favoritter hvis authenticated og har favoritter
     return (
         <>
             <div className="favorites">
-                {/* Beautiful Header with Gradient */}
+                {/* Hero sektion med bruger information */}
                 <div className="favorites-hero">
                     <div className="hero-background"></div>
                     <div className="hero-content">
+                        {/* Header med bruger velkomst */}
                         <div className="hero-header">
                             <div className="user-welcome">
+                                {/* Bruger avatar sektion */}
                                 <div className="avatar-section">
                                     <div className="user-avatar">
                                         {user?.avatar ? (
@@ -167,6 +187,8 @@ function Favorites() {
                                             </div>
                                         )}
                                     </div>
+
+                                    {/* Velkomst tekst */}
                                     <div className="welcome-text">
                                         <h1 className="hero-title">
                                             <span className="greeting">Welcome back, {user?.name}!</span>
@@ -179,6 +201,7 @@ function Favorites() {
                                 </div>
                             </div>
 
+                            {/* Hero handlinger */}
                             <div className="hero-actions">
                                 <button
                                     onClick={handleClearAll}
@@ -193,8 +216,9 @@ function Favorites() {
                             </div>
                         </div>
 
-                        {/* Enhanced Stats Cards */}
+                        {/* Statistik dashboard */}
                         <div className="stats-dashboard">
+                            {/* Total film */}
                             <div className="stat-card">
                                 <div className="stat-icon">📚</div>
                                 <div className="stat-content">
@@ -202,6 +226,8 @@ function Favorites() {
                                     <div className="stat-label">Total Movies</div>
                                 </div>
                             </div>
+
+                            {/* Film tilføjet i år */}
                             <div className="stat-card">
                                 <div className="stat-icon">✨</div>
                                 <div className="stat-content">
@@ -209,9 +235,11 @@ function Favorites() {
                                     <div className="stat-label">Added This Year</div>
                                 </div>
                             </div>
+
+                            {/* Seneste tilføjelse */}
                             {recentlyAdded.length > 0 && (
                                 <div className="stat-card recent-card">
-                                    <div className="stat-icon">🕐</div>
+                                    <div className="stat-icon">🕑</div>
                                     <div className="stat-content">
                                         <div className="recent-movie">{recentlyAdded[0].title}</div>
                                         <div className="stat-label">Latest Addition</div>
@@ -222,8 +250,9 @@ function Favorites() {
                     </div>
                 </div>
 
-                {/* Movies Section */}
+                {/* Film sektion */}
                 <div className="favorites-content">
+                    {/* Indhold header */}
                     <div className="content-header">
                         <h2 className="section-title">
                             <span className="title-icon">❤️</span>
@@ -234,6 +263,7 @@ function Favorites() {
                         </div>
                     </div>
 
+                    {/* Film container */}
                     <div className="movies-container">
                         <div className="movies-grid">
                             {favorites.map((movie, index) => (
@@ -253,13 +283,14 @@ function Favorites() {
                         </div>
                     </div>
 
-                    {/* Quick Actions Section */}
+                    {/* Quick actions sektion */}
                     <div className="quick-actions">
                         <div className="quick-actions-content">
                             <h3>Quick Actions</h3>
                             <div className="actions-grid">
+                                {/* Bedøm film handling */}
                                 <div className="action-card" onClick={() => {
-                                    // Scroll to top to see all movies
+                                    // Scroll til top for at se alle film
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}>
                                     <div className="action-icon">⭐</div>
@@ -268,6 +299,8 @@ function Favorites() {
                                         <p>Give personal ratings to your favorite films</p>
                                     </div>
                                 </div>
+
+                                {/* Opdag mere handling */}
                                 <Link to="/" className="action-card">
                                     <div className="action-icon">🔍</div>
                                     <div className="action-content">
@@ -281,7 +314,7 @@ function Favorites() {
                 </div>
             </div>
 
-            {/* Movie Modal */}
+            {/* Film modal */}
             {selectedMovie && (
                 <MediaModal item={selectedMovie} onClose={closeModal} />
             )}

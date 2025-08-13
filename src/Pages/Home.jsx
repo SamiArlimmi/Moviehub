@@ -8,25 +8,33 @@ import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
 function Home() {
-    const [popularMovies, setPopularMovies] = useState([]);
-    const [trendingMovies, setTrendingMovies] = useState([]);
-    const [featuredMovie, setFeaturedMovie] = useState(null);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [searching, setSearching] = useState(false);
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    // State til at gemme forskellige film lister
+    const [popularMovies, setPopularMovies] = useState([]); // Array af populære film
+    const [trendingMovies, setTrendingMovies] = useState([]); // Array af trending film
+    const [featuredMovie, setFeaturedMovie] = useState(null); // Enkelt fremhævet film
 
-    // Debounced search
+    // State til søgefunktionalitet
+    const [searchQuery, setSearchQuery] = useState(""); // Brugerens søge input
+    const [searchResults, setSearchResults] = useState([]); // Resultater fra søgning
+    const [searching, setSearching] = useState(false); // Loading state for søgning
+
+    // State til loading, fejl og modal
+    const [loading, setLoading] = useState(true); // Loading state for initial data
+    const [error, setError] = useState(null); // Fejl beskeder
+    const [selectedMovie, setSelectedMovie] = useState(null); // Film valgt til modal
+
+    // Debounced search - forsinker søgning til bruger stopper med at skrive
     const debouncedSearch = useCallback(
         debounce(async (query) => {
+            // Return tidligt hvis tom søgning
             if (!query.trim()) {
                 setSearchResults([]);
                 return;
             }
+
             try {
                 setSearching(true);
+                // Kald API for at søge efter film
                 const results = await searchMovies(query);
                 setSearchResults(results);
             } catch (err) {
@@ -34,26 +42,31 @@ function Home() {
             } finally {
                 setSearching(false);
             }
-        }, 500),
+        }, 500), // 500ms delay
         []
     );
 
-    // Fetch movies (popular and trending)
+    // Hent film data når komponenten loader
     useEffect(() => {
         const loadMovies = async () => {
             try {
                 setLoading(true);
                 console.log("Fetching movies...");
+
+                // Hent både populære og trending film samtidigt
                 const [popular, trending] = await Promise.all([
                     getPopularMovies(),
                     getTrendingMovies()
                 ]);
+
                 console.log("Popular Movies:", popular);
                 console.log("Trending Movies:", trending);
+
+                // Sæt film data i state
                 setPopularMovies(popular);
                 setTrendingMovies(trending);
 
-                // Set featured movie as the first trending movie
+                // Sæt den første trending film som fremhævet film
                 if (trending && trending.length > 0) {
                     setFeaturedMovie(trending[0]);
                 }
@@ -64,15 +77,19 @@ function Home() {
                 setLoading(false);
             }
         };
-        loadMovies();
-    }, []);
 
-    // Trigger search when query changes
+        loadMovies();
+    }, []); // Tom dependency array - kør kun én gang
+
+    // Start søgning når søge query ændres
     useEffect(() => {
         debouncedSearch(searchQuery);
+
+        // Cleanup function til at cancel debounced search
         return () => debouncedSearch.cancel();
     }, [searchQuery, debouncedSearch]);
 
+    // Håndter søge form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
@@ -80,27 +97,29 @@ function Home() {
         }
     };
 
-    // Handle movie click (set selected movie)
+    // Håndter klik på film kort - åbn modal
     const handleMovieClick = (movie) => {
         console.log("Selected Movie:", movie);
         setSelectedMovie(movie);
     };
 
-    // Handle featured movie actions
+    // Håndter "play" knap klik på fremhævet film
     const handlePlayClick = (movie) => {
         console.log("Play clicked for:", movie.title);
         setSelectedMovie(movie);
     };
 
+    // Håndter "info" knap klik på fremhævet film
     const handleInfoClick = (movie) => {
         setSelectedMovie(movie);
     };
 
-    // Close modal
+    // Luk modal funktion
     const closeModal = () => {
         setSelectedMovie(null);
     };
 
+    // Vis loading state
     if (loading) {
         return (
             <div className="home-loading">
@@ -109,6 +128,7 @@ function Home() {
         );
     }
 
+    // Vis fejl state
     if (error) {
         return (
             <div className="home-error">
@@ -120,7 +140,7 @@ function Home() {
 
     return (
         <>
-            {/* Full-width Hero Banner */}
+            {/* Hero sektion med baggrundsbillede og søgefelt */}
             <section className="hero-banner" style={{ backgroundImage: `url(${heroImage})` }}>
                 <div className="hero-banner__overlay" />
                 <div className="hero-banner__content">
@@ -128,6 +148,8 @@ function Home() {
                     <p className="hero-banner__subtitle">
                         Find your next favorite film from thousands of titles
                     </p>
+
+                    {/* Søge form */}
                     <form className="hero-search" onSubmit={handleSubmit}>
                         <input
                             type="text"
@@ -141,9 +163,11 @@ function Home() {
                 </div>
             </section>
 
-            {/* Padded content area */}
+            {/* Hovedindhold sektion */}
             <div className="home">
+                {/* Conditional rendering - vis enten søgeresultater eller standard indhold */}
                 {searchQuery.trim() ? (
+                    // Vis søgeresultater eller loading
                     searching ? (
                         <div className="search-loading">
                             <div className="search-loading-spinner" />
@@ -157,23 +181,25 @@ function Home() {
                         />
                     )
                 ) : (
+                    // Vis standard indhold når der ikke søges
                     <>
+                        {/* Trending film sektion */}
                         <CarouselRow
                             title="Trending This Week"
                             movies={trendingMovies}
                             onMovieClick={handleMovieClick}
                         />
 
-                        {/* Featured Movie Section - appears after Trending */}
+                        {/* Fremhævet film sektion - RETTET: fjernet duplikeret onPlay prop */}
                         {featuredMovie && (
                             <FeaturedMovieSection
                                 movie={featuredMovie}
-                                onPlay={() => setSelectedMovie(featuredMovie)}
                                 onPlayClick={handlePlayClick}
                                 onInfoClick={handleInfoClick}
                             />
                         )}
 
+                        {/* Populære film sektion */}
                         <CarouselRow
                             title="Popular Movies"
                             movies={popularMovies}
@@ -183,7 +209,7 @@ function Home() {
                 )}
             </div>
 
-            {/* Show Modal when movie is clicked */}
+            {/* Vis modal når en film er valgt */}
             {selectedMovie && (
                 <MediaModal
                     item={selectedMovie}

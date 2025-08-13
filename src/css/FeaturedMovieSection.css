@@ -1,4 +1,6 @@
-/* Featured Movie Section */
+/* FeaturedMovieSection.css - Fremhævet film sektion styling */
+
+/* Hovedcontainer for fremhævet film sektion */
 .featured-movie {
     position: relative;
     width: 100%;
@@ -9,6 +11,7 @@
     margin-bottom: 4rem;
 }
 
+/* Container til baggrundsbillede */
 .featured-movie__backdrop {
     position: absolute;
     top: 0;
@@ -18,13 +21,16 @@
     z-index: 1;
 }
 
+/* Baggrundsbillede styling */
 .featured-movie__backdrop-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     filter: brightness(0.4) blur(1px);
 }
 
+/* Mørkt overlay over baggrundsbillede */
 .featured-movie__overlay {
     position: absolute;
     top: 0;
@@ -38,6 +44,7 @@
             transparent 100%);
 }
 
+/* Hovedindhold container */
 .featured-movie__content {
     position: relative;
     z-index: 2;
@@ -50,31 +57,35 @@
     margin: 0 auto;
 }
 
+/* Poster billede container */
 .featured-movie__poster {
-    flex-shrink: 0;
     position: relative;
+    flex-shrink: 0;
 }
 
+/* Poster billede styling */
 .featured-movie__poster-image {
     width: 300px;
     height: 450px;
     object-fit: cover;
     border-radius: 16px;
-    box-shadow:
-        0 25px 50px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
     transition: transform 0.3s ease;
 }
 
+/* Hover effekt på poster billede */
 .featured-movie__poster:hover .featured-movie__poster-image {
     transform: scale(1.05);
 }
 
+/* Information sektion til højre */
 .featured-movie__info {
     flex: 1;
     max-width: 600px;
+    color: white;
 }
 
+/* Fremhævet film badge */
 .featured-movie__badge {
     display: inline-block;
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%);
@@ -89,8 +100,9 @@
     box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
 
+/* Film titel styling */
 .featured-movie__title {
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: 3.5rem;
     font-weight: 800;
     line-height: 1.1;
     margin: 0 0 1.5rem;
@@ -98,15 +110,18 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: white;
+    /* Fallback for browsers that don't support background-clip */
 }
 
+/* Metadata container med stjerner, år og spilletid */
 .featured-movie__meta {
     display: flex;
     gap: 2rem;
     margin-bottom: 2rem;
-    flex-wrap: wrap;
 }
 
+/* Individuel metadata element */
 .featured-movie__meta-item {
     display: flex;
     align-items: center;
@@ -115,10 +130,12 @@
     font-weight: 500;
 }
 
+/* Ikoner i metadata sektion */
 .featured-movie__meta-icon {
     color: #e50914;
 }
 
+/* Film beskrivelse tekst */
 .featured-movie__overview {
     font-size: 1.1rem;
     line-height: 1.6;
@@ -127,12 +144,14 @@
     max-width: 550px;
 }
 
+/* Container til handling knapper */
 .featured-movie__actions {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
+/* Basis knap styling */
 .featured-movie__btn {
     display: flex;
     align-items: center;
@@ -143,24 +162,28 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    white-space: nowrap;
+    min-width: 150px;
+    justify-content: center;
 }
 
+/* Primær knap styling - se trailer */
 .featured-movie__btn--primary {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%);
     color: white;
     box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
 }
 
+/* Primær knap hover effekt */
 .featured-movie__btn--primary:hover {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%);
     transform: translateY(-2px);
     box-shadow: 0 12px 30px rgba(229, 9, 20, 0.4);
 }
 
+/* Sekundær knap styling - mere info */
 .featured-movie__btn--secondary {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -168,6 +191,7 @@
     backdrop-filter: blur(10px);
 }
 
+/* Sekundær knap hover effekt */
 .featured-movie__btn--secondary:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.3);
@@ -175,6 +199,7 @@
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Skinner effekt animation på knapper */
 .featured-movie__btn::before {
     content: '';
     position: absolute;
@@ -186,27 +211,26 @@
     transition: left 0.5s;
 }
 
+/* Aktiver skinner effekt ved hover */
 .featured-movie__btn:hover::before {
     left: 100%;
 }
 
-/* Mobile responsiveness */
+/* Responsive design for tablets */
 @media (max-width: 768px) {
-    .featured-movie {
-        min-height: 60vh;
-        margin-bottom: 2rem;
-    }
-
     .featured-movie__content {
         flex-direction: column;
         text-align: center;
-        gap: 2rem;
-        padding: 2rem 1rem;
+        padding: 2rem 5%;
     }
 
     .featured-movie__poster-image {
-        width: 240px;
-        height: 360px;
+        width: 250px;
+        height: 375px;
+    }
+
+    .featured-movie__title {
+        font-size: 2.5rem;
     }
 
     .featured-movie__meta {
@@ -218,9 +242,11 @@
     }
 }
 
+/* Responsive design for mobile */
 @media (max-width: 480px) {
-    .featured-movie__content {
-        padding: 1rem;
+    .featured-movie {
+        min-height: 60vh;
+        margin-bottom: 2rem;
     }
 
     .featured-movie__poster-image {
@@ -228,8 +254,18 @@
         height: 300px;
     }
 
+    .featured-movie__title {
+        font-size: 2rem;
+    }
+
+    .featured-movie__meta {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
     .featured-movie__btn {
-        padding: 0.875rem 1.5rem;
-        font-size: 0.95rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 130px;
     }
 }

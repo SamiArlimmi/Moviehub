@@ -1,74 +1,108 @@
+// CarouselRow.jsx
+// This component creates a horizontal scrolling row of movies with navigation buttons
 import React, { useEffect, useMemo, useRef } from "react";
 import MovieDetail from "./MovieDetail";
 import "../css/CarouselRow.css";
 
 export default function CarouselRow({ title, movies, onMovieClick }) {
-    // Always call hooks at the top of the component
+    // Reference to the scrolling container element
     const containerRef = useRef(null);
+
+    // Flag to prevent scroll adjustments during programmatic scrolling
     const isAdjustingRef = useRef(false);
 
-    // 3x list for seamless loop; this should be computed even if movies are empty
+    // Create triple copy of movies for seamless infinite scrolling effect
+    // This allows the carousel to loop smoothly without jumping back to start
     const tripled = useMemo(() => {
         return movies ? [...movies, ...movies, ...movies] : [];
     }, [movies]);
 
+    // Function to center the scroll position on the middle copy of movies
     const centerScroll = () => {
-        const el = containerRef.current;
-        if (!el) return;
-        const third = el.scrollWidth / 3;
-        const prev = el.style.scrollBehavior;
-        el.style.scrollBehavior = "auto";
-        el.scrollLeft = third; // middle copy
-        el.style.scrollBehavior = prev || "";
+        const element = containerRef.current;
+        if (!element) return;
+
+        // Calculate one-third of total scroll width (middle section)
+        const oneThird = element.scrollWidth / 3;
+
+        // Temporarily disable smooth scrolling for instant positioning
+        const previousScrollBehavior = element.style.scrollBehavior;
+        element.style.scrollBehavior = "auto";
+
+        // Set scroll position to middle copy
+        element.scrollLeft = oneThird;
+
+        // Restore previous scroll behavior
+        element.style.scrollBehavior = previousScrollBehavior || "";
     };
 
+    // Center the scroll when movies change
     useEffect(() => {
-        const id = requestAnimationFrame(centerScroll);
-        return () => cancelAnimationFrame(id);
+        const animationId = requestAnimationFrame(centerScroll);
+        return () => cancelAnimationFrame(animationId);
     }, [movies]);
 
+    // Handle scroll events to create infinite loop effect
     const handleScroll = () => {
-        const el = containerRef.current;
-        if (!el || isAdjustingRef.current) return;
+        const element = containerRef.current;
+        if (!element || isAdjustingRef.current) return;
 
-        const third = el.scrollWidth / 3;
-        const left = el.scrollLeft;
+        const oneThird = element.scrollWidth / 3;
+        const currentScrollLeft = element.scrollLeft;
 
-        if (left < third * 0.2 || left > third * 1.8) {
-            const prev = el.style.scrollBehavior;
-            el.style.scrollBehavior = "auto";
+        // Check if we've scrolled too far left or right (20% threshold)
+        if (currentScrollLeft < oneThird * 0.2 || currentScrollLeft > oneThird * 1.8) {
+            // Save current scroll behavior and disable smooth scrolling
+            const previousScrollBehavior = element.style.scrollBehavior;
+            element.style.scrollBehavior = "auto";
             isAdjustingRef.current = true;
 
-            if (left < third) el.scrollLeft = left + third;
-            else el.scrollLeft = left - third;
+            // Jump to equivalent position in middle section
+            if (currentScrollLeft < oneThird) {
+                element.scrollLeft = currentScrollLeft + oneThird;
+            } else {
+                element.scrollLeft = currentScrollLeft - oneThird;
+            }
 
+            // Restore scroll behavior after adjustment
             requestAnimationFrame(() => {
-                el.style.scrollBehavior = prev || "";
+                element.style.scrollBehavior = previousScrollBehavior || "";
                 isAdjustingRef.current = false;
             });
         }
     };
 
-    // Buttons control movement (smooth), 1 card at a time
-    const scrollByCards = (n) => {
-        const el = containerRef.current;
-        if (!el) return;
-        const card = el.querySelector(".movie-detail");
-        const cardWidth = card ? card.getBoundingClientRect().width : 200;
-        const gap = parseFloat(getComputedStyle(el).getPropertyValue("--gap") || "16");
-        el.scrollBy({ left: (cardWidth + gap) * n, behavior: "smooth" });
+    // Function to scroll by a specific number of movie cards
+    const scrollByCards = (numberOfCards) => {
+        const element = containerRef.current;
+        if (!element) return;
+
+        // Find a movie card to calculate its width
+        const movieCard = element.querySelector(".movie-detail");
+        const cardWidth = movieCard ? movieCard.getBoundingClientRect().width : 200;
+
+        // Get gap between cards from CSS variable
+        const gap = parseFloat(getComputedStyle(element).getPropertyValue("--gap") || "16");
+
+        // Scroll smoothly by card width + gap
+        element.scrollBy({
+            left: (cardWidth + gap) * numberOfCards,
+            behavior: "smooth"
+        });
     };
 
-    // Helper function to get the correct title (movies use 'title', TV shows use 'name')
+    // Helper function to get movie/TV show title
+    // Movies use 'title' property, TV shows use 'name' property
     const getTitle = (item) => item.title || item.name || 'No Title';
 
-    // Helper function to get the release year (movies use 'release_date', TV shows use 'first_air_date')
+    // Helper function to get release year
+    // Movies use 'release_date', TV shows use 'first_air_date'
     const getReleaseYear = (item) => {
         const date = item.release_date || item.first_air_date;
         return date ? new Date(date).getFullYear() : '';
     };
 
-    // Enhanced movies with proper title and year for both movies and TV shows
+    // Create enhanced movie objects with consistent title and year properties
     const enhancedMovies = useMemo(() => {
         return movies?.map(item => ({
             ...item,
@@ -77,45 +111,52 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
         })) || [];
     }, [movies]);
 
-    // Update tripled to use enhanced movies
+    // Create triple copy of enhanced movies for infinite scrolling
     const tripledEnhanced = useMemo(() => {
         return enhancedMovies ? [...enhancedMovies, ...enhancedMovies, ...enhancedMovies] : [];
     }, [enhancedMovies]);
 
+    // Don't render anything if no movies provided
     if (!movies || movies.length === 0) return null;
 
     return (
         <section className="movies-section">
+            {/* Section header with title */}
             <div className="row-header">
                 <h2 className="section-title">{title}</h2>
             </div>
 
+            {/* Main carousel container with navigation buttons */}
             <div className="loop-wrapper">
+                {/* Left navigation button */}
                 <button
                     className="side-btn side-left"
-                    aria-label="Previous"
+                    aria-label="Previous movies"
                     onClick={() => scrollByCards(-1)}
                 >
                     ‹
                 </button>
 
+                {/* Scrolling container with movie cards */}
                 <div
                     className="loop-row no-manual-scroll"
                     ref={containerRef}
                     onScroll={handleScroll}
                 >
-                    {tripledEnhanced.map((movie, i) => (
+                    {/* Render each movie card */}
+                    {tripledEnhanced.map((movie, index) => (
                         <MovieDetail
                             movie={movie}
-                            key={`${movie.id}-${i}`}
+                            key={`${movie.id}-${index}`}
                             onMovieClick={onMovieClick}
                         />
                     ))}
                 </div>
 
+                {/* Right navigation button */}
                 <button
                     className="side-btn side-right"
-                    aria-label="Next"
+                    aria-label="Next movies"
                     onClick={() => scrollByCards(1)}
                 >
                     ›

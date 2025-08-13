@@ -1,19 +1,18 @@
+// MovieDetail.jsx
+// Dette komponent viser et enkelt film kort med poster, bedømmelse og favorit knap
 import React from 'react';
 import { useFavorites } from '../Context/FavoritesContext';
 import '../css/MovieDetail.css';
 
-// TMDB Rating Component (inline for simplicity)
+// TMDB bedømmelse komponent
 function TMDBRating({ rating, size = 48, className = "" }) {
-    // Convert rating to percentage (TMDB ratings are out of 10)
+    // Konverter bedømmelse til procent (TMDB bedømmelser er ud af 10)
     const percentage = rating ? Math.round(rating * 10) : 0;
 
-    // Don't render if no rating
+    // Vis intet hvis der ikke er nogen bedømmelse
     if (!rating || rating === 0) {
         return (
-            <div
-                className={`tmdb-score no-rating ${className}`}
-                style={{ '--size': `${size}px` }}
-            >
+            <div className="tmdb-score no-rating" style={{ '--size': `${size}px` }}>
                 NR
             </div>
         );
@@ -21,7 +20,7 @@ function TMDBRating({ rating, size = 48, className = "" }) {
 
     return (
         <div
-            className={`tmdb-score ${className}`}
+            className="tmdb-score"
             data-score={percentage}
             style={{
                 '--size': `${size}px`,
@@ -35,7 +34,7 @@ function TMDBRating({ rating, size = 48, className = "" }) {
     );
 }
 
-// Utility functions
+// Hjælpe funktioner til at formatere data
 function formatReleaseDate(dateString) {
     if (!dateString) return '';
     return new Date(dateString).getFullYear().toString();
@@ -46,9 +45,9 @@ function formatMovieRating(vote_average) {
     return parseFloat(vote_average);
 }
 
-// Helper functions to get correct properties for both movies and TV series
+// Hjælpe funktioner til at få korrekte egenskaber for både film og TV serier
 function getTitle(item) {
-    return item.title || item.name || item.displayTitle || 'No Title';
+    return item.title || item.name || item.displayTitle || 'Ingen Titel';
 }
 
 function getReleaseDate(item) {
@@ -56,25 +55,27 @@ function getReleaseDate(item) {
 }
 
 function getMediaType(item) {
-    // Check if it's a TV series
+    // Tjek om det er en TV serie
     if (item.name || item.first_air_date || item.number_of_seasons) {
         return 'tv';
     }
-    // Default to movie
+    // Standard til film
     return 'movie';
 }
 
 function MovieDetail({ movie, onMovieClick }) {
+    // Få favorit funktioner fra context
     const { isFavorite, toggleFavorite, isAuthenticated } = useFavorites();
     const isLiked = isFavorite(movie.id);
 
-    // Get the correct title and release date for both movies and TV series
+    // Få den korrekte titel og udgivelsesdato for både film og TV serier
     const title = getTitle(movie);
     const releaseDate = getReleaseDate(movie);
     const mediaType = getMediaType(movie);
 
+    // Håndter klik på film kortet
     const handleClick = (e) => {
-        // Prevent the heart button click from triggering movie details
+        // Forhindrer hjerte knap klik i at udløse film detaljer
         if (e.target.closest('.favorite-btn')) {
             return;
         }
@@ -84,25 +85,29 @@ function MovieDetail({ movie, onMovieClick }) {
         }
     };
 
+    // Håndter favorit knap klik
     const handleFavoriteClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
 
+        // Tjek om brugeren er logget ind
         if (!isAuthenticated) {
-            // You could show a toast notification here or redirect to login
-            alert('Please log in to add items to favorites!');
+            alert('Log venligst ind for at tilføje elementer til favoritter!');
             return;
         }
 
+        // Toggle favorit status
         const success = toggleFavorite(movie);
         if (!success) {
-            console.log('Failed to toggle favorite');
+            console.log('Kunne ikke skifte favorit');
         }
     };
 
     return (
         <div className="movie-detail" onClick={handleClick}>
+            {/* Poster billede container */}
             <div className="movie-poster-container">
+                {/* Film poster billede */}
                 <img
                     src={movie.poster_path
                         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -113,20 +118,20 @@ function MovieDetail({ movie, onMovieClick }) {
                     loading="lazy"
                 />
 
-                {/* Enhanced TMDB Rating - replaces old rating display */}
+                {/* TMDB bedømmelse cirkel */}
                 <TMDBRating
                     rating={formatMovieRating(movie.vote_average)}
                     size={48}
                 />
 
-                {/* Favorite Button */}
+                {/* Favorit hjerte knap */}
                 <button
                     className={`favorite-btn ${isLiked ? 'liked' : ''} ${!isAuthenticated ? 'disabled' : ''}`}
                     onClick={handleFavoriteClick}
-                    aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
+                    aria-label={isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
                     title={isAuthenticated
-                        ? (isLiked ? 'Remove from favorites' : 'Add to favorites')
-                        : 'Login to add to favorites'
+                        ? (isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter')
+                        : 'Log ind for at tilføje til favoritter'
                     }
                 >
                     <span className="heart-icon">
@@ -134,23 +139,29 @@ function MovieDetail({ movie, onMovieClick }) {
                     </span>
                 </button>
 
+                {/* Overlay med afspil knap der vises ved hover */}
                 <div className="movie-overlay">
-                    <button className="play-button" aria-label="View details">
+                    <button className="play-button" aria-label="Se detaljer">
                         <span>▶</span>
                     </button>
                 </div>
             </div>
 
+            {/* Film information sektion */}
             <div className="movie-info">
+                {/* Film titel */}
                 <h3 className="movie-title">{title}</h3>
-                {/* Clean year format without parentheses - works for both movies and TV series */}
+
+                {/* Udgivelsesår */}
                 <p className="movie-year">{formatReleaseDate(releaseDate)}</p>
+
+                {/* Genre information */}
                 <p className="movie-genre">
                     {movie.genre_names && movie.genre_names.length > 0 ?
                         movie.genre_names[0] :
                         movie.genres && movie.genres.length > 0 ?
                             movie.genres[0].name :
-                            'Genre not available'
+                            'Genre ikke tilgængelig'
                     }
                 </p>
             </div>

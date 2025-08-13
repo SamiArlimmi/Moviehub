@@ -28,10 +28,10 @@ function Movies() {
     const [searching, setSearching] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(null);
 
-    // Filter function to ensure only movies are included
+    // Filtrerer kun film (ikke TV serier)
     const filterMoviesOnly = (items) => items.filter(item => !item.first_air_date && item.title);
 
-    // Debounced search for movies only
+    // Søgning med debounce
     const debouncedSearch = useCallback(
         debounce(async (query) => {
             if (!query.trim()) {
@@ -52,7 +52,7 @@ function Movies() {
         []
     );
 
-    // Trigger search when query changes
+    // Trigger search når query ændres
     useEffect(() => {
         debouncedSearch(searchQuery);
         return () => debouncedSearch.cancel();
@@ -83,7 +83,7 @@ function Movies() {
                 setUpcomingMovies(filteredUpcoming);
                 setNowPlayingMovies(filteredNowPlaying);
 
-                // Set featured movie as the first popular or trending movie
+                // Sæt fremhævet film som den første populære eller trending film
                 setFeaturedMovie(filteredPopular?.[0] || filteredTrending?.[0] || null);
             } catch (err) {
                 console.error('Error fetching movies:', err);
@@ -122,7 +122,7 @@ function Movies() {
 
     return (
         <>
-            {/* Hero Section with Featured Movie */}
+            {/* Hero sektion med baggrundsbillede */}
             <section className="movies-hero" style={{ backgroundImage: `url(${heroImage})` }}>
                 <div className="movies-hero__overlay" />
                 <div className="movies-hero__content">
@@ -135,7 +135,7 @@ function Movies() {
                         From blockbusters to indie gems, find your next favorite film
                     </p>
 
-                    {/* Enhanced Search */}
+                    {/* Søgefunktion */}
                     <form className="movies-search" onSubmit={handleSubmit}>
                         <div className="search-wrapper">
                             <input
@@ -168,7 +168,7 @@ function Movies() {
                 </div>
             </section>
 
-            {/* Featured Movie Section - Only show if no search */}
+            {/* Fremhævet film sektion - kun vis hvis ikke søger */}
             {!searchQuery.trim() && featuredMovie && (
                 <section className="featured-section">
                     <FeaturedMovieSection
@@ -179,7 +179,7 @@ function Movies() {
                 </section>
             )}
 
-            {/* Main Content */}
+            {/* Hovedindhold */}
             <main className="movies-main">
                 <div className="movies-content">
                     {error && (
@@ -188,7 +188,7 @@ function Movies() {
                         </div>
                     )}
 
-                    {/* Search Results */}
+                    {/* Søgeresultater eller film sektioner */}
                     {searchQuery.trim() ? (
                         <div className="search-results-section">
                             {searching ? (
@@ -217,29 +217,29 @@ function Movies() {
                             )}
                         </div>
                     ) : (
-                        /* Movie Sections */
+                        /* Film sektioner */
                         <div className="movies-sections">
                             <section className="movies-section">
-                                <CarouselRow title="🔥 Trending Movies" movies={trendingMovies} onMovieClick={handleMovieClick} />
+                                <CarouselRow title="Trending Movies" movies={trendingMovies} onMovieClick={handleMovieClick} />
                             </section>
                             <section className="movies-section">
-                                <CarouselRow title="⭐ Popular Movies" movies={popularMovies} onMovieClick={handleMovieClick} />
+                                <CarouselRow title="Popular Movies" movies={popularMovies} onMovieClick={handleMovieClick} />
                             </section>
                             <section className="movies-section">
-                                <CarouselRow title="🏆 Top Rated Movies" movies={topRatedMovies} onMovieClick={handleMovieClick} />
+                                <CarouselRow title="Top Rated Movies" movies={topRatedMovies} onMovieClick={handleMovieClick} />
                             </section>
                             <section className="movies-section">
-                                <CarouselRow title="📅 Upcoming Movies" movies={upcomingMovies} onMovieClick={handleMovieClick} />
+                                <CarouselRow title="Upcoming Movies" movies={upcomingMovies} onMovieClick={handleMovieClick} />
                             </section>
                             <section className="movies-section">
-                                <CarouselRow title="🎬 Now Playing" movies={nowPlayingMovies} onMovieClick={handleMovieClick} />
+                                <CarouselRow title="Now Playing" movies={nowPlayingMovies} onMovieClick={handleMovieClick} />
                             </section>
                         </div>
                     )}
                 </div>
             </main>
 
-            {/* Movie Modal */}
+            {/* Film modal */}
             {selectedMovie && (
                 <MediaModal item={selectedMovie} mediaType="movie" onClose={closeModal} />
             )}

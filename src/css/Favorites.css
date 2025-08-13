@@ -1,5 +1,6 @@
-/* Favorites Page - Beautiful Modern Design with Enhanced Alignment */
+/* Favoritter Side - Moderne Design */
 
+/* Hoved container for favoritter siden */
 .favorites {
     min-height: 100vh;
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
@@ -7,13 +8,14 @@
     overflow-x: hidden;
 }
 
-/* Hero Section */
+/* Hero sektion øverst på siden */
 .favorites-hero {
     position: relative;
     padding: 3rem 0 5rem;
     overflow: hidden;
 }
 
+/* Baggrund animationer for hero sektion */
 .hero-background {
     position: absolute;
     top: 0;
@@ -27,6 +29,7 @@
     animation: backgroundShift 20s ease-in-out infinite;
 }
 
+/* Animation til baggrund bevægelse */
 @keyframes backgroundShift {
 
     0%,
@@ -47,6 +50,7 @@
     }
 }
 
+/* Container til hero indhold */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -55,7 +59,7 @@
     padding: 0 2rem;
 }
 
-/* Enhanced Hero Header with Perfect Alignment */
+/* Header sektion med bruger info */
 .hero-header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -64,12 +68,14 @@
     margin-bottom: 4rem;
 }
 
+/* Velkomst sektion med avatar */
 .user-welcome {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
 
+/* Bruger avatar styling */
 .user-avatar {
     width: 90px;
     height: 90px;
@@ -78,13 +84,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow:
-        0 15px 40px rgba(229, 9, 20, 0.4),
-        0 0 0 4px rgba(255, 255, 255, 0.15),
-        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.15);
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
 }
 
 .user-avatar img {
@@ -94,6 +96,7 @@
     border-radius: 50%;
 }
 
+/* Placeholder til avatar hvis ingen billede */
 .avatar-placeholder {
     color: white;
     font-size: 2.2rem;
@@ -101,16 +104,18 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
+/* Container til velkomst tekst */
 .welcome-text {
     flex: 1;
-    min-width: 0;
 }
 
+/* Hoved titel styling */
 .hero-title {
     margin: 0;
     line-height: 1.1;
 }
 
+/* Hilsen tekst */
 .greeting {
     display: block;
     font-size: 1.3rem;
@@ -120,6 +125,7 @@
     letter-spacing: 0.5px;
 }
 
+/* Samlings titel med gradient */
 .collection-title {
     display: block;
     font-size: 3rem;
@@ -128,10 +134,10 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: none;
     letter-spacing: -1px;
 }
 
+/* Undertitel tekst */
 .hero-subtitle {
     color: #aaa;
     font-size: 1.15rem;
@@ -140,16 +146,15 @@
     font-weight: 300;
 }
 
-/* Hero Actions - Better Alignment */
+/* Container til hero knapper */
 .hero-actions {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     align-items: flex-end;
-    justify-self: end;
 }
 
-/* Enhanced Buttons with Perfect Alignment */
+/* Basis knap styling */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -162,15 +167,15 @@
     text-decoration: none;
     border: none;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    white-space: nowrap;
     box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
     min-width: 180px;
     text-align: center;
 }
 
+/* Hover effekt til knapper */
 .btn::before {
     content: '';
     position: absolute;
@@ -186,21 +191,19 @@
     left: 100%;
 }
 
+/* Primær knap styling */
 .btn-primary {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%);
     color: white;
-    box-shadow:
-        0 10px 30px rgba(229, 9, 20, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow:
-        0 15px 40px rgba(229, 9, 20, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.5);
 }
 
+/* Sekundær knap styling */
 .btn-secondary {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
@@ -214,6 +217,7 @@
     transform: translateY(-3px);
 }
 
+/* Farlig knap styling (slet alle) */
 .btn-danger {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
     color: white;
@@ -224,11 +228,13 @@
     box-shadow: 0 10px 30px rgba(220, 53, 69, 0.4);
 }
 
+/* Bekræftelse styling til farlig knap */
 .btn-danger.confirm {
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
     animation: pulseWarning 1s ease-in-out infinite;
 }
 
+/* Pulserende advarsel animation */
 @keyframes pulseWarning {
 
     0%,
@@ -241,6 +247,7 @@
     }
 }
 
+/* Ikon styling i knapper */
 .btn-icon {
     font-size: 1.2rem;
     display: flex;
@@ -248,7 +255,7 @@
     justify-content: center;
 }
 
-/* Perfect Stats Dashboard Grid */
+/* Statistik dashboard grid */
 .stats-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -256,6 +263,7 @@
     margin-bottom: 3rem;
 }
 
+/* Individuelle statistik kort */
 .stat-card {
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px);
@@ -265,12 +273,13 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
     min-height: 100px;
 }
 
+/* Top linje til statistik kort hover */
 .stat-card::before {
     content: '';
     position: absolute;
@@ -294,6 +303,7 @@
     opacity: 1;
 }
 
+/* Ikon styling i statistik kort */
 .stat-icon {
     font-size: 2.5rem;
     padding: 1rem;
@@ -302,15 +312,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Statistik indhold container */
 .stat-content {
     flex: 1;
-    min-width: 0;
 }
 
+/* Statistik nummer */
 .stat-number {
     font-size: 2.2rem;
     font-weight: 900;
@@ -319,6 +329,7 @@
     margin-bottom: 0.5rem;
 }
 
+/* Statistik label */
 .stat-label {
     color: #bbb;
     font-size: 0.95rem;
@@ -327,6 +338,7 @@
     letter-spacing: 1px;
 }
 
+/* Seneste film titel styling */
 .recent-card .recent-movie {
     font-size: 1.1rem;
     font-weight: 700;
@@ -338,23 +350,24 @@
     text-overflow: ellipsis;
 }
 
-/* Content Section with Perfect Alignment */
+/* Hoved indhold sektion */
 .favorites-content {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem 5rem;
 }
 
+/* Header til indhold sektion */
 .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3rem;
     padding: 0 1rem;
-    flex-wrap: wrap;
     gap: 1.5rem;
 }
 
+/* Sektion titel styling */
 .section-title {
     display: flex;
     align-items: center;
@@ -365,17 +378,19 @@
     margin: 0;
 }
 
+/* Ikon i titel */
 .title-icon {
     font-size: 2rem;
 }
 
+/* Visnings muligheder container */
 .view-options {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
 }
 
+/* Film tæller styling */
 .movies-count {
     color: #ccc;
     font-size: 1rem;
@@ -386,6 +401,7 @@
     font-weight: 500;
 }
 
+/* Gennemsnit bedømmelse styling */
 .avg-rating {
     color: #ffd700;
     font-size: 1rem;
@@ -396,11 +412,12 @@
     font-weight: 600;
 }
 
-/* Perfect Movies Grid */
+/* Film container */
 .movies-container {
     position: relative;
 }
 
+/* Grid til film visning */
 .movies-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -411,6 +428,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Individuelle film elementer */
 .movie-item {
     animation: slideInUp 0.6s ease-out forwards;
     animation-delay: var(--delay);
@@ -418,6 +436,7 @@
     transform: translateY(30px);
 }
 
+/* Animation til film elementer */
 @keyframes slideInUp {
     to {
         opacity: 1;
@@ -425,7 +444,7 @@
     }
 }
 
-/* Empty States with Perfect Centering */
+/* Tom tilstand og login opfordring */
 .auth-prompt,
 .empty-state {
     text-align: center;
@@ -434,22 +453,25 @@
     margin: 0 auto;
 }
 
-/* Auth Icon Animation */
+/* Login ikon sektion */
 .auth-icon {
     margin-bottom: 3rem;
 }
 
+/* Lås container til animation */
 .lock-container {
     position: relative;
     display: inline-block;
 }
 
+/* Lås ikon */
 .lock-body {
     font-size: 5rem;
     position: relative;
     z-index: 2;
 }
 
+/* Glød effekt til lås */
 .lock-glow {
     position: absolute;
     top: 50%;
@@ -462,6 +484,7 @@
     animation: lockPulse 2s ease-in-out infinite;
 }
 
+/* Lås puls animation */
 @keyframes lockPulse {
 
     0%,
@@ -476,16 +499,18 @@
     }
 }
 
-/* Empty Animation */
+/* Tom tilstand animation */
 .empty-animation {
     margin-bottom: 3rem;
 }
 
+/* Hjerte container */
 .heart-container {
     position: relative;
     display: inline-block;
 }
 
+/* Hoved hjerte ikon */
 .heart-main {
     font-size: 5rem;
     position: relative;
@@ -493,6 +518,7 @@
     animation: heartBeat 1.5s ease-in-out infinite;
 }
 
+/* Hjerte slag animation */
 @keyframes heartBeat {
 
     0%,
@@ -505,6 +531,7 @@
     }
 }
 
+/* Hjerte puls effekt */
 .heart-pulse {
     position: absolute;
     top: 50%;
@@ -517,6 +544,7 @@
     animation: heartPulseExpand 2s ease-in-out infinite;
 }
 
+/* Hjerte puls ekspansion */
 @keyframes heartPulseExpand {
     0% {
         transform: translate(-50%, -50%) scale(0.8);
@@ -529,7 +557,7 @@
     }
 }
 
-/* Enhanced Titles */
+/* Hoved titler styling */
 .auth-title,
 .empty-title {
     font-size: 3rem;
@@ -543,6 +571,7 @@
     letter-spacing: -1px;
 }
 
+/* Undertitel styling */
 .auth-subtitle,
 .empty-subtitle {
     color: #bbb;
@@ -552,17 +581,16 @@
     font-weight: 300;
 }
 
-/* Perfect Action Buttons Layout */
+/* Handlingsknapper layout */
 .auth-actions,
 .empty-actions {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
     margin: 3rem 0;
-    flex-wrap: wrap;
 }
 
-/* Enhanced Feature Showcase */
+/* Feature showcase sektion */
 .feature-showcase {
     margin-top: 4rem;
     padding: 3rem;
@@ -579,12 +607,14 @@
     font-weight: 700;
 }
 
+/* Grid til features */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
+/* Individuelle feature kort */
 .feature-card {
     display: flex;
     align-items: center;
@@ -593,7 +623,7 @@
     background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
 }
 
 .feature-card:hover {
@@ -603,6 +633,7 @@
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
+/* Feature ikoner */
 .feature-icon {
     font-size: 2rem;
     padding: 1rem;
@@ -611,9 +642,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
 }
 
+/* Feature indhold tekst */
 .feature-content h4 {
     color: #fff;
     font-size: 1.1rem;
@@ -628,7 +659,7 @@
     line-height: 1.4;
 }
 
-/* Quick Actions Section */
+/* Hurtige handlinger sektion */
 .quick-actions {
     margin-top: 4rem;
     padding: 3rem 2rem;
@@ -645,12 +676,14 @@
     font-weight: 800;
 }
 
+/* Grid til handlings kort */
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
+/* Handlings kort styling */
 .action-card {
     display: flex;
     align-items: center;
@@ -659,7 +692,7 @@
     background: rgba(255, 255, 255, 0.06);
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
@@ -672,6 +705,7 @@
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
+/* Handlings ikoner */
 .action-icon {
     font-size: 2.5rem;
     padding: 1rem;
@@ -680,10 +714,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Handlings indhold */
 .action-content h4 {
     color: #fff;
     font-size: 1.2rem;
@@ -698,7 +732,7 @@
     line-height: 1.5;
 }
 
-/* Quick Tips Enhancement */
+/* Hurtige tips sektion */
 .quick-tips {
     margin-top: 3rem;
     padding: 2rem;
@@ -722,132 +756,8 @@
     line-height: 1.6;
 }
 
-/* Mobile Responsiveness - Enhanced */
-@media (max-width: 1200px) {
-
-    .hero-content,
-    .favorites-content {
-        max-width: 1000px;
-    }
-
-    .movies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-header {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        text-align: center;
-    }
-
-    .user-welcome {
-        flex-direction: column;
-        gap: 1.5rem;
-        text-align: center;
-    }
-
-    .hero-actions {
-        align-items: center;
-        justify-self: center;
-    }
-
-    .collection-title {
-        font-size: 2.5rem;
-    }
-
-    .stats-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-    }
-
-    .movies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1.5rem;
-        padding: 1.5rem;
-    }
-
-    .auth-actions,
-    .empty-actions {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .features-grid,
-    .actions-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .content-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .favorites-content {
-        padding: 0 1rem 3rem;
-    }
-
-    .hero-content {
-        padding: 0 1rem;
-    }
-
-    .auth-title,
-    .empty-title {
-        font-size: 2.2rem;
-    }
-
-    .stats-dashboard {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .movies-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding: 1rem;
-    }
-
-    .feature-card,
-    .action-card {
-        padding: 1.5rem;
-    }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* Focus Styles */
+/* Focus styling til tilgængelighed */
 .btn:focus {
     outline: 3px solid #007bff;
     outline-offset: 3px;
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-
-    .stat-card,
-    .feature-card,
-    .action-card {
-        border-width: 2px;
-    }
-
-    .btn {
-        border: 2px solid currentColor;
-    }
 }

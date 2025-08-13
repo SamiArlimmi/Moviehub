@@ -1,110 +1,89 @@
-/* Wrapper to position side buttons */
+/* CarouselRow.css - Styling for the movie carousel component */
+
+/* Main wrapper container that positions the navigation buttons */
 .loop-wrapper {
     position: relative;
     padding: 0 90px;
-    /* space for side buttons */
+    /* Space reserved for left and right navigation buttons */
 }
 
-/* Row with hidden overflow: no manual scroll possible */
+/* The actual scrolling row container */
 .loop-row {
     --gap: 16px;
+    /* CSS variable for spacing between movie cards */
     display: flex;
     gap: var(--gap);
     overflow: hidden;
-    /* <— key: hide/disable manual scroll */
+    /* Hide scrollbars - users navigate with buttons only */
     padding: 0.5rem 0 1rem;
     scroll-snap-type: x proximity;
+    /* Smooth snapping when scrolling programmatically */
 }
 
-/* Keep for programmatic snapping feel on buttons */
+/* Individual movie card styling within the carousel */
 .loop-row>.movie-detail {
     flex: 0 0 auto;
+    /* Don't grow or shrink, maintain natural size */
     width: 200px;
+    /* Fixed width for each movie card */
     scroll-snap-align: start;
+    /* Snap to start of each card when scrolling */
 }
 
-/* Header */
+/* Header section containing the carousel title */
 .row-header {
     display: flex;
     align-items: center;
     margin-left: 85px;
+    /* Align with carousel content (accounting for button space) */
     justify-content: space-between;
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-/* Side buttons - completely static with !important overrides */
+/* Navigation buttons styling */
 .side-btn {
-    position: absolute !important;
-    top: 40% !important;
-    transform: translateY(-50%) !important;
-    border: none !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50% !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-    margin: 25px !important;
-    color: white !important;
-    font-size: 20px !important;
-    cursor: pointer !important;
-    transition: opacity 0.2s ease !important;
-    outline: none !important;
-    box-shadow: none !important;
-    /* Prevent any browser defaults */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    z-index: 10 !important;
+    position: absolute;
+    top: 40%;
+    /* Position vertically in middle of carousel */
+    transform: translateY(-50%);
+    /* Perfect vertical centering */
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* Make buttons circular */
+    background: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent black background */
+    margin: 25px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    outline: none;
+    box-shadow: none;
+    z-index: 10;
+    /* Ensure buttons appear above movie cards */
 }
 
-/* Left button positioning - always stays left */
+/* Left navigation button positioning */
 .side-left {
-    left: 0 !important;
-    right: auto !important;
+    left: 0;
 }
 
-/* Right button positioning - always stays right */
+/* Right navigation button positioning */
 .side-right {
-    right: 0 !important;
-    left: auto !important;
+    right: 0;
 }
 
-/* All interactive states - only opacity changes with !important */
+/* Button hover effects */
 .side-btn:hover,
-.side-btn:focus,
-.side-btn:active,
-.side-btn:focus-visible {
-    opacity: 0.7 !important;
-    transform: translateY(-50%) !important;
-    /* Lock the transform */
-    outline: none !important;
-    box-shadow: none !important;
-    background: rgba(0, 0, 0, 0.6) !important;
-    /* Keep same background */
-    border: none !important;
-    top: 40% !important;
-    /* Remove the problematic left: 0 !important; line */
+.side-btn:focus {
+    opacity: 0.7;
+    /* Slightly fade on hover/focus for visual feedback */
 }
 
-/* Ensure left button stays left even on hover/focus/active */
-.side-left:hover,
-.side-left:focus,
-.side-left:active,
-.side-left:focus-visible {
-    left: 0 !important;
-    right: auto !important;
-}
-
-/* Ensure right button stays right even on hover/focus/active */
-.side-right:hover,
-.side-right:focus,
-.side-right:active,
-.side-right:focus-visible {
-    right: 0 !important;
-    left: auto !important;
-}
-
-/* Optional: hide any scrollbar artifacts across browsers if they appear */
+/* Hide scrollbars completely across different browsers */
 .no-manual-scroll {
     scrollbar-width: none;
     /* Firefox */
@@ -112,17 +91,10 @@
 
 .no-manual-scroll::-webkit-scrollbar {
     display: none;
-    /* WebKit */
+    /* Chrome, Safari, Edge */
 }
 
-/* Prevent any browser-specific button styling */
+/* Remove default button styling that browsers might add */
 .side-btn::-moz-focus-inner {
     border: 0;
-}
-
-.side-btn::-webkit-search-decoration,
-.side-btn::-webkit-search-cancel-button,
-.side-btn::-webkit-search-results-button,
-.side-btn::-webkit-search-results-decoration {
-    display: none;
 }
