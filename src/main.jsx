@@ -1,5 +1,3 @@
-// filen starter React app og connects den til HTML
-
 // Import React's StrictMode for at finde fejl i koden
 import { StrictMode } from "react"
 

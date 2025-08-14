@@ -1,7 +1,3 @@
-// services/api.js
-// Dette fil håndterer alle API kald til The Movie Database (TMDB)
-// Indeholder funktioner til at hente film og TV serie data
-
 // TMDB API konfiguration
 const API_KEY = "294893ac57e719030f84e82bdc7d692b"
 const BASE_URL = "https://api.themoviedb.org/3"
@@ -79,7 +75,7 @@ const enhanceWithGenres = (items, mediaType = 'movie') => {
     });
 };
 
-// ============ FILM FUNKTIONER ============
+// FILM FUNKTIONER
 
 // Hent populære film
 export const getPopularMovies = async () => {
@@ -259,7 +255,7 @@ export const getNowPlayingMovies = async () => {
     }
 }
 
-// ============ TV SERIE FUNKTIONER ============
+//  TV SERIE FUNKTIONER 
 
 // Hent populære TV serier
 export const getPopularSeries = async () => {

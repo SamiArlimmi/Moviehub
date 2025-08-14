@@ -20,50 +20,51 @@ import Profile from './Pages/Profile.jsx';
 import Settings from './Pages/Settings.jsx';
 import NotFound from './Components/NotFound.jsx';
 
-// Import context providers til at dele data mellem components
+// Importer context-udbydere for at dele data mellem komponenter
 import { FavoritesProvider } from './Context/FavoritesContext.jsx';
 import { AuthProvider } from './Context/AuthContext.jsx';
 
-// Main App function - This is the root component of our application
+// Main App-funktion – Dette er rodkomponenten i vores applikation
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        {/* FavoritesProvider wraps everything to manage favorite movies */}
+        {/* FavoritesProvider wrapper hele appen for at styre favoritfilm"*/}
         <FavoritesProvider>
           {/* Main app container div */}
           <div className="app">
 
-            {/* Navigation bar - shows on every page */}
+            {/* Navigation bar - vises på hver side*/}
             <NavBar />
 
-            {/* Main content area where different pages will be displayed */}
+            {/* Hovedindholdsområdet, hvor de forskellige sider renderes */}
             <main className="main-content">
 
-              {/* Routes define which component shows for each URL */}
+              {/* Routes bestemmer, hvilken komponent der renderes for hver URL */}
               <Routes>
-                {/* Home page - shows when user visits "/" */}
+                {/* Home-page vises, når brugeren går til "/" */}
                 <Route path="/" element={<Home />} />
 
-                {/* Movies page - shows all movies */}
+                {/* Movies page - viser alle film */}
                 <Route path="/movies" element={<Movies />} />
 
-                {/* TV Series page - shows all series */}
+                {/* TV Series page - viser alle serier */}
                 <Route path="/series" element={<Series />} />
 
-                {/* Search page - where users can search for movies */}
+                {/* Search page - hvor bruger can søge efter film/series*/}
                 <Route path="/search" element={<Search />} />
 
+                {/* Settings page - hvor brugeren kan ændre indstillinger */}
                 <Route path="/settings" element={<Settings />} />
 
-                {/* Favorites page - shows user's favorite movies */}
+                {/* Favorites page - viser brugerens favoritfilm */}
                 <Route path="/favorites" element={<Favorites />} />
 
-                {/* Profile page - shows user information */}
+                {/* Profile page - viser brugerens profiloplysninger */}
                 <Route path="/profile" element={<Profile />} />
 
-                {/* Login page - where users sign in */}
+                {/* Login page - for brugere, der ikke er logget ind */}
                 <Route path="/login" element={<Login />} />
 
                 <Route path="/notfound" element={<NotFound />} />
