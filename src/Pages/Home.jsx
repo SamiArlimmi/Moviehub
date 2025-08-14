@@ -7,6 +7,10 @@ import FeaturedMovieSection from "../Components/FeaturedMovieSection";
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
+// Simple cache for recent searches (max 10 entries)
+const searchCache = new Map()
+const MAX_CACHE_SIZE = 10
+
 function Home() {
     // State til at gemme forskellige film lister
     const [popularMovies, setPopularMovies] = useState([]); // Array af populære film
@@ -29,14 +33,32 @@ function Home() {
             // Return tidligt hvis tom søgning
             if (!query.trim()) {
                 setSearchResults([]);
+                setSearching(false);
                 return;
             }
 
+            const cacheKey = query.toLowerCase().trim()
+
+            // Check cache first
+            if (searchCache.has(cacheKey)) {
+                const cachedResults = searchCache.get(cacheKey)
+                setSearchResults(cachedResults)
+                setSearching(false)
+                return
+            }
+
             try {
-                setSearching(true);
                 // Kald API for at søge efter film
                 const results = await searchMovies(query);
                 setSearchResults(results);
+
+                // Cache the results
+                if (searchCache.size >= MAX_CACHE_SIZE) {
+                    const firstKey = searchCache.keys().next().value
+                    searchCache.delete(firstKey)
+                }
+                searchCache.set(cacheKey, results)
+
             } catch (err) {
                 console.error("Search error:", err);
             } finally {
@@ -81,6 +103,19 @@ function Home() {
         loadMovies();
     }, []); // Tom dependency array - kør kun én gang
 
+    // Handle input changes with instant loading feedback
+    const handleInputChange = (e) => {
+        const value = e.target.value
+        setSearchQuery(value)
+
+        // Instant feedback: show loading immediately if there's a query
+        if (value.trim()) {
+            setSearching(true)
+        }
+
+        debouncedSearch(value)
+    }
+
     // Start søgning når søge query ændres
     useEffect(() => {
         debouncedSearch(searchQuery);
@@ -93,6 +128,7 @@ function Home() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
+            setSearching(true);
             debouncedSearch(searchQuery);
         }
     };
@@ -156,7 +192,7 @@ function Home() {
                             className="hero-search__input"
                             placeholder="Search movies, genres, people…"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleInputChange}
                         />
                         <button type="submit" className="hero-search__button">Search</button>
                     </form>

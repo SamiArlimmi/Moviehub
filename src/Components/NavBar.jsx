@@ -54,7 +54,7 @@ function NavBar() {
 
     return (
         <AppBar position="static" className="navbar">
-            <Toolbar>
+            <Toolbar className="navbar-toolbar">
                 {/* Website Logo/Brand */}
                 <Typography
                     variant="h6"
@@ -66,7 +66,7 @@ function NavBar() {
                 </Typography>
 
                 {/* Main Navigation Buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <div className="nav-buttons-container">
                     {navLinks.map((link) => (
                         <Button
                             key={link.path}
@@ -90,11 +90,17 @@ function NavBar() {
                         </Typography>
 
                         {/* User avatar button that opens dropdown menu */}
-                        <IconButton onClick={handleMenuOpen} className="avatar-button">
-                            <Avatar className="user-avatar">
-                                {getAvatarText(user)}
-                            </Avatar>
-                        </IconButton>
+                        <div className="avatar-wrapper">
+                            <IconButton
+                                onClick={handleMenuOpen}
+                                className="avatar-button"
+                                size="small"
+                            >
+                                <Avatar className="user-avatar">
+                                    {getAvatarText(user)}
+                                </Avatar>
+                            </IconButton>
+                        </div>
 
                         {/* Dropdown menu for user options */}
                         <Menu
@@ -104,6 +110,11 @@ function NavBar() {
                             onClose={handleMenuClose}
                             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            slotProps={{
+                                paper: {
+                                    className: 'user-menu-paper'
+                                }
+                            }}
                         >
                             {/* Profile menu item */}
                             <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
@@ -111,7 +122,7 @@ function NavBar() {
                             </MenuItem>
 
                             {/* Settings menu item */}
-                            <MenuItem onClick={handleMenuClose}>
+                            <MenuItem onClick={handleMenuClose} component={Link} to="/settings">
                                 ⚙️ Settings
                             </MenuItem>
 

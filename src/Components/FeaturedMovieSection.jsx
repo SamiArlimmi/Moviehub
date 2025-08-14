@@ -21,9 +21,20 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : 'https://via.placeholder.com/300x450/666/fff?text=No+Poster';
 
-  // Extract year and rating
-  const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'TBA';
+  // Handle both movies and TV series - FIXED
+  const title = movie.title || movie.name || 'Unknown Title';
+  const releaseDate = movie.release_date || movie.first_air_date;
+  const releaseYear = releaseDate ? new Date(releaseDate).getFullYear() : 'TBA';
   const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+
+  // Determine if it's a TV series or movie
+  const isTV = movie.name || movie.first_air_date;
+  const mediaType = isTV ? 'Series' : 'Movie';
+
+  // Handle runtime for TV series (use episode_run_time or default)
+  const runtime = movie.runtime ||
+    (movie.episode_run_time && movie.episode_run_time[0]) ||
+    (isTV ? '45' : '120');
 
   return (
     <section className="featured-movie">
@@ -31,7 +42,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
       <div className="featured-movie__backdrop">
         <img
           src={backdropUrl}
-          alt={movie.title || 'Featured Movie'}
+          alt={title}
           className="featured-movie__backdrop-image"
           onError={(e) => {
             e.target.src = 'https://via.placeholder.com/1280x720/333/fff?text=Backdrop+Error';
@@ -47,7 +58,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
         <div className="featured-movie__poster">
           <img
             src={posterUrl}
-            alt={movie.title || 'Movie Poster'}
+            alt={`${title} Poster`}
             className="featured-movie__poster-image"
             onError={(e) => {
               e.target.src = 'https://via.placeholder.com/300x450/666/fff?text=Poster+Error';
@@ -59,12 +70,12 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
         <div className="featured-movie__info">
           {/* Featured movie badge */}
           <div className="featured-movie__badge">
-            Fremhævet Film
+            Featured {mediaType}
           </div>
 
           {/* Movie title */}
           <h2 className="featured-movie__title">
-            {movie.title || 'Unknown Title'}
+            {title}
           </h2>
 
           {/* Movie metadata */}
@@ -79,7 +90,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
             </div>
             <div className="featured-movie__meta-item">
               <Clock size={16} className="featured-movie__meta-icon" />
-              <span>{movie.runtime || '120'} min</span>
+              <span>{runtime} {isTV ? 'mins/ep' : 'mins'}</span>
             </div>
           </div>
 
@@ -90,7 +101,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
                 movie.overview.substring(0, 200) + '...' :
                 movie.overview
               ) :
-              'En spændende biografoplevelse venter dig med denne fremhævede film.'
+              `An exciting ${mediaType.toLowerCase()} experience awaits you with this featured ${mediaType.toLowerCase()}.`
             }
           </p>
 

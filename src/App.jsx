@@ -18,6 +18,7 @@ import Movies from './Pages/Movies.jsx';
 import Series from './Pages/Series.jsx';
 import Profile from './Pages/Profile.jsx';
 import Settings from './Pages/Settings.jsx';
+import NotFound from './Components/NotFound.jsx';
 
 // Import context providers til at dele data mellem components
 import { FavoritesProvider } from './Context/FavoritesContext.jsx';
@@ -64,6 +65,8 @@ function App() {
 
                 {/* Login page - where users sign in */}
                 <Route path="/login" element={<Login />} />
+
+                <Route path="/notfound" element={<NotFound />} />
               </Routes>
 
             </main>

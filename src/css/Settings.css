@@ -1,4 +1,4 @@
-/* css/Settings.css */
+/* Settings.css - Clean and Modern */
 .settings-container {
     min-height: 100vh;
     padding: 2rem;
@@ -8,41 +8,88 @@
     align-items: flex-start;
 }
 
-.settings-wrapper {
+.settings-card {
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
-}
-
-.settings-card {
-    border-radius: 20px !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+    background: white !important;
     overflow: visible !important;
 }
 
+/* Header */
 .settings-header {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.back-btn {
+    color: #667eea !important;
 }
 
 .settings-title {
-    font-weight: 700 !important;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.section-title {
     font-weight: 600 !important;
-    color: #333 !important;
-    margin-bottom: 1rem !important;
+    color: #2d3748 !important;
+    margin: 0 !important;
 }
 
+/* Profile Section */
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 12px;
+}
+
+.profile-avatar {
+    width: 64px !important;
+    height: 64px !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+}
+
+.profile-text {
+    flex: 1;
+}
+
+.profile-name {
+    font-weight: 600 !important;
+    color: #2d3748 !important;
+    margin: 0 !important;
+}
+
+.profile-email {
+    color: #718096 !important;
+    margin: 0 !important;
+}
+
+.change-photo-btn {
+    background: white !important;
+    color: #667eea !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.change-photo-btn:hover {
+    background: #f7fafc !important;
+    border-color: #667eea !important;
+}
+
+/* Section Headers */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -50,121 +97,105 @@
     margin-bottom: 1.5rem;
 }
 
-/* Profile Picture Section */
-.profile-picture-section {
-    margin-bottom: 2rem;
-}
-
-.avatar-section {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.settings-avatar {
-    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3) !important;
-    border: 3px solid rgba(255, 255, 255, 0.8) !important;
-}
-
-/* Personal Information Section */
-.personal-info-section {
-    margin-bottom: 2rem;
-}
-
-.form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    justify-content: flex-start;
-}
-
-/* Security Section */
-.security-section {
-    margin-bottom: 2rem;
-}
-
-/* Preferences Section */
-.preferences-section {
-    margin-bottom: 1rem;
-}
-
-.preferences-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.preferences-list .MuiFormControlLabel-root {
-    margin: 0 !important;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.preferences-list .MuiFormControlLabel-root:last-child {
-    border-bottom: none;
-}
-
-/* Custom TextField Styling */
-.settings-container .MuiTextField-root {
-    border-radius: 12px;
-}
-
-.settings-container .MuiOutlinedInput-root {
-    border-radius: 12px !important;
-    background: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}
-
-.settings-container .MuiOutlinedInput-root:hover {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.settings-container .MuiOutlinedInput-root.Mui-focused {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
-}
-
-/* Button Styling */
-.settings-container .MuiButton-contained {
-    border-radius: 25px !important;
-    padding: 0.8rem 2rem !important;
+.section-title {
     font-weight: 600 !important;
+    color: #2d3748 !important;
+    margin: 0 !important;
+}
+
+.edit-btn {
+    color: #667eea !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 0.4rem 1rem !important;
+    font-weight: 500 !important;
     text-transform: none !important;
-    transition: all 0.3s ease !important;
+    min-width: auto !important;
 }
 
-.settings-container .MuiButton-contained:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+.edit-btn:hover {
+    background: #f7fafc !important;
+    border-color: #667eea !important;
 }
 
-.settings-container .MuiButton-outlined {
-    border-radius: 25px !important;
+/* Form Sections */
+.info-section,
+.security-section,
+.preferences-section {
+    margin-bottom: 2rem;
+}
+
+.action-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border-radius: 8px !important;
     padding: 0.6rem 1.5rem !important;
     font-weight: 500 !important;
     text-transform: none !important;
-    border-width: 2px !important;
 }
 
-/* Alert Styling */
-.settings-container .MuiAlert-root {
-    border-radius: 12px !important;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.save-btn:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
 }
 
-/* Dialog Styling */
-.MuiDialog-paper {
-    border-radius: 20px !important;
-    padding: 1rem !important;
+.password-btn {
+    color: #667eea !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.5rem !important;
+    font-weight: 500 !important;
+    text-transform: none !important;
+}
+
+.password-btn:hover {
+    background: #f7fafc !important;
+    border-color: #667eea !important;
+}
+
+/* Preferences */
+.preference-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.preference-list .MuiFormControlLabel-root {
+    margin: 0 !important;
+    padding: 0.75rem 0 !important;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.preference-list .MuiFormControlLabel-root:last-child {
+    border-bottom: none;
+}
+
+/* Form Fields */
+.settings-container .MuiTextField-root .MuiOutlinedInput-root {
+    border-radius: 8px !important;
+    background: #f7fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.settings-container .MuiTextField-root .MuiOutlinedInput-root:hover {
+    background: white !important;
+    border-color: #cbd5e0 !important;
+}
+
+.settings-container .MuiTextField-root .MuiOutlinedInput-root.Mui-focused {
+    background: white !important;
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+.settings-container .MuiTextField-root .MuiOutlinedInput-root.Mui-disabled {
+    background: #f7fafc !important;
+    color: #a0aec0 !important;
 }
 
 /* Switch Styling */
@@ -176,20 +207,37 @@
     background-color: #667eea !important;
 }
 
+/* Dividers */
+.section-divider {
+    margin: 2rem 0 !important;
+    border-color: #e2e8f0 !important;
+}
+
+/* Dialog */
+.MuiDialog-paper {
+    border-radius: 12px !important;
+}
+
+.MuiDialogTitle-root {
+    font-weight: 600 !important;
+    color: #2d3748 !important;
+}
+
+.MuiDialogActions-root .MuiButton-contained {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 6px !important;
+    text-transform: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .settings-container {
         padding: 1rem;
     }
 
-    .settings-wrapper {
-        max-width: 100%;
-    }
-
-    .settings-header {
+    .profile-info {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        text-align: center;
     }
 
     .section-header {
@@ -198,43 +246,25 @@
         gap: 1rem;
     }
 
-    .avatar-section {
+    .action-buttons {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1rem;
     }
 
-    .form-actions {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .form-actions .MuiButton-root {
+    .save-btn {
         width: 100%;
     }
 }
 
-/* Animation for smooth transitions */
-.settings-card * {
-    transition: all 0.3s ease;
-}
+@media (max-width: 480px) {
+    .settings-container {
+        padding: 0.5rem;
+    }
 
-/* Custom scrollbar for long content */
-.settings-container::-webkit-scrollbar {
-    width: 8px;
-}
+    .settings-card {
+        border-radius: 12px !important;
+    }
 
-.settings-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-
-.settings-container::-webkit-scrollbar-thumb {
-    background: rgba(102, 126, 234, 0.3);
-    border-radius: 4px;
-}
-
-.settings-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(102, 126, 234, 0.5);
+    .profile-info {
+        padding: 1rem;
+    }
 }

@@ -1,428 +1,438 @@
-// Components/Settings.jsx
 import React, { useState, useEffect } from 'react';
 import {
-    Card,
-    CardContent,
+    Box,
     Typography,
     TextField,
     Button,
-    Box,
-    Divider,
-    IconButton,
     Avatar,
-    Alert,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
     Switch,
-    FormControlLabel
+    Dialog,
+    DialogContent,
+    Snackbar,
+    Alert,
+    IconButton,
+    Card,
+    CardContent,
+    Divider
 } from '@mui/material';
-import { ArrowBack, PhotoCamera, Save, Cancel } from '@mui/icons-material';
+import { ArrowBack, Edit, Camera, Lock, Save, Close, Settings as SettingsIcon } from '@mui/icons-material';
 import { useAuth } from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import '../css/Settings.css';
 
 function Settings() {
     const { user, updateUser } = useAuth();
     const navigate = useNavigate();
 
-    // Form state
-    const [formData, setFormData] = useState({
+    const [profile, setProfile] = useState({
         name: '',
         email: '',
-        bio: '',
-        password: '',
-        confirmPassword: ''
+        bio: ''
     });
 
-    // UI state
+    const [preferences, setPreferences] = useState({});
+
     const [isEditing, setIsEditing] = useState(false);
     const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+    const [passwordData, setPasswordData] = useState({ new: '', confirm: '' });
     const [alert, setAlert] = useState({ show: false, type: 'success', message: '' });
-    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
-    // Preferences state
-    const [preferences, setPreferences] = useState({
-        emailNotifications: true,
-        darkMode: false,
-        autoplay: true
-    });
-
-    // Initialize form data when user changes
     useEffect(() => {
         if (user) {
-            setFormData({
+            setProfile({
                 name: user.name || '',
                 email: user.email || '',
-                bio: user.bio || '',
-                password: '',
-                confirmPassword: ''
+                bio: user.bio || ''
             });
+            if (user.preferences) {
+                setPreferences(prev => ({ ...prev, ...user.preferences }));
+            }
         }
     }, [user]);
 
-    // Generate avatar text
-    const getAvatarText = (user) => {
-        if (!user) return 'U';
-        if (user.name) return user.name.charAt(0).toUpperCase();
-        if (user.email) return user.email.charAt(0).toUpperCase();
+    const handleSave = async () => {
+        if (!profile.name.trim() || !profile.email.trim()) {
+            showAlert('error', 'Name and email are required');
+            return;
+        }
+        setLoading(true);
+        try {
+            await updateUser({ ...profile, preferences });
+            setIsEditing(false);
+            showAlert('success', 'Profile updated successfully!');
+        } catch (error) {
+            showAlert('error', 'Update failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handlePasswordChange = async () => {
+        if (passwordData.new !== passwordData.confirm) {
+            showAlert('error', 'Passwords do not match');
+            return;
+        }
+        setLoading(true);
+        try {
+            await updateUser({ password: passwordData.new });
+            setShowPasswordDialog(false);
+            setPasswordData({ new: '', confirm: '' });
+            showAlert('success', 'Password updated successfully!');
+        } catch (error) {
+            showAlert('error', 'Password update failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const showAlert = (type, message) => {
+        setAlert({ show: true, type, message });
+    };
+
+    const getInitials = (name, email) => {
+        if (name) return name.charAt(0).toUpperCase();
+        if (email) return email.charAt(0).toUpperCase();
         return 'U';
     };
 
-    // Handle input changes
-    const handleInputChange = (field) => (event) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: event.target.value
-        }));
-        // Clear error for this field when user starts typing
-        if (errors[field]) {
-            setErrors(prev => ({
-                ...prev,
-                [field]: ''
-            }));
+    // Styles matching Profile theme
+    const containerStyle = {
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%)',
+        padding: '2rem 1rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    };
+
+    const cardStyle = {
+        background: 'rgba(26, 26, 46, 0.95)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: '20px',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+        color: 'white',
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        maxWidth: '800px',
+        width: '100%',
+        '&:hover': {
+            transform: 'translateY(-5px)',
+            boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4)'
         }
     };
 
-    // Handle preference changes
-    const handlePreferenceChange = (field) => (event) => {
-        setPreferences(prev => ({
-            ...prev,
-            [field]: event.target.checked
-        }));
+    const headerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1rem',
+        marginBottom: '2rem',
+        position: 'relative'
     };
 
-    // Validate form
-    const validateForm = () => {
-        const newErrors = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = 'Name is required';
-        }
-
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email format is invalid';
-        }
-
-        if (formData.password && formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
-        }
-
-        if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Passwords do not match';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+    const titleStyle = {
+        color: 'white',
+        fontWeight: 700,
+        background: 'linear-gradient(135deg, #e50914 0%, #f40612 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text'
     };
 
-    // Handle save
-    const handleSave = async () => {
-        if (!validateForm()) {
-            showAlert('error', 'Please fix the errors below');
-            return;
+    const profileSectionStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '1.5rem',
+        padding: '1.5rem',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '15px',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        marginBottom: '2rem',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+            background: 'rgba(255, 255, 255, 0.1)',
+            transform: 'translateY(-3px)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)'
         }
+    };
 
-        try {
-            // Prepare update data (exclude password fields if empty)
-            const updateData = {
-                name: formData.name,
-                email: formData.email,
-                bio: formData.bio,
-                preferences: preferences
-            };
+    const avatarStyle = {
+        width: 80,
+        height: 80,
+        background: 'linear-gradient(135deg, #e50914 0%, #f40612 100%)',
+        fontSize: '2rem',
+        fontWeight: 600,
+        color: 'white'
+    };
 
-            if (formData.password) {
-                updateData.password = formData.password;
+    const sectionStyle = {
+        marginBottom: '2rem'
+    };
+
+    const sectionHeaderStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '1.5rem'
+    };
+
+    const sectionTitleStyle = {
+        color: 'white',
+        fontWeight: 600
+    };
+
+    const buttonStyle = {
+        borderRadius: '10px',
+        textTransform: 'none',
+        fontWeight: 500,
+        padding: '0.75rem 1.5rem',
+        transition: 'all 0.3s ease'
+    };
+
+    const primaryButtonStyle = {
+        ...buttonStyle,
+        background: 'linear-gradient(135deg, #e50914 0%, #f40612 100%)',
+        color: 'white',
+        '&:hover': {
+            background: 'linear-gradient(135deg, #f40612 0%, #e50914 100%)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 8px 25px rgba(229, 9, 20, 0.4)'
+        }
+    };
+
+    const secondaryButtonStyle = {
+        ...buttonStyle,
+        background: 'rgba(255, 255, 255, 0.1)',
+        color: 'white',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        '&:hover': {
+            background: 'rgba(255, 255, 255, 0.2)',
+            transform: 'scale(1.05)'
+        }
+    };
+
+    const fieldStyle = {
+        marginBottom: '1rem',
+        '& .MuiOutlinedInput-root': {
+            color: 'white',
+            borderRadius: '10px',
+            background: isEditing ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)',
+            '& fieldset': {
+                borderColor: 'rgba(255, 255, 255, 0.3)'
+            },
+            '&:hover fieldset': {
+                borderColor: 'rgba(255, 255, 255, 0.5)'
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#e50914'
             }
-
-            // Call updateUser function from AuthContext
-            await updateUser(updateData);
-
-            setIsEditing(false);
-            setFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
-            showAlert('success', 'Profile updated successfully!');
-        } catch (error) {
-            showAlert('error', error.message || 'Failed to update profile');
+        },
+        '& .MuiInputLabel-root': {
+            color: 'rgba(255, 255, 255, 0.7)',
+            '&.Mui-focused': {
+                color: '#e50914'
+            }
         }
     };
 
-    // Handle cancel
-    const handleCancel = () => {
-        setFormData({
-            name: user?.name || '',
-            email: user?.email || '',
-            bio: user?.bio || '',
-            password: '',
-            confirmPassword: ''
-        });
-        setIsEditing(false);
-        setErrors({});
-    };
-
-    // Show alert
-    const showAlert = (type, message) => {
-        setAlert({ show: true, type, message });
-        setTimeout(() => setAlert({ show: false, type: '', message: '' }), 5000);
-    };
-
-    // Handle password change
-    const handleChangePassword = () => {
-        setShowPasswordDialog(true);
-        setFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
+    const preferenceItemStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '1rem',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '10px',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        marginBottom: '0.75rem',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+            background: 'rgba(255, 255, 255, 0.1)',
+            transform: 'translateX(5px)'
+        }
     };
 
     return (
-        <div className="settings-container">
-            <div className="settings-wrapper">
-                {/* Alert */}
-                {alert.show && (
-                    <Alert
-                        severity={alert.type}
-                        onClose={() => setAlert({ show: false, type: '', message: '' })}
-                        sx={{ mb: 2 }}
-                    >
-                        {alert.message}
-                    </Alert>
-                )}
+        <Box sx={containerStyle}>
+            <Snackbar
+                open={alert.show}
+                autoHideDuration={4000}
+                onClose={() => setAlert({ show: false, type: '', message: '' })}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert severity={alert.type} variant="filled">
+                    {alert.message}
+                </Alert>
+            </Snackbar>
 
-                <Card className="settings-card">
-                    <CardContent>
-                        {/* Header */}
-                        <Box className="settings-header">
-                            <IconButton
-                                onClick={() => navigate('/profile')}
-                                sx={{ mr: 2 }}
-                            >
-                                <ArrowBack />
-                            </IconButton>
-                            <Typography variant="h4" className="settings-title">
-                                Account Settings
+            <Card sx={cardStyle}>
+                <CardContent sx={{ padding: '2rem' }}>
+                    {/* Header */}
+                    <Box sx={headerStyle}>
+                        <IconButton
+                            onClick={() => navigate('/profile')}
+                            sx={secondaryButtonStyle}
+                        >
+                            <ArrowBack />
+                        </IconButton>
+                        <Typography variant="h4" sx={titleStyle}>
+                            Account Settings
+                        </Typography>
+                        <SettingsIcon sx={{ color: '#e50914', ml: 'auto' }} />
+                    </Box>
+
+                    {/* Profile Section */}
+                    <Box sx={profileSectionStyle}>
+                        <Avatar sx={avatarStyle}>
+                            {getInitials(profile.name, profile.email)}
+                        </Avatar>
+                        <Box sx={{ flex: 1 }}>
+                            <Typography variant="h6" sx={{ fontWeight: 600, color: 'white', mb: 0.5 }}>
+                                {profile.name || 'User'}
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                                {profile.email}
                             </Typography>
                         </Box>
+                        <Button
+                            startIcon={<Camera />}
+                            onClick={() => showAlert('info', 'Photo upload coming soon!')}
+                            sx={secondaryButtonStyle}
+                        >
+                            Change Photo
+                        </Button>
+                    </Box>
 
-                        <Divider sx={{ my: 3 }} />
-
-                        {/* Profile Picture Section */}
-                        <Box className="profile-picture-section">
-                            <Typography variant="h6" className="section-title">
-                                Profile Picture
-                            </Typography>
-                            <Box className="avatar-section">
-                                <Avatar
-                                    className="settings-avatar"
-                                    sx={{
-                                        width: 100,
-                                        height: 100,
-                                        fontSize: '2.5rem',
-                                        fontWeight: 600,
-                                        background: 'linear-gradient(135deg, #e50914 0%, #f40612 100%)',
-                                        mr: 2
-                                    }}
-                                >
-                                    {getAvatarText(user)}
-                                </Avatar>
-                                <Button
-                                    variant="outlined"
-                                    startIcon={<PhotoCamera />}
-                                    onClick={() => showAlert('info', 'Profile picture upload coming soon!')}
-                                    sx={{ ml: 2 }}
-                                >
-                                    Change Picture
-                                </Button>
-                            </Box>
-                        </Box>
-
-                        <Divider sx={{ my: 3 }} />
-
-                        {/* Personal Information */}
-                        <Box className="personal-info-section">
-                            <Box className="section-header">
-                                <Typography variant="h6" className="section-title">
-                                    Personal Information
-                                </Typography>
-                                {!isEditing && (
-                                    <Button
-                                        variant="outlined"
-                                        onClick={() => setIsEditing(true)}
-                                        size="small"
-                                    >
-                                        Edit
-                                    </Button>
-                                )}
-                            </Box>
-
-                            <Box className="form-grid">
-                                <TextField
-                                    label="Full Name"
-                                    value={formData.name}
-                                    onChange={handleInputChange('name')}
-                                    disabled={!isEditing}
-                                    error={!!errors.name}
-                                    helperText={errors.name}
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={{ mb: 2 }}
-                                />
-
-                                <TextField
-                                    label="Email Address"
-                                    value={formData.email}
-                                    onChange={handleInputChange('email')}
-                                    disabled={!isEditing}
-                                    error={!!errors.email}
-                                    helperText={errors.email}
-                                    type="email"
-                                    fullWidth
-                                    variant="outlined"
-                                    sx={{ mb: 2 }}
-                                />
-
-                                <TextField
-                                    label="Bio"
-                                    value={formData.bio}
-                                    onChange={handleInputChange('bio')}
-                                    disabled={!isEditing}
-                                    multiline
-                                    rows={3}
-                                    fullWidth
-                                    variant="outlined"
-                                    placeholder="Tell us about yourself..."
-                                    sx={{ mb: 2 }}
-                                />
-                            </Box>
-
-                            {isEditing && (
-                                <Box className="form-actions">
-                                    <Button
-                                        variant="contained"
-                                        startIcon={<Save />}
-                                        onClick={handleSave}
-                                        sx={{
-                                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                            mr: 2
-                                        }}
-                                    >
-                                        Save Changes
-                                    </Button>
-                                    <Button
-                                        variant="outlined"
-                                        startIcon={<Cancel />}
-                                        onClick={handleCancel}
-                                        color="secondary"
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Box>
-                            )}
-                        </Box>
-
-                        <Divider sx={{ my: 3 }} />
-
-                        {/* Security Section */}
-                        <Box className="security-section">
-                            <Typography variant="h6" className="section-title">
-                                Security
+                    {/* Personal Information */}
+                    <Box sx={sectionStyle}>
+                        <Box sx={sectionHeaderStyle}>
+                            <Typography variant="h6" sx={sectionTitleStyle}>
+                                Personal Information
                             </Typography>
                             <Button
-                                variant="outlined"
-                                onClick={handleChangePassword}
-                                color="primary"
+                                startIcon={isEditing ? <Close /> : <Edit />}
+                                onClick={() => setIsEditing(!isEditing)}
+                                sx={secondaryButtonStyle}
                             >
-                                Change Password
+                                {isEditing ? 'Cancel' : 'Edit'}
                             </Button>
                         </Box>
 
-                        <Divider sx={{ my: 3 }} />
+                        <TextField
+                            label="Full Name"
+                            value={profile.name}
+                            onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                            disabled={!isEditing}
+                            fullWidth
+                            sx={fieldStyle}
+                        />
+                        <TextField
+                            label="Email Address"
+                            value={profile.email}
+                            onChange={(e) => setProfile(prev => ({ ...prev, email: e.target.value }))}
+                            disabled={!isEditing}
+                            fullWidth
+                            sx={fieldStyle}
+                        />
+                        <TextField
+                            label="Bio"
+                            value={profile.bio}
+                            onChange={(e) => setProfile(prev => ({ ...prev, bio: e.target.value }))}
+                            disabled={!isEditing}
+                            multiline
+                            rows={3}
+                            fullWidth
+                            sx={fieldStyle}
+                            placeholder="Tell us about yourself..."
+                        />
 
-                        {/* Preferences Section */}
-                        <Box className="preferences-section">
-                            <Typography variant="h6" className="section-title">
-                                Preferences
-                            </Typography>
-                            <Box className="preferences-list">
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={preferences.emailNotifications}
-                                            onChange={handlePreferenceChange('emailNotifications')}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Email Notifications"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={preferences.darkMode}
-                                            onChange={handlePreferenceChange('darkMode')}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Dark Mode"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={preferences.autoplay}
-                                            onChange={handlePreferenceChange('autoplay')}
-                                            color="primary"
-                                        />
-                                    }
-                                    label="Autoplay Trailers"
-                                />
-                            </Box>
-                        </Box>
-                    </CardContent>
-                </Card>
-            </div>
+                        {isEditing && (
+                            <Button
+                                startIcon={<Save />}
+                                onClick={handleSave}
+                                disabled={loading}
+                                sx={primaryButtonStyle}
+                            >
+                                {loading ? 'Saving...' : 'Save Changes'}
+                            </Button>
+                        )}
+                    </Box>
 
-            {/* Password Change Dialog */}
-            <Dialog open={showPasswordDialog} onClose={() => setShowPasswordDialog(false)}>
-                <DialogTitle>Change Password</DialogTitle>
-                <DialogContent>
+                    <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', my: 2 }} />
+
+                    {/* Security */}
+                    <Box sx={sectionStyle}>
+                        <Typography variant="h6" sx={{ ...sectionTitleStyle, mb: 2 }}>
+                            Security
+                        </Typography>
+                        <Button
+                            startIcon={<Lock />}
+                            onClick={() => setShowPasswordDialog(true)}
+                            sx={secondaryButtonStyle}
+                        >
+                            Change Password
+                        </Button>
+                    </Box>
+
+                    <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', my: 2 }} />
+
+                    {/* Preferences - Section removed as no preferences to show */}
+                </CardContent>
+            </Card>
+
+            {/* Password Dialog */}
+            <Dialog
+                open={showPasswordDialog}
+                onClose={() => setShowPasswordDialog(false)}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        background: 'rgba(26, 26, 46, 0.95)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '16px',
+                        color: 'white'
+                    }
+                }}
+            >
+                <DialogContent sx={{ padding: '2rem' }}>
+                    <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'white' }}>
+                        Change Password
+                    </Typography>
                     <TextField
                         label="New Password"
                         type="password"
-                        value={formData.password}
-                        onChange={handleInputChange('password')}
-                        error={!!errors.password}
-                        helperText={errors.password}
+                        value={passwordData.new}
+                        onChange={(e) => setPasswordData(prev => ({ ...prev, new: e.target.value }))}
                         fullWidth
-                        margin="normal"
+                        sx={{ ...fieldStyle, mb: 2 }}
                     />
                     <TextField
-                        label="Confirm New Password"
+                        label="Confirm Password"
                         type="password"
-                        value={formData.confirmPassword}
-                        onChange={handleInputChange('confirmPassword')}
-                        error={!!errors.confirmPassword}
-                        helperText={errors.confirmPassword}
+                        value={passwordData.confirm}
+                        onChange={(e) => setPasswordData(prev => ({ ...prev, confirm: e.target.value }))}
                         fullWidth
-                        margin="normal"
+                        sx={{ ...fieldStyle, mb: 3 }}
                     />
+                    <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+                        <Button
+                            onClick={() => setShowPasswordDialog(false)}
+                            sx={secondaryButtonStyle}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={handlePasswordChange}
+                            disabled={loading}
+                            sx={primaryButtonStyle}
+                        >
+                            {loading ? 'Updating...' : 'Update Password'}
+                        </Button>
+                    </Box>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setShowPasswordDialog(false)}>
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            if (validateForm()) {
-                                setShowPasswordDialog(false);
-                                handleSave();
-                            }
-                        }}
-                        variant="contained"
-                    >
-                        Update Password
-                    </Button>
-                </DialogActions>
             </Dialog>
-        </div>
+        </Box>
     );
 }
 

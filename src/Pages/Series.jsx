@@ -15,6 +15,10 @@ import MovieDetail from '../Components/MovieDetail';
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
+// Simple cache for recent searches (max 10 entries)
+const searchCache = new Map()
+const MAX_CACHE_SIZE = 10
+
 function Series() {
     const [popularSeries, setPopularSeries] = useState([]);
     const [trendingSeries, setTrendingSeries] = useState([]);
@@ -37,14 +41,35 @@ function Series() {
             if (!query.trim()) {
                 setSearchResults([]);
                 setHasSearched(false);
+                setSearching(false);
                 return;
             }
+
+            const cacheKey = query.toLowerCase().trim()
+
+            // Check cache first
+            if (searchCache.has(cacheKey)) {
+                const cachedResults = searchCache.get(cacheKey)
+                setSearchResults(filterSeriesOnly(cachedResults))
+                setHasSearched(true)
+                setSearching(false)
+                return
+            }
+
             try {
-                setSearching(true);
                 setError(null);
                 const results = await searchSeries(query);
-                setSearchResults(filterSeriesOnly(results));
+                const filteredResults = filterSeriesOnly(results);
+                setSearchResults(filteredResults);
                 setHasSearched(true);
+
+                // Cache the results
+                if (searchCache.size >= MAX_CACHE_SIZE) {
+                    const firstKey = searchCache.keys().next().value
+                    searchCache.delete(firstKey)
+                }
+                searchCache.set(cacheKey, results)
+
             } catch (err) {
                 setError('Failed to search series. Please try again.');
                 console.error('Search error:', err);
@@ -82,6 +107,19 @@ function Series() {
         fetchAll();
     }, []);
 
+    // Handle input changes with instant loading feedback
+    const handleInputChange = (e) => {
+        const value = e.target.value
+        setSearchQuery(value)
+
+        // Instant feedback: show loading immediately if there's a query
+        if (value.trim()) {
+            setSearching(true)
+        }
+
+        debouncedSearch(value)
+    }
+
     const handleSeriesClick = (show) => setSelectedSeries(show);
     const closeModal = () => setSelectedSeries(null);
 
@@ -90,27 +128,31 @@ function Series() {
         setSearchResults([]);
         setHasSearched(false);
         setError(null);
+        setSearching(false);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
+            setSearching(true);
             debouncedSearch(searchQuery);
         }
     };
 
     return (
         <>
-            {/* Hero / Featured - Only show when not searching */}
-            {!hasSearched && (
-                <div className="series-hero" style={{ backgroundImage: `url(${heroImage})` }}>
-                    <div className="overlay">
-                        <h1>Trending TV Shows</h1>
-                        {featuredSeries && (
-                            <FeaturedMovieSection movie={featuredSeries} onPlay={() => setSelectedSeries(featuredSeries)} />
-                        )}
-                    </div>
-                </div>
+            {/* Featured section first - no animations */}
+            {!hasSearched && featuredSeries && (
+                <section className="featured-section-static">
+                    <FeaturedMovieSection
+                        movie={{
+                            ...featuredSeries,
+                            title: featuredSeries.name || featuredSeries.title
+                        }}
+                        onPlayClick={() => setSelectedSeries(featuredSeries)}
+                        onInfoClick={() => setSelectedSeries(featuredSeries)}
+                    />
+                </section>
             )}
 
             {/* Enhanced Search */}
@@ -122,10 +164,7 @@ function Series() {
                             placeholder="Search series, actors, genres..."
                             className="search-input"
                             value={searchQuery}
-                            onChange={(e) => {
-                                setSearchQuery(e.target.value);
-                                debouncedSearch(e.target.value);
-                            }}
+                            onChange={handleInputChange}
                         />
                         {searchQuery && (
                             <button
@@ -205,19 +244,19 @@ function Series() {
                 {!hasSearched && !loading && (
                     <div className="series-sections">
                         <section className="series-section">
-                            <CarouselRow title="🔥 Trending Series" movies={trendingSeries} onMovieClick={handleSeriesClick} />
+                            <CarouselRow title="Trending Series" movies={trendingSeries} onMovieClick={handleSeriesClick} />
                         </section>
                         <section className="series-section">
-                            <CarouselRow title="⭐ Popular Series" movies={popularSeries} onMovieClick={handleSeriesClick} />
+                            <CarouselRow title="Popular Series" movies={popularSeries} onMovieClick={handleSeriesClick} />
                         </section>
                         <section className="series-section">
-                            <CarouselRow title="🏆 Top Rated Series" movies={topRatedSeries} onMovieClick={handleSeriesClick} />
+                            <CarouselRow title="Top Rated Series" movies={topRatedSeries} onMovieClick={handleSeriesClick} />
                         </section>
                         <section className="series-section">
-                            <CarouselRow title="📺 Airing Today" movies={airingTodaySeries} onMovieClick={handleSeriesClick} />
+                            <CarouselRow title="Airing Today" movies={airingTodaySeries} onMovieClick={handleSeriesClick} />
                         </section>
                         <section className="series-section">
-                            <CarouselRow title="📡 On The Air" movies={onTheAirSeries} onMovieClick={handleSeriesClick} />
+                            <CarouselRow title="On The Air" movies={onTheAirSeries} onMovieClick={handleSeriesClick} />
                         </section>
                     </div>
                 )}

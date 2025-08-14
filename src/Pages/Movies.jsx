@@ -14,6 +14,10 @@ import FeaturedMovieSection from "../Components/FeaturedMovieSection";
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
+// Simple cache for recent searches (max 10 entries)
+const searchCache = new Map()
+const MAX_CACHE_SIZE = 10
+
 function Movies() {
     const [popularMovies, setPopularMovies] = useState([]);
     const [trendingMovies, setTrendingMovies] = useState([]);
@@ -31,17 +35,37 @@ function Movies() {
     // Filtrerer kun film (ikke TV serier)
     const filterMoviesOnly = (items) => items.filter(item => !item.first_air_date && item.title);
 
-    // Søgning med debounce
+    // Søgning med debounce og cache
     const debouncedSearch = useCallback(
         debounce(async (query) => {
             if (!query.trim()) {
                 setSearchResults([]);
+                setSearching(false);
                 return;
             }
+
+            const cacheKey = query.toLowerCase().trim()
+
+            // Check cache first
+            if (searchCache.has(cacheKey)) {
+                const cachedResults = searchCache.get(cacheKey)
+                setSearchResults(filterMoviesOnly(cachedResults))
+                setSearching(false)
+                return
+            }
+
             try {
-                setSearching(true);
                 const results = await searchMovies(query);
-                setSearchResults(filterMoviesOnly(results));
+                const filteredResults = filterMoviesOnly(results);
+                setSearchResults(filteredResults);
+
+                // Cache the results
+                if (searchCache.size >= MAX_CACHE_SIZE) {
+                    const firstKey = searchCache.keys().next().value
+                    searchCache.delete(firstKey)
+                }
+                searchCache.set(cacheKey, results)
+
             } catch (err) {
                 console.error('Search error:', err);
                 setError('Search failed. Please try again.');
@@ -51,6 +75,19 @@ function Movies() {
         }, 500),
         []
     );
+
+    // Handle input changes with instant loading feedback
+    const handleInputChange = (e) => {
+        const value = e.target.value
+        setSearchQuery(value)
+
+        // Instant feedback: show loading immediately if there's a query
+        if (value.trim()) {
+            setSearching(true)
+        }
+
+        debouncedSearch(value)
+    }
 
     // Trigger search når query ændres
     useEffect(() => {
@@ -101,6 +138,7 @@ function Movies() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
+            setSearching(true);
             debouncedSearch(searchQuery);
         }
     };
@@ -109,6 +147,7 @@ function Movies() {
         setSearchQuery("");
         setSearchResults([]);
         setError(null);
+        setSearching(false);
     };
 
     if (loading) {
@@ -143,7 +182,7 @@ function Movies() {
                                 className="movies-search__input"
                                 placeholder="Search movies, genres, actors..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={handleInputChange}
                             />
                             {searchQuery && (
                                 <button

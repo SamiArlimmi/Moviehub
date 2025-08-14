@@ -5,6 +5,10 @@ import '../css/Search.css'
 import { searchMovies, getPopularMovies } from "../services/api"
 import { debounce } from 'lodash'
 
+// Simple cache for recent searches (max 10 entries)
+const searchCache = new Map()
+const MAX_CACHE_SIZE = 10
+
 function Search() {
     const [searchQuery, setSearchQuery] = useState("")
     const [movies, setMovies] = useState([])
@@ -14,21 +18,40 @@ function Search() {
     const [suggestions, setSuggestions] = useState([])
     const [selectedMovie, setSelectedMovie] = useState(null)
 
-    // Debounced search function
+    // Debounced search function with caching
     const debouncedSearch = useCallback(
         debounce(async (query) => {
             if (!query.trim()) {
                 setMovies([])
                 setHasSearched(false)
+                setLoading(false)
+                return
+            }
+
+            const cacheKey = query.toLowerCase().trim()
+
+            // Check cache first
+            if (searchCache.has(cacheKey)) {
+                const cachedResults = searchCache.get(cacheKey)
+                setMovies(cachedResults)
+                setHasSearched(true)
+                setLoading(false)
                 return
             }
 
             try {
-                setLoading(true)
                 setError(null)
                 const results = await searchMovies(query)
                 setMovies(results)
                 setHasSearched(true)
+
+                // Cache the results
+                if (searchCache.size >= MAX_CACHE_SIZE) {
+                    const firstKey = searchCache.keys().next().value
+                    searchCache.delete(firstKey)
+                }
+                searchCache.set(cacheKey, results)
+
             } catch (err) {
                 setError('Failed to search movies. Please try again.')
                 console.error('Search error:', err)
@@ -44,13 +67,24 @@ function Search() {
         const loadSuggestions = async () => {
             try {
                 const popular = await getPopularMovies()
-                setSuggestions(popular.slice(0, 8)) // Show more suggestions for better grid
+                setSuggestions(popular.slice(0, 8))
             } catch (err) {
                 console.error('Error loading suggestions:', err)
             }
         }
         loadSuggestions()
     }, [])
+
+    // Handle input changes with instant loading feedback
+    const handleInputChange = (e) => {
+        const value = e.target.value
+        setSearchQuery(value)
+
+        // Instant feedback: show loading immediately if there's a query
+        if (value.trim()) {
+            setLoading(true)
+        }
+    }
 
     // Trigger search when query changes
     useEffect(() => {
@@ -61,6 +95,7 @@ function Search() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (searchQuery.trim()) {
+            setLoading(true)
             debouncedSearch(searchQuery)
         }
     }
@@ -70,6 +105,7 @@ function Search() {
         setMovies([])
         setHasSearched(false)
         setError(null)
+        setLoading(false)
     }
 
     // Handle movie click to open modal
@@ -99,7 +135,7 @@ function Search() {
                             placeholder="Search for movies, actors, directors..."
                             className="search-input"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleInputChange}
                             autoFocus
                         />
                         {searchQuery && (
