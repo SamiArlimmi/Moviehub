@@ -1,7 +1,8 @@
 // MovieDetail.jsx
 // Dette komponent viser et enkelt film kort med poster, bedømmelse og favorit knap
-import React from 'react';
+import React, { useState } from 'react';
 import { useFavorites } from '../Context/FavoritesContext';
+import LoginPromptModal from './LoginPromptModal';
 import '../css/MovieDetail.css';
 
 // TMDB bedømmelse komponent
@@ -66,6 +67,10 @@ function getMediaType(item) {
 function MovieDetail({ movie, onMovieClick }) {
     // Få favorit funktioner fra context
     const { isFavorite, toggleFavorite, isAuthenticated } = useFavorites();
+
+    // State for login modal
+    const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
     const isLiked = isFavorite(movie.id);
 
     // Få den korrekte titel og udgivelsesdato for både film og TV serier
@@ -92,7 +97,7 @@ function MovieDetail({ movie, onMovieClick }) {
 
         // Tjek om brugeren er logget ind
         if (!isAuthenticated) {
-            alert('Log venligst ind for at tilføje elementer til favoritter!');
+            setShowLoginPrompt(true);
             return;
         }
 
@@ -104,68 +109,78 @@ function MovieDetail({ movie, onMovieClick }) {
     };
 
     return (
-        <div className="movie-detail" onClick={handleClick}>
-            {/* Poster billede container */}
-            <div className="movie-poster-container">
-                {/* Film poster billede */}
-                <img
-                    src={movie.poster_path
-                        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                        : '/placeholder-poster.jpg'
-                    }
-                    alt={title}
-                    className="movie-poster"
-                    loading="lazy"
-                />
+        <>
+            <div className="movie-detail" onClick={handleClick}>
+                {/* Poster billede container */}
+                <div className="movie-poster-container">
+                    {/* Film poster billede */}
+                    <img
+                        src={movie.poster_path
+                            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                            : '/placeholder-poster.jpg'
+                        }
+                        alt={title}
+                        className="movie-poster"
+                        loading="lazy"
+                    />
 
-                {/* TMDB bedømmelse cirkel */}
-                <TMDBRating
-                    rating={formatMovieRating(movie.vote_average)}
-                    size={48}
-                />
+                    {/* TMDB bedømmelse cirkel */}
+                    <TMDBRating
+                        rating={formatMovieRating(movie.vote_average)}
+                        size={48}
+                    />
 
-                {/* Favorit hjerte knap */}
-                <button
-                    className={`favorite-btn ${isLiked ? 'liked' : ''} ${!isAuthenticated ? 'disabled' : ''}`}
-                    onClick={handleFavoriteClick}
-                    aria-label={isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
-                    title={isAuthenticated
-                        ? (isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter')
-                        : 'Log ind for at tilføje til favoritter'
-                    }
-                >
-                    <span className="heart-icon">
-                        {isLiked ? '❤️' : '🤍'}
-                    </span>
-                </button>
-
-                {/* Overlay med afspil knap der vises ved hover */}
-                <div className="movie-overlay">
-                    <button className="play-button" aria-label="Se detaljer">
-                        <span>▶</span>
+                    {/* Favorit hjerte knap */}
+                    <button
+                        className={`favorite-btn ${isLiked ? 'liked' : ''} ${!isAuthenticated ? 'disabled' : ''}`}
+                        onClick={handleFavoriteClick}
+                        aria-label={isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter'}
+                        title={isAuthenticated
+                            ? (isLiked ? 'Fjern fra favoritter' : 'Tilføj til favoritter')
+                            : 'Log ind for at tilføje til favoritter'
+                        }
+                    >
+                        <span className="heart-icon">
+                            {isLiked ? '❤️' : '🤍'}
+                        </span>
                     </button>
+
+                    {/* Overlay med afspil knap der vises ved hover */}
+                    <div className="movie-overlay">
+                        <button className="play-button" aria-label="Se detaljer">
+                            <span>▶</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Film information sektion */}
+                <div className="movie-info">
+                    {/* Film titel */}
+                    <h3 className="movie-title">{title}</h3>
+
+                    {/* Udgivelsesår */}
+                    <p className="movie-year">{formatReleaseDate(releaseDate)}</p>
+
+                    {/* Genre information */}
+                    <p className="movie-genre">
+                        {movie.genre_names && movie.genre_names.length > 0 ?
+                            movie.genre_names[0] :
+                            movie.genres && movie.genres.length > 0 ?
+                                movie.genres[0].name :
+                                'Genre ikke tilgængelig'
+                        }
+                    </p>
                 </div>
             </div>
 
-            {/* Film information sektion */}
-            <div className="movie-info">
-                {/* Film titel */}
-                <h3 className="movie-title">{title}</h3>
-
-                {/* Udgivelsesår */}
-                <p className="movie-year">{formatReleaseDate(releaseDate)}</p>
-
-                {/* Genre information */}
-                <p className="movie-genre">
-                    {movie.genre_names && movie.genre_names.length > 0 ?
-                        movie.genre_names[0] :
-                        movie.genres && movie.genres.length > 0 ?
-                            movie.genres[0].name :
-                            'Genre ikke tilgængelig'
-                    }
-                </p>
-            </div>
-        </div>
+            {/* Login Prompt Modal */}
+            {showLoginPrompt && (
+                <LoginPromptModal
+                    onClose={() => setShowLoginPrompt(false)}
+                    movieTitle={title}
+                />
+            )}
+        </>
     );
 }
 

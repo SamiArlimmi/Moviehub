@@ -112,7 +112,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
               onClick={() => onPlayClick?.(movie)}
             >
               <Play size={20} fill="currentColor" />
-              Se Trailer
+              Watch Trailer
             </button>
 
             <button
@@ -120,7 +120,7 @@ const FeaturedMovieSection = ({ movie, onPlayClick, onInfoClick }) => {
               onClick={() => onInfoClick?.(movie)}
             >
               <Info size={20} />
-              Mere Info
+              More Info
             </button>
           </div>
         </div>
