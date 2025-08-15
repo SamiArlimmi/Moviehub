@@ -1,6 +1,6 @@
-/* Movies Page - Beautiful Modern Design */
+/* Film Side - Smukt Moderne Design */
 
-/* === Hero Section === */
+/* === Hero Sektion === */
 .movies-hero {
     position: relative;
     width: 100vw;
@@ -121,7 +121,7 @@
     line-height: 1.4;
 }
 
-/* === Enhanced Search === */
+/* === Forbedret Søgning === */
 .movies-search {
     margin: 0 auto;
     max-width: 650px;
@@ -212,7 +212,7 @@
     font-size: 1.2rem;
 }
 
-/* === Main Content === */
+/* === Hoved Indhold === */
 .movies-main {
     min-height: 100vh;
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
@@ -251,7 +251,7 @@
     position: relative;
 }
 
-/* === Search Results === */
+/* === Søge Resultater === */
 .search-results-section {
     position: relative;
     z-index: 1;

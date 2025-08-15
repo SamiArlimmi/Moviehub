@@ -15,7 +15,7 @@ import MovieDetail from '../Components/MovieDetail';
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
-// Simple cache for recent searches (max 10 entries)
+// Simpel cache til nylige søgninger (max 10 entries)
 const searchCache = new Map()
 const MAX_CACHE_SIZE = 10
 
@@ -47,7 +47,7 @@ function Series() {
 
             const cacheKey = query.toLowerCase().trim()
 
-            // Check cache first
+            // Tjek cache først
             if (searchCache.has(cacheKey)) {
                 const cachedResults = searchCache.get(cacheKey)
                 setSearchResults(filterSeriesOnly(cachedResults))
@@ -63,7 +63,7 @@ function Series() {
                 setSearchResults(filteredResults);
                 setHasSearched(true);
 
-                // Cache the results
+                // Cache resultaterne
                 if (searchCache.size >= MAX_CACHE_SIZE) {
                     const firstKey = searchCache.keys().next().value
                     searchCache.delete(firstKey)
@@ -107,12 +107,12 @@ function Series() {
         fetchAll();
     }, []);
 
-    // Handle input changes with instant loading feedback
+    // Håndter input ændringer med øjeblikkelig loading feedback
     const handleInputChange = (e) => {
         const value = e.target.value
         setSearchQuery(value)
 
-        // Instant feedback: show loading immediately if there's a query
+        // Øjeblikkelig feedback: vis loading med det samme hvis der er en query
         if (value.trim()) {
             setSearching(true)
         }
@@ -141,7 +141,7 @@ function Series() {
 
     return (
         <>
-            {/* Featured section first - no animations */}
+            {/* Fremhævet sektion først - ingen animationer */}
             {!hasSearched && featuredSeries && (
                 <section className="featured-section-static">
                     <FeaturedMovieSection
@@ -155,7 +155,7 @@ function Series() {
                 </section>
             )}
 
-            {/* Enhanced Search */}
+            {/* Forbedret Søgning */}
             <div className="search-section">
                 <form onSubmit={handleSubmit} className="search-form">
                     <div className="search-input-container">
@@ -196,14 +196,14 @@ function Series() {
                     </div>
                 )}
 
-                {/* Error State */}
+                {/* Fejl State */}
                 {error && (
                     <div className="error-container">
                         <p>{error}</p>
                     </div>
                 )}
 
-                {/* Search Results */}
+                {/* Søge Resultater */}
                 {hasSearched && !searching && (
                     <div className="search-results">
                         <h2>
@@ -240,7 +240,7 @@ function Series() {
                     </div>
                 )}
 
-                {/* Series Categories - Only show when not searching */}
+                {/* Serie Kategorier - Vis kun når der ikke søges */}
                 {!hasSearched && !loading && (
                     <div className="series-sections">
                         <section className="series-section">
@@ -267,7 +267,7 @@ function Series() {
                 )}
             </div>
 
-            {/* Show Modal when series is clicked */}
+            {/* Vis Modal når serie er klikket */}
             {selectedSeries && (
                 <MediaModal item={selectedSeries} mediaType="tv" onClose={closeModal} />
             )}

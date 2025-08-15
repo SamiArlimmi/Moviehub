@@ -78,5 +78,5 @@ function App() {
   );
 }
 
-// Export the App component so it can be used in other files
+// Eksport  App component så det kan bruges i andre filer
 export default App;

@@ -1,5 +1,3 @@
-// MovieDetail.jsx
-// Dette komponent viser et enkelt film kort med poster, bedømmelse og favorit knap
 import React, { useState } from 'react';
 import { useFavorites } from '../Context/FavoritesContext';
 import LoginPromptModal from './LoginPromptModal';

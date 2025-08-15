@@ -1,4 +1,6 @@
 /* css/Profile.css */
+
+/* Hoved profil container styling */
 .profile-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
@@ -8,12 +10,14 @@
     align-items: flex-start;
 }
 
+/* Profil wrapper til centrering */
 .profile-wrapper {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
 }
 
+/* Hoved profil kort styling */
 .profile-card {
     background: rgba(26, 26, 46, 0.95) !important;
     backdrop-filter: blur(20px);
@@ -24,11 +28,13 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Profil kort hover effekt */
 .profile-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
+/* Profil header sektion */
 .profile-header {
     display: flex;
     flex-direction: column;
@@ -37,6 +43,7 @@
     margin-bottom: 2rem;
 }
 
+/* Handlings knapper i header */
 .profile-actions {
     position: absolute;
     top: 0;
@@ -45,6 +52,7 @@
     gap: 0.5rem;
 }
 
+/* Handlings knapper styling */
 .profile-actions .MuiIconButton-root {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -52,16 +60,19 @@
     transition: all 0.3s ease;
 }
 
+/* Handlings knapper hover effekt */
 .profile-actions .MuiIconButton-root:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
 
+/* Profil information sektion */
 .profile-info {
     text-align: center;
     margin-bottom: 2rem;
 }
 
+/* Profil navn styling */
 .profile-name {
     color: white !important;
     font-weight: 700 !important;
@@ -72,12 +83,14 @@
     background-clip: text;
 }
 
+/* Profil email styling */
 .profile-email {
     color: rgba(255, 255, 255, 0.8) !important;
     margin-bottom: 1rem !important;
     font-size: 1.1rem !important;
 }
 
+/* Profil biografi styling */
 .profile-bio {
     color: rgba(255, 255, 255, 0.7) !important;
     font-style: italic;
@@ -86,10 +99,12 @@
     line-height: 1.6;
 }
 
+/* Profil statistikker sektion */
 .profile-stats {
     margin: 2rem 0;
 }
 
+/* Statistik titel styling */
 .stats-title {
     color: white !important;
     text-align: center;
@@ -97,6 +112,7 @@
     font-weight: 600 !important;
 }
 
+/* Grid til statistikker */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -104,6 +120,7 @@
     margin-top: 1rem;
 }
 
+/* Individuelle statistik elementer */
 .stat-item {
     text-align: center;
     padding: 1.5rem 1rem;
@@ -114,18 +131,21 @@
     transition: all 0.3s ease;
 }
 
+/* Statistik element hover effekt */
 .stat-item:hover {
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Statistik nummer styling */
 .stat-number {
     color: #e50914 !important;
     font-weight: 700 !important;
     margin-bottom: 0.5rem !important;
 }
 
+/* Statistik label styling */
 .stat-label {
     color: rgba(255, 255, 255, 0.8) !important;
     font-weight: 500 !important;
@@ -133,6 +153,7 @@
     letter-spacing: 0.5px;
 }
 
+/* Profil knapper container */
 .profile-buttons {
     display: flex;
     gap: 1rem;
@@ -141,46 +162,53 @@
     margin-top: 2rem;
 }
 
+/* Profil knapper generel styling */
 .profile-buttons .MuiButton-root {
     transition: all 0.3s ease !important;
 }
 
-/* Form Styling for Edit Mode */
+/* Form styling til redigerings tilstand */
 .profile-info .MuiTextField-root {
     margin-bottom: 1rem;
 }
 
+/* Input felt styling */
 .profile-info .MuiTextField-root .MuiOutlinedInput-root {
     color: white;
     border-radius: 10px;
 }
 
+/* Input felt ramme styling */
 .profile-info .MuiTextField-root .MuiOutlinedInput-root fieldset {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* Input felt hover styling */
 .profile-info .MuiTextField-root .MuiOutlinedInput-root:hover fieldset {
     border-color: rgba(255, 255, 255, 0.5);
 }
 
+/* Input felt fokus styling */
 .profile-info .MuiTextField-root .MuiOutlinedInput-root.Mui-focused fieldset {
     border-color: #e50914;
 }
 
+/* Input label styling */
 .profile-info .MuiTextField-root .MuiInputLabel-root {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Input label fokus styling */
 .profile-info .MuiTextField-root .MuiInputLabel-root.Mui-focused {
     color: #e50914;
 }
 
-/* Divider Styling */
+/* Divider styling */
 .MuiDivider-root {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Responsive Design */
+/* Responsive design til tablets */
 @media (max-width: 768px) {
     .profile-container {
         padding: 1rem 0.5rem;
@@ -209,6 +237,7 @@
     }
 }
 
+/* Responsive design til mobile */
 @media (max-width: 480px) {
     .profile-avatar {
         width: 80px !important;

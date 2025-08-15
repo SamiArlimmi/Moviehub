@@ -265,8 +265,9 @@
     color: #fff;
     font-size: 1.8rem;
     font-weight: 700;
+    margin-top: 1rem !important;
     margin-bottom: 1rem;
-    padding: 0 2rem;
+    padding-left: 0px;
     background: linear-gradient(135deg, #fff 0%, #e50914 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

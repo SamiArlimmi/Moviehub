@@ -7,7 +7,7 @@ import FeaturedMovieSection from "../Components/FeaturedMovieSection";
 import heroImage from '../assets/images/hero.jpg';
 import { debounce } from 'lodash';
 
-// Simple cache for recent searches (max 10 entries)
+// Simpel cache til nylige søgninger (max 10 entries)
 const searchCache = new Map()
 const MAX_CACHE_SIZE = 10
 
@@ -39,7 +39,7 @@ function Home() {
 
             const cacheKey = query.toLowerCase().trim()
 
-            // Check cache first
+            // Tjek cache først
             if (searchCache.has(cacheKey)) {
                 const cachedResults = searchCache.get(cacheKey)
                 setSearchResults(cachedResults)
@@ -52,7 +52,7 @@ function Home() {
                 const results = await searchMovies(query);
                 setSearchResults(results);
 
-                // Cache the results
+                // Cache resultaterne
                 if (searchCache.size >= MAX_CACHE_SIZE) {
                     const firstKey = searchCache.keys().next().value
                     searchCache.delete(firstKey)
@@ -64,7 +64,7 @@ function Home() {
             } finally {
                 setSearching(false);
             }
-        }, 500), // 500ms delay
+        }, 500), // 500ms forsinkelse
         []
     );
 
@@ -103,12 +103,12 @@ function Home() {
         loadMovies();
     }, []); // Tom dependency array - kør kun én gang
 
-    // Handle input changes with instant loading feedback
+    // Håndter input ændringer med øjeblikkelig loading feedback
     const handleInputChange = (e) => {
         const value = e.target.value
         setSearchQuery(value)
 
-        // Instant feedback: show loading immediately if there's a query
+        // Øjeblikkelig feedback: vis loading med det samme hvis der er en query
         if (value.trim()) {
             setSearching(true)
         }
@@ -120,7 +120,7 @@ function Home() {
     useEffect(() => {
         debouncedSearch(searchQuery);
 
-        // Cleanup function til at cancel debounced search
+        // Cleanup function til at annullere debounced search
         return () => debouncedSearch.cancel();
     }, [searchQuery, debouncedSearch]);
 
@@ -201,7 +201,7 @@ function Home() {
 
             {/* Hovedindhold sektion */}
             <div className="home">
-                {/* Conditional rendering - vis enten søgeresultater eller standard indhold */}
+                {/* Betinget rendering - vis enten søgeresultater eller standard indhold */}
                 {searchQuery.trim() ? (
                     // Vis søgeresultater eller loading
                     searching ? (

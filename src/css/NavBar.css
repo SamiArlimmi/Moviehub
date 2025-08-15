@@ -1,4 +1,4 @@
-/* Main navbar container styling */
+/* Hoved navbar container styling */
 .navbar {
     background: linear-gradient(135deg,
             rgba(15, 15, 15, 0.95) 0%,
@@ -15,7 +15,7 @@
     transition: all 0.3s ease !important;
 }
 
-/* Animated background effect for navbar */
+/* Animeret baggrunds effekt til navbar */
 .navbar::before {
     content: '';
     position: absolute;
@@ -31,7 +31,7 @@
     z-index: 0;
 }
 
-/* Animation for the background effect */
+/* Animation til baggrunds effekten */
 @keyframes navBackgroundShift {
 
     0%,
@@ -46,7 +46,7 @@
     }
 }
 
-/* Toolbar (main container inside navbar) styling */
+/* Toolbar (hoved container inde i navbar) styling */
 .navbar-toolbar {
     color: white !important;
     position: relative;
@@ -58,7 +58,7 @@
     align-items: center !important;
 }
 
-/* Website title/logo styling */
+/* Website titel/logo styling */
 .navbar-title {
     display: flex !important;
     align-items: center !important;
@@ -77,13 +77,13 @@
     flex-shrink: 0;
 }
 
-/* Hover effect for title */
+/* Hover effekt til titel */
 .navbar-title:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 0 10px rgba(229, 9, 20, 0.5));
 }
 
-/* Navigation buttons container */
+/* Navigations knapper container */
 .nav-buttons-container {
     display: flex;
     align-items: center;
@@ -93,7 +93,7 @@
     margin: 0 2rem;
 }
 
-/* Navigation buttons styling */
+/* Navigations knapper styling */
 .navbar-button {
     font-weight: 600 !important;
     font-size: 0.95rem !important;
@@ -109,7 +109,7 @@
     text-decoration: none !important;
 }
 
-/* Shimmer effect for buttons */
+/* Glimmer effekt til knapper */
 .navbar-button::before {
     content: '';
     position: absolute;
@@ -121,12 +121,12 @@
     transition: left 0.5s;
 }
 
-/* Show shimmer effect on hover */
+/* Vis glimmer effekt på hover */
 .navbar-button:hover::before {
     left: 100%;
 }
 
-/* Button hover effects */
+/* Knap hover effekter */
 .navbar-button:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -134,25 +134,25 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Button click effect */
+/* Knap klik effekt */
 .navbar-button:active {
     transform: translateY(0) !important;
 }
 
-/* Active page button styling */
+/* Aktiv side knap styling */
 .navbar-button.active {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
     color: white !important;
     box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
 }
 
-/* Active button hover effect */
+/* Aktiv knap hover effekt */
 .navbar-button.active:hover {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
     box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
 }
 
-/* User section container styling */
+/* Bruger sektion container styling */
 .user-section {
     display: flex;
     align-items: center;
@@ -162,7 +162,7 @@
     z-index: 10;
 }
 
-/* User name display styling */
+/* Bruger navn visning styling */
 .user-name {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 500 !important;
@@ -177,7 +177,7 @@
     justify-content: center;
 }
 
-/* Avatar button styling */
+/* Avatar knap styling */
 .avatar-button {
     padding: 4px !important;
     border-radius: 50% !important;
@@ -194,7 +194,7 @@
     transform: scale(0.98);
 }
 
-/* User avatar styling */
+/* Bruger avatar styling */
 .user-avatar {
     width: 36px !important;
     height: 36px !important;
@@ -206,7 +206,7 @@
     color: white !important;
 }
 
-/* User dropdown menu paper styling */
+/* Bruger dropdown menu papir styling */
 .user-menu-paper {
     background: rgba(26, 26, 46, 0.95) !important;
     backdrop-filter: blur(20px) !important;
@@ -217,7 +217,7 @@
     min-width: 180px !important;
 }
 
-/* Individual menu items styling */
+/* Individuelle menu punkter styling */
 .user-menu-paper .MuiMenuItem-root {
     color: white !important;
     padding: 0.75rem 1.5rem !important;
@@ -225,24 +225,24 @@
     transition: all 0.2s ease !important;
 }
 
-/* Menu item hover effect */
+/* Menu punkt hover effekt */
 .user-menu-paper .MuiMenuItem-root:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     color: #e50914 !important;
 }
 
-/* Logout menu item special styling */
+/* Logout menu punkt speciel styling */
 .logout-menu-item {
     color: #ff6b6b !important;
 }
 
-/* Logout menu item hover effect */
+/* Logout menu punkt hover effekt */
 .logout-menu-item:hover {
     background: rgba(220, 53, 69, 0.1) !important;
     color: #ff4757 !important;
 }
 
-/* Login button special styling */
+/* Login knap speciel styling */
 .login-button {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
     color: white !important;
@@ -252,21 +252,21 @@
     box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3) !important;
 }
 
-/* Login button hover effect */
+/* Login knap hover effekt */
 .login-button:hover {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4) !important;
 }
 
-/* Focus styles for keyboard navigation */
+/* Focus stilarter til tastatur navigation */
 .navbar-button:focus,
 .avatar-button:focus {
     outline: 2px solid #007bff !important;
     outline-offset: 2px !important;
 }
 
-/* Responsive design for smaller screens */
+/* Responsive design til mindre skærme */
 @media (max-width: 768px) {
     .navbar-toolbar {
         padding: 0.75rem 1rem !important;

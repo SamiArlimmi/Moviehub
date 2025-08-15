@@ -1,4 +1,4 @@
-/* App.css - Beautiful Modern Design matching the theme */
+/* App.css - Smukt Moderne Design der matcher temaet */
 
 html,
 body,
@@ -7,13 +7,13 @@ body,
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /* Prevents horizontal scroll */
+  /* Forhindrer vandret scroll */
   font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   color: #fff;
   background: #0f0f0f;
 }
 
-/* Custom scrollbar for the entire app */
+/* Brugerdefineret scrollbar for hele appen */
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
@@ -47,7 +47,7 @@ html::-webkit-scrollbar-thumb:hover {
   overflow-x: hidden;
 }
 
-/* Add animated background for the entire app */
+/* Tilføj animeret baggrund for hele appen */
 .app::before {
   content: '';
   position: fixed;
@@ -100,7 +100,7 @@ html::-webkit-scrollbar-thumb:hover {
   min-height: 100vh;
 }
 
-/* Global text selections */
+/* Globale tekst markeringer */
 ::selection {
   background: rgba(229, 9, 20, 0.3);
   color: #fff;
@@ -111,7 +111,7 @@ html::-webkit-scrollbar-thumb:hover {
   color: #fff;
 }
 
-/* Global link styles */
+/* Globale link stilarter */
 a {
   color: #e50914;
   transition: color 0.2s ease;
@@ -121,7 +121,7 @@ a:hover {
   color: #f40612;
 }
 
-/* Global heading styles */
+/* Globale overskrift stilarter */
 h1,
 h2,
 h3,
@@ -134,14 +134,14 @@ h6 {
   margin: 0;
 }
 
-/* Global paragraph styles */
+/* Globale paragraf stilarter */
 p {
   color: #ccc;
   line-height: 1.6;
   margin: 0;
 }
 
-/* Global button reset and base styles */
+/* Global knap reset og basis stilarter */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -155,7 +155,7 @@ button:disabled {
   opacity: 0.6;
 }
 
-/* Global input styles */
+/* Globale input stilarter */
 input,
 textarea,
 select {
@@ -163,7 +163,7 @@ select {
   transition: all 0.2s ease;
 }
 
-/* Loading animation for global use */
+/* Loading animationer til global brug */
 @keyframes globalSpin {
   to {
     transform: rotate(360deg);
@@ -208,7 +208,7 @@ select {
   }
 }
 
-/* Utility classes for animations */
+/* Utility klasser til animationer */
 .fade-in {
   animation: globalFadeIn 0.6s ease-out forwards;
 }
@@ -221,7 +221,7 @@ select {
   animation: globalPulse 2s ease-in-out infinite;
 }
 
-/* Utility classes for spacing */
+/* Utility klasser til afstand */
 .mt-1 {
   margin-top: 0.5rem;
 }
@@ -270,7 +270,7 @@ select {
   padding: 2rem;
 }
 
-/* Utility classes for text */
+/* Utility klasser til tekst */
 .text-center {
   text-align: center;
 }
@@ -332,13 +332,13 @@ select {
   }
 }
 
-/* Focus management for accessibility */
+/* Fokus håndtering til tilgængelighed */
 .focus-visible {
   outline: 2px solid #007bff;
   outline-offset: 2px;
 }
 
-/* Reduced motion for accessibility */
+/* Reduceret bevægelse til tilgængelighed */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -355,7 +355,7 @@ select {
   }
 }
 
-/* High contrast mode support */
+/* Høj kontrast mode support */
 @media (prefers-contrast: high) {
   .app {
     background: #000;
@@ -379,7 +379,7 @@ select {
   }
 }
 
-/* Print styles */
+/* Print stilarter */
 @media print {
   .app {
     background: #fff !important;

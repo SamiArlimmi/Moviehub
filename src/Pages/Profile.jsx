@@ -19,7 +19,7 @@ function Profile() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    // Generate avatar text from email or name
+    // Generer avatar tekst fra email eller navn
     const getAvatarText = (user) => {
         if (!user) return 'U';
         if (user.name) return user.name.charAt(0).toUpperCase();
@@ -37,7 +37,7 @@ function Profile() {
             <div className="profile-wrapper">
                 <Card className="profile-card">
                     <CardContent>
-                        {/* Header Section */}
+                        {/* Header Sektion */}
                         <Box className="profile-header">
                             <Avatar
                                 className="profile-avatar"
@@ -64,7 +64,7 @@ function Profile() {
                             </Box>
                         </Box>
 
-                        {/* Profile Information */}
+                        {/* Profil Information */}
                         <Box className="profile-info">
                             <Typography variant="h4" className="profile-name">
                                 {user?.name || 'Anonymous User'}
@@ -79,7 +79,7 @@ function Profile() {
 
                         <Divider sx={{ my: 3 }} />
 
-                        {/* Stats Section */}
+                        {/* Statistik Sektion */}
                         <Box className="profile-stats">
                             <Typography variant="h6" className="stats-title">
                                 Your MovieHub Stats
@@ -114,7 +114,7 @@ function Profile() {
 
                         <Divider sx={{ my: 3 }} />
 
-                        {/* Recent Activity */}
+                        {/* Seneste Aktivitet */}
                         <Box className="recent-activity">
                             <Typography variant="h6" className="activity-title">
                                 Recent Activity
@@ -138,7 +138,7 @@ function Profile() {
 
                         <Divider sx={{ my: 3 }} />
 
-                        {/* Action Buttons */}
+                        {/* Handlings Knapper */}
                         <Box className="profile-buttons">
                             <Button
                                 variant="contained"

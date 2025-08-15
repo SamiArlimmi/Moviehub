@@ -5,45 +5,45 @@ import { useAuth } from '../Context/AuthContext';
 import '../css/NavBar.css';
 
 function NavBar() {
-    // Get user authentication data from context
+    // Hent bruger autentificering data fra context
     const { user, logout, isAuthenticated } = useAuth();
 
-    // State to control the user dropdown menu
+    // State til at kontrollere bruger dropdown menu
     const [anchorEl, setAnchorEl] = useState(null);
 
-    // Get current page location for highlighting active nav button
+    // Hent nuværende side placering for at fremhæve aktiv nav knap
     const location = useLocation();
 
-    // Function to open the user dropdown menu
+    // Funktion til at åbne bruger dropdown menu
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    // Function to close the user dropdown menu
+    // Funktion til at lukke bruger dropdown menu
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
 
-    // Function to handle user logout
+    // Funktion til at håndtere bruger logout
     const handleLogout = () => {
-        logout(); // Call logout function from auth context
-        handleMenuClose(); // Close the dropdown menu
+        logout(); // Kald logout funktion fra auth context
+        handleMenuClose(); // Luk dropdown menuen
     };
 
-    // Function to get the first letter for user avatar
+    // Funktion til at få det første bogstav til bruger avatar
     const getAvatarText = (user) => {
-        if (!user) return 'U'; // Default if no user
-        if (user.name) return user.name.charAt(0).toUpperCase(); // Use first letter of name
-        if (user.email) return user.email.charAt(0).toUpperCase(); // Use first letter of email
-        return 'U'; // Fallback to 'U'
+        if (!user) return 'U'; // Standard hvis ingen bruger
+        if (user.name) return user.name.charAt(0).toUpperCase(); // Brug første bogstav af navn
+        if (user.email) return user.email.charAt(0).toUpperCase(); // Brug første bogstav af email
+        return 'U'; // Fallback til 'U'
     };
 
-    // Function to check if current page matches navigation button path
+    // Funktion til at tjekke om nuværende side matcher navigations knap sti
     const isActivePath = (path) => {
         return location.pathname === path;
     };
 
-    // Array of navigation links for easy management
+    // Array af navigations links for nem administration
     const navLinks = [
         { path: '/', label: 'Home' },
         { path: '/movies', label: 'Movies' },
@@ -62,10 +62,10 @@ function NavBar() {
                     component={Link}
                     to="/"
                 >
-                    🎬 MovieHub
+                    MovieHub
                 </Typography>
 
-                {/* Main Navigation Buttons */}
+                {/* Hoved Navigations Knapper */}
                 <div className="nav-buttons-container">
                     {navLinks.map((link) => (
                         <Button
@@ -80,16 +80,16 @@ function NavBar() {
                     ))}
                 </div>
 
-                {/* User Section - Shows different content based on login status */}
+                {/* Bruger Sektion - Viser forskelligt indhold baseret på login status */}
                 {isAuthenticated ? (
-                    // Logged in user section
+                    // Logget ind bruger sektion
                     <div className="user-section">
-                        {/* Display user name */}
+                        {/* Vis brugernavn */}
                         <Typography variant="body2" className="user-name">
                             {user?.name || user?.email?.split('@')[0] || 'User'}
                         </Typography>
 
-                        {/* User avatar button that opens dropdown menu */}
+                        {/* Bruger avatar knap der åbner dropdown menu */}
                         <div className="avatar-wrapper">
                             <IconButton
                                 onClick={handleMenuOpen}
@@ -102,7 +102,7 @@ function NavBar() {
                             </IconButton>
                         </div>
 
-                        {/* Dropdown menu for user options */}
+                        {/* Dropdown menu for bruger muligheder */}
                         <Menu
                             className="user-menu"
                             anchorEl={anchorEl}
@@ -116,24 +116,24 @@ function NavBar() {
                                 }
                             }}
                         >
-                            {/* Profile menu item */}
+                            {/* Profil menu punkt */}
                             <MenuItem onClick={handleMenuClose} component={Link} to="/profile">
                                 👤 Profile
                             </MenuItem>
 
-                            {/* Settings menu item */}
+                            {/* Indstillinger menu punkt */}
                             <MenuItem onClick={handleMenuClose} component={Link} to="/settings">
                                 ⚙️ Settings
                             </MenuItem>
 
-                            {/* Logout menu item */}
+                            {/* Logout menu punkt */}
                             <MenuItem onClick={handleLogout} className="logout-menu-item">
                                 🚪 Logout
                             </MenuItem>
                         </Menu>
                     </div>
                 ) : (
-                    // Not logged in - show sign in button
+                    // Ikke logget ind - vis sign in knap
                     <Button
                         color="inherit"
                         component={Link}

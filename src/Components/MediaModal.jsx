@@ -1,5 +1,3 @@
-// MediaModal.jsx
-// Dette komponent viser en modal med detaljerede informationer om en film eller TV serie
 import React, { useEffect, useState } from 'react';
 import "../css/MediaModal.css";
 import {

@@ -1,27 +1,27 @@
-// Import React's StrictMode for at finde fejl i koden
+// Importer React's StrictMode til at finde fejl i koden
 import { StrictMode } from "react"
 
-// Import createRoot til at render vores app
+// Importer createRoot til at render vores app
 // createRoot er en nyere måde at starte React apps på
 import { createRoot } from "react-dom/client"
 
-// Import BrowserRouter til at håndtere navigation mellem sider
+// Importer BrowserRouter til at håndtere navigation mellem sider
 import { BrowserRouter } from "react-router-dom"
 
-// Import main CSS file for global styling
+// Importer hoved CSS fil til global styling
 import "./css/index.css"
 
-// Import main App component
+// Importer hoved App komponent
 import App from "./App.jsx"
 
-// Find the HTML element with id="root" and create a React root
-// This connects our React app to the HTML page
+// Find HTML elementet med id="root" og skab en React root
+// Dette forbinder vores React app til HTML siden
 createRoot(document.getElementById("root")).render(
-  // StrictMode helps us write better code by showing warnings
+  // StrictMode hjælper os med at skrive bedre kode ved at vise advarsler
   <StrictMode>
-    {/* BrowserRouter enables routing (navigation between pages) */}
+    {/* BrowserRouter muliggør routing (navigation mellem sider) */}
     <BrowserRouter>
-      {/* Our main App component - this starts everything */}
+      {/* Vores hoved App komponent - dette starter alt */}
       <App />
     </BrowserRouter>
   </StrictMode>

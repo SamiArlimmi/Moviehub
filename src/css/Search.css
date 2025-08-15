@@ -1,5 +1,6 @@
-/* Search Page - Beautiful Modern Design matching Favorites theme */
+/* Søge Side - Smukt Moderne Design der matcher Favoritter temaet */
 
+/* Hoved søge side container */
 .search-page {
     min-height: 100vh;
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
@@ -8,6 +9,7 @@
     padding: 2rem 0;
 }
 
+/* Animeret baggrunds effekt */
 .search-page::before {
     content: '';
     position: absolute;
@@ -23,6 +25,7 @@
     pointer-events: none;
 }
 
+/* Baggrunds bevægelses animation */
 @keyframes backgroundShift {
 
     0%,
@@ -43,7 +46,7 @@
     }
 }
 
-/* Search Header */
+/* Søge header sektion */
 .search-header {
     position: relative;
     z-index: 2;
@@ -53,6 +56,7 @@
     padding: 0 2rem;
 }
 
+/* Søge header titel */
 .search-header h1 {
     font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 800;
@@ -65,6 +69,7 @@
     animation: titleGlow 3s ease-in-out infinite alternate;
 }
 
+/* Titel glød animation */
 @keyframes titleGlow {
     from {
         filter: drop-shadow(0 0 20px rgba(229, 9, 20, 0.3));
@@ -75,6 +80,7 @@
     }
 }
 
+/* Søge header undertitel */
 .search-header p {
     font-size: 1.2rem;
     color: #ccc;
@@ -83,7 +89,7 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Enhanced Search Form */
+/* Forbedret søge form */
 .search-form {
     position: relative;
     z-index: 2;
@@ -95,6 +101,7 @@
     align-items: stretch;
 }
 
+/* Søge input container */
 .search-input-container {
     position: relative;
     flex: 1;
@@ -111,6 +118,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* Søge input container fokus styling */
 .search-input-container:focus-within {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.15);
@@ -121,6 +129,7 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
+/* Søge input felt */
 .search-input {
     flex: 1;
     padding: 1.25rem 1.5rem;
@@ -132,11 +141,13 @@
     font-weight: 400;
 }
 
+/* Søge input placeholder styling */
 .search-input::placeholder {
     color: rgba(255, 255, 255, 0.6);
     font-weight: 300;
 }
 
+/* Ryd søgning knap */
 .clear-button {
     padding: 0.5rem;
     margin-right: 0.5rem;
@@ -154,12 +165,14 @@
     font-size: 0.9rem;
 }
 
+/* Ryd knap hover effekt */
 .clear-button:hover {
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
     transform: scale(1.1);
 }
 
+/* Søge knap styling */
 .search-button {
     padding: 1.25rem 2rem;
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%);
@@ -177,6 +190,7 @@
     box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
 }
 
+/* Søge knap glimmer effekt */
 .search-button::before {
     content: '';
     position: absolute;
@@ -188,16 +202,19 @@
     transition: left 0.5s;
 }
 
+/* Vis glimmer effekt på hover */
 .search-button:hover::before {
     left: 100%;
 }
 
+/* Søge knap hover effekt */
 .search-button:hover:not(:disabled) {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%);
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(229, 9, 20, 0.4);
 }
 
+/* Søge knap deaktiveret tilstand */
 .search-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -205,7 +222,7 @@
     box-shadow: 0 4px 15px rgba(229, 9, 20, 0.2);
 }
 
-/* Loading State */
+/* Loading tilstand */
 .loading-container {
     position: relative;
     z-index: 2;
@@ -214,6 +231,7 @@
     color: #fff;
 }
 
+/* Loading spinner animation */
 .loading-spinner {
     width: 60px;
     height: 60px;
@@ -224,12 +242,14 @@
     margin: 0 auto 2rem;
 }
 
+/* Spin animation */
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
 }
 
+/* Loading tekst */
 .loading-container p {
     font-size: 1.2rem;
     font-weight: 500;
@@ -238,7 +258,7 @@
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Error State */
+/* Fejl tilstand */
 .error-container {
     position: relative;
     z-index: 2;
@@ -252,6 +272,7 @@
     backdrop-filter: blur(10px);
 }
 
+/* Fejl besked styling */
 .error-container p {
     color: #ff6b6b;
     font-size: 1.1rem;
@@ -259,7 +280,7 @@
     margin: 0;
 }
 
-/* Search Results */
+/* Søge resultater sektion */
 .search-results {
     position: relative;
     z-index: 2;
@@ -268,6 +289,7 @@
     padding: 0 2rem;
 }
 
+/* Søge resultater titel */
 .search-results h2 {
     font-size: 1.8rem;
     font-weight: 700;
@@ -280,7 +302,7 @@
     background-clip: text;
 }
 
-/* No Results */
+/* Ingen resultater sektion */
 .no-results {
     text-align: center;
     padding: 3rem 2rem;
@@ -291,6 +313,7 @@
     margin-top: 2rem;
 }
 
+/* Ingen resultater tekst */
 .no-results p {
     color: #ccc;
     font-size: 1.1rem;
@@ -298,7 +321,7 @@
     line-height: 1.6;
 }
 
-/* Suggestions */
+/* Forslag sektion */
 .suggestions {
     position: relative;
     z-index: 2;
@@ -307,6 +330,7 @@
     padding: 0 2rem;
 }
 
+/* Forslag titel */
 .suggestions h2 {
     font-size: 2rem;
     font-weight: 700;
@@ -319,6 +343,7 @@
     background-clip: text;
 }
 
+/* Forslag undertitel */
 .suggestions p {
     text-align: center;
     color: #ccc;
@@ -327,7 +352,7 @@
     font-weight: 300;
 }
 
-/* Movies Grid */
+/* Film grid layout */
 .movies-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -335,6 +360,7 @@
     padding: 1rem 0 2rem;
 }
 
+/* Film kort styling i grid */
 .movies-grid .movie-detail {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -347,6 +373,7 @@
     animation-delay: var(--delay, 0s);
 }
 
+/* Film kort hover effekt */
 .movies-grid .movie-detail:hover {
     transform: translateY(-8px);
     background: rgba(255, 255, 255, 0.08);
@@ -354,6 +381,7 @@
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
+/* Slide ind op animation */
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -366,7 +394,7 @@
     }
 }
 
-/* Mobile Responsiveness */
+/* Mobile responsivitet til tablets */
 @media (max-width: 768px) {
     .search-page {
         padding: 1rem 0;
@@ -412,6 +440,7 @@
     }
 }
 
+/* Mobile responsivitet til små skærme */
 @media (max-width: 480px) {
     .search-header h1 {
         font-size: 2rem;
@@ -439,7 +468,7 @@
     }
 }
 
-/* Accessibility */
+/* Tilgængelighed - reduceret bevægelse */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -448,7 +477,7 @@
     }
 }
 
-/* Focus styles */
+/* Focus stilarter til tastatur navigation */
 .search-input:focus,
 .search-button:focus,
 .clear-button:focus {

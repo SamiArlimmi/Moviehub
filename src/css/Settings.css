@@ -1,4 +1,6 @@
-/* Settings.css - Dark Theme to match Profile */
+/* Settings.css - Mørkt Tema til at matche Profil */
+
+/* Hoved indstillinger container */
 .settings-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
@@ -8,6 +10,7 @@
     align-items: flex-start;
 }
 
+/* Indstillinger kort styling */
 .settings-card {
     background: rgba(26, 26, 46, 0.95) !important;
     backdrop-filter: blur(20px);
@@ -20,16 +23,18 @@
     width: 100%;
 }
 
+/* Indstillinger kort hover effekt */
 .settings-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
 }
 
+/* Indstillinger indhold container */
 .settings-content {
     padding: 2rem !important;
 }
 
-/* Header */
+/* Header sektion */
 .settings-header {
     display: flex;
     align-items: center;
@@ -38,6 +43,7 @@
     position: relative;
 }
 
+/* Tilbage knap styling */
 .back-btn {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -47,11 +53,13 @@
     transition: all 0.3s ease !important;
 }
 
+/* Tilbage knap hover effekt */
 .back-btn:hover {
     background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05);
 }
 
+/* Indstillinger titel styling */
 .settings-title {
     color: white !important;
     font-weight: 700 !important;
@@ -62,12 +70,13 @@
     margin: 0 !important;
 }
 
+/* Indstillinger ikon styling */
 .settings-icon {
     color: #e50914 !important;
     margin-left: auto;
 }
 
-/* Profile Section */
+/* Profil sektion styling */
 .profile-section {
     display: flex;
     align-items: center;
@@ -81,12 +90,14 @@
     transition: all 0.3s ease;
 }
 
+/* Profil sektion hover effekt */
 .profile-section:hover {
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-3px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Profil avatar styling */
 .profile-avatar {
     width: 80px !important;
     height: 80px !important;
@@ -96,21 +107,25 @@
     color: white !important;
 }
 
+/* Profil information container */
 .profile-info {
     flex: 1;
 }
 
+/* Profil navn styling */
 .profile-name {
     font-weight: 600 !important;
     color: white !important;
     margin: 0 0 0.5rem 0 !important;
 }
 
+/* Profil email styling */
 .profile-email {
     color: rgba(255, 255, 255, 0.8) !important;
     margin: 0 !important;
 }
 
+/* Skift foto knap styling */
 .change-photo-btn {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -122,12 +137,13 @@
     transition: all 0.3s ease !important;
 }
 
+/* Skift foto knap hover effekt */
 .change-photo-btn:hover {
     background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05);
 }
 
-/* Section Headers */
+/* Sektion headers styling */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -135,12 +151,14 @@
     margin-bottom: 1.5rem;
 }
 
+/* Sektion titel styling */
 .section-title {
     color: white !important;
     font-weight: 600 !important;
     margin: 0 !important;
 }
 
+/* Rediger knap styling */
 .edit-btn {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -152,57 +170,68 @@
     transition: all 0.3s ease !important;
 }
 
+/* Rediger knap hover effekt */
 .edit-btn:hover {
     background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05);
 }
 
-/* Form Sections */
+/* Form sektioner styling */
 .info-section,
 .security-section {
     margin-bottom: 2rem;
 }
 
+/* Form felt styling */
 .form-field {
     margin-bottom: 1rem !important;
 }
 
+/* Form felt input styling */
 .form-field .MuiOutlinedInput-root {
     color: white !important;
     border-radius: 10px !important;
     background: rgba(255, 255, 255, 0.05) !important;
 }
 
+/* Form felt ramme styling */
 .form-field .MuiOutlinedInput-root fieldset {
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
+/* Form felt hover styling */
 .form-field .MuiOutlinedInput-root:hover fieldset {
     border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
+/* Form felt fokus styling */
 .form-field .MuiOutlinedInput-root.Mui-focused fieldset {
     border-color: #e50914 !important;
 }
 
+/* Form felt deaktiveret styling */
 .form-field .MuiOutlinedInput-root.Mui-disabled {
     background: rgba(255, 255, 255, 0.02) !important;
 }
 
+/* Form felt label styling */
 .form-field .MuiInputLabel-root {
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Form felt label fokus styling */
 .form-field .MuiInputLabel-root.Mui-focused {
     color: #e50914 !important;
 }
 
+/* Handlings knapper container */
 .action-buttons {
     margin-top: 1.5rem;
     display: flex;
     gap: 1rem;
 }
 
+/* Gem knap styling */
 .save-btn {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
     color: white !important;
@@ -213,12 +242,14 @@
     transition: all 0.3s ease !important;
 }
 
+/* Gem knap hover effekt */
 .save-btn:hover {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4) !important;
 }
 
+/* Gem knap deaktiveret styling */
 .save-btn:disabled {
     background: rgba(255, 255, 255, 0.1) !important;
     color: rgba(255, 255, 255, 0.5) !important;
@@ -226,6 +257,7 @@
     box-shadow: none !important;
 }
 
+/* Adgangskode knap styling */
 .password-btn {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -237,18 +269,19 @@
     transition: all 0.3s ease !important;
 }
 
+/* Adgangskode knap hover effekt */
 .password-btn:hover {
     background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05);
 }
 
-/* Dividers */
+/* Sektion deler styling */
 .section-divider {
     background-color: rgba(255, 255, 255, 0.1) !important;
     margin: 2rem 0 !important;
 }
 
-/* Password Dialog */
+/* Adgangskode dialog styling */
 .password-dialog .MuiDialog-paper {
     background: rgba(26, 26, 46, 0.95) !important;
     backdrop-filter: blur(20px);
@@ -257,46 +290,56 @@
     color: white !important;
 }
 
+/* Dialog indhold styling */
 .dialog-content {
     padding: 2rem !important;
 }
 
+/* Dialog titel styling */
 .dialog-title {
     color: white !important;
     font-weight: 600 !important;
     margin-bottom: 2rem !important;
 }
 
+/* Dialog felt styling */
 .dialog-field {
     margin-bottom: 2rem !important;
 }
 
+/* Dialog felt input styling */
 .dialog-field .MuiOutlinedInput-root {
     color: white !important;
     border-radius: 10px !important;
     background: rgba(255, 255, 255, 0.05) !important;
 }
 
+/* Dialog felt ramme styling */
 .dialog-field .MuiOutlinedInput-root fieldset {
     border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
+/* Dialog felt hover styling */
 .dialog-field .MuiOutlinedInput-root:hover fieldset {
     border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
+/* Dialog felt fokus styling */
 .dialog-field .MuiOutlinedInput-root.Mui-focused fieldset {
     border-color: #e50914 !important;
 }
 
+/* Dialog felt label styling */
 .dialog-field .MuiInputLabel-root {
     color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Dialog felt label fokus styling */
 .dialog-field .MuiInputLabel-root.Mui-focused {
     color: #e50914 !important;
 }
 
+/* Dialog handlinger container */
 .dialog-actions {
     display: flex;
     gap: 1rem;
@@ -304,6 +347,7 @@
     margin-top: 1rem;
 }
 
+/* Annuller knap styling */
 .cancel-btn {
     background: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
@@ -315,10 +359,12 @@
     transition: all 0.3s ease !important;
 }
 
+/* Annuller knap hover effekt */
 .cancel-btn:hover {
     background: rgba(255, 255, 255, 0.2) !important;
 }
 
+/* Opdater knap styling */
 .update-btn {
     background: linear-gradient(135deg, #e50914 0%, #f40612 100%) !important;
     color: white !important;
@@ -329,12 +375,14 @@
     transition: all 0.3s ease !important;
 }
 
+/* Opdater knap hover effekt */
 .update-btn:hover {
     background: linear-gradient(135deg, #f40612 0%, #e50914 100%) !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4) !important;
 }
 
+/* Opdater knap deaktiveret styling */
 .update-btn:disabled {
     background: rgba(255, 255, 255, 0.1) !important;
     color: rgba(255, 255, 255, 0.5) !important;
@@ -342,7 +390,7 @@
     box-shadow: none !important;
 }
 
-/* Responsive Design */
+/* Responsive design til tablets */
 @media (max-width: 768px) {
     .settings-container {
         padding: 1rem;
@@ -378,6 +426,7 @@
     }
 }
 
+/* Responsive design til mobile */
 @media (max-width: 480px) {
     .settings-container {
         padding: 0.5rem;

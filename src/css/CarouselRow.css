@@ -1,60 +1,60 @@
-/* CarouselRow.css - Styling for the movie carousel component */
+/* CarouselRow.css - Styling til film karussel komponenten */
 
-/* Main wrapper container that positions the navigation buttons */
+/* Hoved wrapper container der positionerer navigationsknapperne */
 .loop-wrapper {
     position: relative;
     padding: 0 90px;
-    /* Space reserved for left and right navigation buttons */
+    /* Plads reserveret til venstre og højre navigationsknapper */
 }
 
-/* The actual scrolling row container */
+/* Den faktiske scrollende række container */
 .loop-row {
     --gap: 16px;
-    /* CSS variable for spacing between movie cards */
+    /* CSS variabel til afstand mellem filmkort */
     display: flex;
     gap: var(--gap);
     overflow: hidden;
-    /* Hide scrollbars - users navigate with buttons only */
+    /* Skjul scrollbars - brugere navigerer kun med knapper */
     padding: 0.5rem 0 1rem;
     scroll-snap-type: x proximity;
-    /* Smooth snapping when scrolling programmatically */
+    /* Blød snap når der scrolles programmatisk */
 }
 
-/* Individual movie card styling within the carousel */
+/* Individuel filmkort styling indenfor karrusellen */
 .loop-row>.movie-detail {
     flex: 0 0 auto;
-    /* Don't grow or shrink, maintain natural size */
+    /* Voks ikke eller krymp, behold naturlig størrelse */
     width: 200px;
-    /* Fixed width for each movie card */
+    /* Fast bredde for hvert filmkort */
     scroll-snap-align: start;
-    /* Snap to start of each card when scrolling */
+    /* Snap til start af hvert kort når der scrolles */
 }
 
-/* Header section containing the carousel title */
+/* Header sektion der indeholder karussel titlen */
 .row-header {
     display: flex;
     align-items: center;
-    margin-left: 85px;
-    /* Align with carousel content (accounting for button space) */
+    margin-left: 90px;
+    /* Juster med karussel indhold (matcher loop-wrapper padding) */
     justify-content: space-between;
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-/* Navigation buttons styling */
+/* Navigationsknapper styling */
 .side-btn {
     position: absolute;
     top: 40%;
-    /* Position vertically in middle of carousel */
+    /* Positioner lodret i midten af karrusellen */
     transform: translateY(-50%);
-    /* Perfect vertical centering */
+    /* Perfekt lodret centrering */
     border: none;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    /* Make buttons circular */
+    /* Gør knapper cirkulære */
     background: rgba(0, 0, 0, 0.6);
-    /* Semi-transparent black background */
+    /* Semi-gennemsigtig sort baggrund */
     margin: 25px;
     color: white;
     font-size: 20px;
@@ -63,27 +63,27 @@
     outline: none;
     box-shadow: none;
     z-index: 10;
-    /* Ensure buttons appear above movie cards */
+    /* Sikr at knapper vises over filmkort */
 }
 
-/* Left navigation button positioning */
+/* Venstre navigationsknap positionering */
 .side-left {
     left: 0;
 }
 
-/* Right navigation button positioning */
+/* Højre navigationsknap positionering */
 .side-right {
     right: 0;
 }
 
-/* Button hover effects */
+/* Knap hover effekter */
 .side-btn:hover,
 .side-btn:focus {
     opacity: 0.7;
-    /* Slightly fade on hover/focus for visual feedback */
+    /* Let fade på hover/focus for visuel feedback */
 }
 
-/* Hide scrollbars completely across different browsers */
+/* Skjul scrollbars helt på tværs af forskellige browsere */
 .no-manual-scroll {
     scrollbar-width: none;
     /* Firefox */
@@ -94,7 +94,7 @@
     /* Chrome, Safari, Edge */
 }
 
-/* Remove default button styling that browsers might add */
+/* Fjern standard knap styling som browsere måtte tilføje */
 .side-btn::-moz-focus-inner {
     border: 0;
 }

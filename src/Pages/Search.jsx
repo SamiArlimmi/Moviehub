@@ -5,7 +5,7 @@ import '../css/Search.css'
 import { searchMovies, getPopularMovies } from "../services/api"
 import { debounce } from 'lodash'
 
-// Simple cache for recent searches (max 10 entries)
+// Simpel cache til nylige søgninger (max 10 entries)
 const searchCache = new Map()
 const MAX_CACHE_SIZE = 10
 
@@ -18,7 +18,7 @@ function Search() {
     const [suggestions, setSuggestions] = useState([])
     const [selectedMovie, setSelectedMovie] = useState(null)
 
-    // Debounced search function with caching
+    // Debounced search funktion med caching
     const debouncedSearch = useCallback(
         debounce(async (query) => {
             if (!query.trim()) {
@@ -30,7 +30,7 @@ function Search() {
 
             const cacheKey = query.toLowerCase().trim()
 
-            // Check cache first
+            // Tjek cache først
             if (searchCache.has(cacheKey)) {
                 const cachedResults = searchCache.get(cacheKey)
                 setMovies(cachedResults)
@@ -45,7 +45,7 @@ function Search() {
                 setMovies(results)
                 setHasSearched(true)
 
-                // Cache the results
+                // Cache resultaterne
                 if (searchCache.size >= MAX_CACHE_SIZE) {
                     const firstKey = searchCache.keys().next().value
                     searchCache.delete(firstKey)
@@ -62,7 +62,7 @@ function Search() {
         []
     )
 
-    // Load popular movies as suggestions on mount
+    // Indlæs populære film som forslag ved mount
     useEffect(() => {
         const loadSuggestions = async () => {
             try {
@@ -75,18 +75,18 @@ function Search() {
         loadSuggestions()
     }, [])
 
-    // Handle input changes with instant loading feedback
+    // Håndter input ændringer med øjeblikkelig loading feedback
     const handleInputChange = (e) => {
         const value = e.target.value
         setSearchQuery(value)
 
-        // Instant feedback: show loading immediately if there's a query
+        // Øjeblikkelig feedback: vis loading med det samme hvis der er en query
         if (value.trim()) {
             setLoading(true)
         }
     }
 
-    // Trigger search when query changes
+    // Udløs søgning når query ændres
     useEffect(() => {
         debouncedSearch(searchQuery)
         return () => debouncedSearch.cancel()
@@ -108,12 +108,12 @@ function Search() {
         setLoading(false)
     }
 
-    // Handle movie click to open modal
+    // Håndter film klik for at åbne modal
     const handleMovieClick = (movie) => {
         setSelectedMovie(movie)
     }
 
-    // Close modal
+    // Luk modal
     const closeModal = () => {
         setSelectedMovie(null)
     }
@@ -121,13 +121,13 @@ function Search() {
     return (
         <>
             <div className="search-page">
-                {/* Search Header */}
+                {/* Søge Header */}
                 <div className="search-header">
                     <h1>Search Movies</h1>
                     <p>Find movies by title, genre, or keyword from our vast collection</p>
                 </div>
 
-                {/* Enhanced Search Form */}
+                {/* Forbedret Søge Form */}
                 <form onSubmit={handleSubmit} className="search-form">
                     <div className="search-input-container">
                         <input
@@ -166,14 +166,14 @@ function Search() {
                     </div>
                 )}
 
-                {/* Error State */}
+                {/* Fejl State */}
                 {error && (
                     <div className="error-container">
                         <p>{error}</p>
                     </div>
                 )}
 
-                {/* Search Results */}
+                {/* Søge Resultater */}
                 {hasSearched && !loading && (
                     <div className="search-results">
                         <h2>
@@ -210,7 +210,7 @@ function Search() {
                     </div>
                 )}
 
-                {/* Suggestions when no search */}
+                {/* Forslag når ingen søgning */}
                 {!hasSearched && !loading && suggestions.length > 0 && (
                     <div className="suggestions">
                         <h2>Popular Movies</h2>
@@ -232,7 +232,7 @@ function Search() {
                 )}
             </div>
 
-            {/* Movie Modal */}
+            {/* Film Modal */}
             {selectedMovie && (
                 <MovieModal movie={selectedMovie} onClose={closeModal} />
             )}

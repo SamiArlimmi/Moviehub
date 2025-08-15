@@ -1,48 +1,46 @@
-// CarouselRow.jsx
-// This component creates a horizontal scrolling row of movies with navigation buttons
 import React, { useEffect, useMemo, useRef } from "react";
 import MovieDetail from "./MovieDetail";
 import "../css/CarouselRow.css";
 
 export default function CarouselRow({ title, movies, onMovieClick }) {
-    // Reference to the scrolling container element
+    // Reference til det scrollende container element
     const containerRef = useRef(null);
 
-    // Flag to prevent scroll adjustments during programmatic scrolling
+    // Flag til at forhindre scroll justeringer under programmatisk scrolling
     const isAdjustingRef = useRef(false);
 
-    // Create triple copy of movies for seamless infinite scrolling effect
-    // This allows the carousel to loop smoothly without jumping back to start
+    // Skab tredobbelt kopi af film til sømløs uendelig scrolling effekt
+    // Dette tillader karrusellen at loope glat uden at hoppe tilbage til start
     const tripled = useMemo(() => {
         return movies ? [...movies, ...movies, ...movies] : [];
     }, [movies]);
 
-    // Function to center the scroll position on the middle copy of movies
+    // Funktion til at centrere scroll positionen på den midterste kopi af film
     const centerScroll = () => {
         const element = containerRef.current;
         if (!element) return;
 
-        // Calculate one-third of total scroll width (middle section)
+        // Beregn en tredjedel af den totale scroll bredde (midterste sektion)
         const oneThird = element.scrollWidth / 3;
 
-        // Temporarily disable smooth scrolling for instant positioning
+        // Deaktiver midlertidigt glat scrolling for øjeblikkelig positionering
         const previousScrollBehavior = element.style.scrollBehavior;
         element.style.scrollBehavior = "auto";
 
-        // Set scroll position to middle copy
+        // Sæt scroll position til midterste kopi
         element.scrollLeft = oneThird;
 
-        // Restore previous scroll behavior
+        // Gendan forrige scroll opførsel
         element.style.scrollBehavior = previousScrollBehavior || "";
     };
 
-    // Center the scroll when movies change
+    // Centrer scrollet når film ændres
     useEffect(() => {
         const animationId = requestAnimationFrame(centerScroll);
         return () => cancelAnimationFrame(animationId);
     }, [movies]);
 
-    // Handle scroll events to create infinite loop effect
+    // Håndter scroll events for at skabe uendelig loop effekt
     const handleScroll = () => {
         const element = containerRef.current;
         if (!element || isAdjustingRef.current) return;
@@ -50,21 +48,21 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
         const oneThird = element.scrollWidth / 3;
         const currentScrollLeft = element.scrollLeft;
 
-        // Check if we've scrolled too far left or right (20% threshold)
+        // Tjek om vi har scrollet for langt til venstre eller højre (20% tærskel)
         if (currentScrollLeft < oneThird * 0.2 || currentScrollLeft > oneThird * 1.8) {
-            // Save current scroll behavior and disable smooth scrolling
+            // Gem nuværende scroll opførsel og deaktiver glat scrolling
             const previousScrollBehavior = element.style.scrollBehavior;
             element.style.scrollBehavior = "auto";
             isAdjustingRef.current = true;
 
-            // Jump to equivalent position in middle section
+            // Hop til tilsvarende position i midterste sektion
             if (currentScrollLeft < oneThird) {
                 element.scrollLeft = currentScrollLeft + oneThird;
             } else {
                 element.scrollLeft = currentScrollLeft - oneThird;
             }
 
-            // Restore scroll behavior after adjustment
+            // Gendan scroll opførsel efter justering
             requestAnimationFrame(() => {
                 element.style.scrollBehavior = previousScrollBehavior || "";
                 isAdjustingRef.current = false;
@@ -72,37 +70,37 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
         }
     };
 
-    // Function to scroll by a specific number of movie cards
+    // Funktion til at scrolle med et bestemt antal filmkort
     const scrollByCards = (numberOfCards) => {
         const element = containerRef.current;
         if (!element) return;
 
-        // Find a movie card to calculate its width
+        // Find et filmkort for at beregne dets bredde
         const movieCard = element.querySelector(".movie-detail");
         const cardWidth = movieCard ? movieCard.getBoundingClientRect().width : 200;
 
-        // Get gap between cards from CSS variable
+        // Få afstanden mellem kort fra CSS variabel
         const gap = parseFloat(getComputedStyle(element).getPropertyValue("--gap") || "16");
 
-        // Scroll smoothly by card width + gap
+        // Scroll glat med kortbredde + afstand
         element.scrollBy({
             left: (cardWidth + gap) * numberOfCards,
             behavior: "smooth"
         });
     };
 
-    // Helper function to get movie/TV show title
-    // Movies use 'title' property, TV shows use 'name' property
+    // Hjælpefunktion til at få film/TV-show titel
+    // Film bruger 'title' egenskab, TV-shows bruger 'name' egenskab
     const getTitle = (item) => item.title || item.name || 'No Title';
 
-    // Helper function to get release year
-    // Movies use 'release_date', TV shows use 'first_air_date'
+    // Hjælpefunktion til at få udgivelsesår
+    // Film bruger 'release_date', TV-shows bruger 'first_air_date'
     const getReleaseYear = (item) => {
         const date = item.release_date || item.first_air_date;
         return date ? new Date(date).getFullYear() : '';
     };
 
-    // Create enhanced movie objects with consistent title and year properties
+    // Skab forbedrede film objekter med konsistente titel og år egenskaber
     const enhancedMovies = useMemo(() => {
         return movies?.map(item => ({
             ...item,
@@ -111,24 +109,24 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
         })) || [];
     }, [movies]);
 
-    // Create triple copy of enhanced movies for infinite scrolling
+    // Skab tredobbelt kopi af forbedrede film til uendelig scrolling
     const tripledEnhanced = useMemo(() => {
         return enhancedMovies ? [...enhancedMovies, ...enhancedMovies, ...enhancedMovies] : [];
     }, [enhancedMovies]);
 
-    // Don't render anything if no movies provided
+    // Render ikke noget hvis ingen film er angivet
     if (!movies || movies.length === 0) return null;
 
     return (
         <section className="movies-section">
-            {/* Section header with title */}
+            {/* Sektion header med titel */}
             <div className="row-header">
                 <h2 className="section-title">{title}</h2>
             </div>
 
-            {/* Main carousel container with navigation buttons */}
+            {/* Hovedkarussel container med navigationsknapper */}
             <div className="loop-wrapper">
-                {/* Left navigation button */}
+                {/* Venstre navigationsknap */}
                 <button
                     className="side-btn side-left"
                     aria-label="Previous movies"
@@ -137,13 +135,13 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
                     ‹
                 </button>
 
-                {/* Scrolling container with movie cards */}
+                {/* Scrollende container med filmkort */}
                 <div
                     className="loop-row no-manual-scroll"
                     ref={containerRef}
                     onScroll={handleScroll}
                 >
-                    {/* Render each movie card */}
+                    {/* Render hvert filmkort */}
                     {tripledEnhanced.map((movie, index) => (
                         <MovieDetail
                             movie={movie}
@@ -153,7 +151,7 @@ export default function CarouselRow({ title, movies, onMovieClick }) {
                     ))}
                 </div>
 
-                {/* Right navigation button */}
+                {/* Højre navigationsknap */}
                 <button
                     className="side-btn side-right"
                     aria-label="Next movies"
