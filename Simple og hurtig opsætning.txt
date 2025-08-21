@@ -1,0 +1,18 @@
+Før du kan køre app'en, skal du have følgende:
+Node.js
+Npm
+
+Normalt bliver npm installeret med Node.js men i tilfælde det ikke gør, kan du køre nedstående command.
+
+1) installere Node.js-> https://nodejs.org/en/download
+2) open cmd og køre føglende command-> npm install -g npm@latest
+Din opsætning er klar!
+
+For at starte app'en
+Open cmd i vsCode
+
+npm run dev
+
+eller 
+
+production build via npm run -> npm run prod
