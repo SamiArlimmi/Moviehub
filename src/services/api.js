@@ -1,5 +1,5 @@
 // TMDB API konfiguration
-const API_KEY = "294893ac57e719030f84e82bdc7d692b"
+const API_KEY = "maskeret"
 const BASE_URL = "https://api.themoviedb.org/3"
 
 // GENRE MAPPING - Konverter genre ID'er til navne
